@@ -1,0 +1,3 @@
+module GameEngine {
+    exports Main;
+}
