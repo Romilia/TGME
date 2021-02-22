@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TGME.iml" filepath="$PROJECT_DIR$/TGME.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Bejeweled/Bejeweled.iml" filepath="$PROJECT_DIR$/Bejeweled/Bejeweled.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CandyCrush/CandyCrush.iml" filepath="$PROJECT_DIR$/CandyCrush/CandyCrush.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GameEngine/GameEngine.iml" filepath="$PROJECT_DIR$/GameEngine/GameEngine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TMGE.iml" filepath="$PROJECT_DIR$/TMGE.iml" />
     </modules>
   </component>
 </project>
