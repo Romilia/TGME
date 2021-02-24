@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public class Board {
 
-    int col;
-    int row;
+    static private int col;
+    static private int row;
     String board[][];
     ArrayList<String> tiles;
 
