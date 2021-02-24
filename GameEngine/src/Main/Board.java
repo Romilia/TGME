@@ -11,6 +11,7 @@ public class Board {
     Board(ArrayList<String> tileTypes, int col, int row) {
         board = new String[row][col];
         tiles = tileTypes;
+        populateBoard();
     }
 
     public String[][] getBoard() {
@@ -27,6 +28,15 @@ public class Board {
 
     public void updateBoard(int selectedRow, int selectedCol, int targetRow, int targetCol) {
         //TODO: remove matches and add new tiles, check for new matches
+    }
+
+    public void populateBoard() {
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j++) {
+                int index = (int)(Math.random() *(tiles.size()-1));
+                board[i][j] = tiles.get(index);
+            }
+        }
     }
 
     public void print() {
