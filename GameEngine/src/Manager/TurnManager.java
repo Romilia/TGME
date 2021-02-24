@@ -4,8 +4,8 @@ import Player.Player;
 public class TurnManager {
     int playerTurn;
 
-    TurnManager(Player[] players){
-        playerTurn = 1;
+    TurnManager(){
+        playerTurn = 0;
     }
 
     int getPlayerTurn() {
@@ -13,11 +13,7 @@ public class TurnManager {
     }
 
     void toggleTurn(){
-        playerTurn = playerTurn == 1 ? 2 : 1;
+        playerTurn = playerTurn == 0 ? 1 : 0;
     }
 
-    // TODO: implement function
-    void changePlayer(){
-
-    }
 }
