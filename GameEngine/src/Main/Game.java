@@ -2,13 +2,13 @@ package Main;
 
 import java.util.ArrayList;
 
-import GameLogic.Moves;
+import GameLogic.Move;
 import Manager.TurnManager;
 
 public class Game {
     private String gameName;
     private TurnManager turnManager;
-    private Moves move;
+    private Move move;
     private ArrayList<String> tiles = new ArrayList<String>();
 
     Game(String name)
@@ -19,7 +19,7 @@ public class Game {
     //TODO: Implement function
     void startGame()
     {
-        System.out.println("GAME STARTED");
+        System.out.println("GAME STARTED " + gameName);
     }
 
     String getGameName()
