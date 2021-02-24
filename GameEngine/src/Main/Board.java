@@ -28,6 +28,46 @@ public class Board {
 
     public void updateBoard(int selectedRow, int selectedCol, int targetRow, int targetCol) {
         //TODO: remove matches and add new tiles, check for new matches
+        String oldVal = board[targetRow][targetCol];
+        board[targetRow][targetCol] = board[selectedRow][selectedCol];
+        board[selectedRow][selectedCol] = oldVal;
+        //find matches
+        String match = findMatch(selectedRow, selectedCol);
+        if(match != "") {
+
+        }
+    }
+
+    private String findMatch(int selectedRow, int selectedCol) {
+        //left
+        if ((selectedCol-1) >= 0 && (selectedCol-2) >= 0) {
+            if (board[selectedRow][selectedCol] == board[selectedRow][selectedCol-1]
+                    && board[selectedRow][selectedCol] == board[selectedRow][selectedCol-2]) {
+                return "left";
+            }
+        }
+        //right
+        else if ((selectedCol+1)<= (col-1) && (selectedCol+2) <= (col-1)) {
+            if (board[selectedRow][selectedCol] == board[selectedRow][selectedCol+1]
+                    && board[selectedRow][selectedCol] == board[selectedRow][selectedCol+2]) {
+                return "right";
+            }
+        }
+        //up
+        else if ((selectedRow-1) >= 0 && (selectedRow-2) >= 0) {
+            if (board[selectedRow][selectedCol] == board[selectedRow-1][selectedCol]
+              && board[selectedRow][selectedCol] == board[selectedRow-2][selectedCol]) {
+                return "up";
+            }
+        }
+        //down
+        else if ((selectedRow+1) <= (row-1) && (selectedRow+2) <= (row-1)) {
+            if (board[selectedRow][selectedCol] == board[selectedRow+1][selectedCol]
+                    && board[selectedRow][selectedCol] == board[selectedRow+2][selectedCol]) {
+                return "down";
+            }
+        }
+        return "";
     }
 
     public void populateBoard() {
