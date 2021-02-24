@@ -1,3 +1,4 @@
+import Main.Board;
 import java.util.ArrayList;
 
 public class CandyCrushMove {
@@ -7,11 +8,11 @@ public class CandyCrushMove {
         //TODO check valid move
         return false;
     }
-    public ArrayList<Integer> findMatch(Board, int col, int row) {
+    public ArrayList<Integer> findMatch(Board board, int col, int row) {
         //TODO, what exactly is this list returning?
-        return new ArrayList<Integer>();
+        return new ArrayList<>();
     }
-    public void findAllPossibleMatchesAfterUpdate(Board) {
+    public void findAllPossibleMatchesAfterUpdate(Board board) {
         //TODO findAllPossibleMatchesAfterUpdate
     }
 }
