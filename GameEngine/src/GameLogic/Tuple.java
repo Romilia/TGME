@@ -2,8 +2,8 @@ package GameLogic;
 
 public class Tuple {
 
-    private int row;
-    private int col;
+    public int row;
+    public int col;
 
     Tuple(int row, int col) {
         this.row = row;
