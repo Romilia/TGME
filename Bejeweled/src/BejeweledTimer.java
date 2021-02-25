@@ -1,11 +1,30 @@
-public class Timer {
-    final Timer timer = new Timer();
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class BejeweledTimer {
+    private final Timer timer;
+    private int runTime;
+
+    public BejeweledTimer(){
+        timer = new Timer();
+    }
+
+    public int getRunTime() {
+        return runTime;
+    }
+
+    public void setRunTime(int runTime) {
+        this.runTime = runTime;
+    }
+
+    public void startTimer(){
         timer.scheduleAtFixedRate(new TimerTask() {
-        int i = Integer.parseInt(args[0]);
-        public void run() {
-            System.out.println(i--);
-            if (i< 0)
-                timer.cancel();
-        }
-    }, 0, 1000);
+            public void run() {
+                runTime--;
+                if (runTime< 0)
+                    timer.cancel();
+            }
+        }, 0, 1000); //period is in milliseconds
+    }
+
 }

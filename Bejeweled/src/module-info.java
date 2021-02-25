@@ -1,3 +1,4 @@
 module Bejeweled {
-	requires GameEngine;
+    requires GameEngine;
+
 }
