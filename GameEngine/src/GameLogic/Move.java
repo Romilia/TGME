@@ -18,22 +18,6 @@ public class Move {
 		this.turnManager = turnManager;
 	}
 	
-// Not sure how to pass by reference	
-//	public void promptUserInput()
-//	{
-//		Scanner input = new Scanner(System.in);
-//		
-//		System.out.print("Enter the row of the position: ");
-//		int row = input.nextInt();
-//		
-//		System.out.print("Enter the col of the position: ");
-//		int col = input.nextInt();
-//		
-//		System.out.print("Switch with (left, right, up, down): ");
-//		input = new Scanner(System.in);
-//		String direction = input.nextLine();
-//	}
-	
 	private Boolean isValidMove(int row, int col, String direction)
 	{
 		final ArrayList<String> availableDirections = new ArrayList<String>(){{
@@ -439,7 +423,7 @@ public class Move {
 	{
 		ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 		
-		int comparingCol = tile.row-1;
+		int comparingCol = tile.col-1;
 		String currentTile = boardCopy[tile.row][tile.col];
 		
 		while(comparingCol >= 0 &&  boardCopy[tile.row][comparingCol].equals(currentTile))
@@ -480,12 +464,14 @@ public class Move {
 			{
 				Tuple tile = new Tuple(row,col);
 				
+				//brute force
 				//check up
 				ArrayList<Tuple> up = checkUp(tile,this.board.getBoard());
 				if(up.size() + 1 >= 3)
 				{
 					for(Tuple t: up)
 					{
+						//avoid repeated tiles
 						if(!removableTiles.contains(tile))
 						{
 							removableTiles.add(t);
