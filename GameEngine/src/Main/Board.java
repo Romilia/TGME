@@ -38,6 +38,7 @@ public class Board {
         }
         //move everything down
         moveColumnsDown();
+        addRandomTiles();
 
         //find matches
         //String match = findMatch();
@@ -85,6 +86,16 @@ public class Board {
             }
         }
         return reCount;
+    }
+
+    private void addRandomTiles() {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (board[i][j].equals(" ")) {
+
+                }
+            }
+        }
     }
 
     private String findMatch(int selectedRow, int selectedCol) {
@@ -137,12 +148,12 @@ public class Board {
         //board contents and side boundaries
         for(int i = 0; i < row; i++) {
             System.out.print("|");
-            for(int j = 0; j < col; j++) {
-                System.out.print(" "+board[i][j]+" ");
+            for (int j = 0; j < col; j++) {
+                System.out.print(" " + board[i][j] + " ");
             }
             System.out.print("|");
+            System.out.println();
         }
-        System.out.println();
         //bottom boundary of board
         for(int i = 0; i < row; i++) {
             System.out.print("---");
