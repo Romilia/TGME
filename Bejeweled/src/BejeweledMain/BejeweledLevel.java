@@ -1,5 +1,6 @@
-import Main.Level;
-public class BejeweledLevel extends Level {
+package BejeweledMain;
+
+public class BejeweledLevel {
     private float timeLimit;
     private BejeweledTimer timer;
 

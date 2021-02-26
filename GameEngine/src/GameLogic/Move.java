@@ -1,4 +1,8 @@
 package GameLogic;
+import Main.Board;
+import Main.ScoreManager;
+import Manager.TurnManager;
+
 import java.util.*;
 
 public class Move {
@@ -10,8 +14,11 @@ public class Move {
 	private ScoreManager scoreManager;
 	private TurnManager turnManager;
 	private int score = 0;
-	
-	Move(Board board, ScoreManager scoreManager, TurnManager turnManager)
+
+	public Move(){
+	}
+
+	public Move(Board board, ScoreManager scoreManager, TurnManager turnManager)
 	{
 		this.board = board;
 		this.scoreManager = scoreManager;

@@ -1,3 +1,5 @@
+package CandyCrushMain;
+
 import Main.Board;
 import GameLogic.Move;
 import java.util.ArrayList;

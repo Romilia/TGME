@@ -1,5 +1,7 @@
+package CandyCrushMain;
+
 import Main.Level;
-public class CandyCrushLevel extends  Level{
+public class CandyCrushLevel {
 
     int stars;
     int movesLeft;

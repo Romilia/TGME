@@ -1,5 +1,8 @@
+package CandyCrushMain;
+
 import Main.Game;
-public class CandyCrush extends Game{
+
+public class CandyCrush extends Game {
     private final int lives = 10; //TODO: decide on how many lives
     private CandyCrushLevel[] levels;
     private int minBoardSize;
@@ -7,7 +10,9 @@ public class CandyCrush extends Game{
     private CandyCrushLevel curLevel;
 
     public CandyCrush(){
-        super();
+        super("CANDY_CRUSH");
+        System.out.println("~~~~ Candy Crush ~~~~");
+        playerCreation();
         //TODO decide levels, minBoardSize, maxBoardSize, curLevel
         curLevel = null;
     }

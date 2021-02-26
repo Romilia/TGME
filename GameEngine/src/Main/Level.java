@@ -14,7 +14,7 @@ public class Level {
         this.targetScore = target;
         this.tiles = tiles;
         board = new Board(tiles, row, col);
-        move = new Move(board);
+       /* move = new Move(board);*/
     }
 
     int getTargetScore(){

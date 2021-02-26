@@ -1,12 +1,17 @@
+package BejeweledMain;
+
 import Main.Game;
-public class Bejeweled extends Game{ // HOW TO ACCESS GAME CLASS?
+
+public class Bejeweled extends Game { // HOW TO ACCESS GAME CLASS?
     private int targetScore;
     //private levelTargetScoreList; // JAVA TUPLES?
     private BejeweledLevel level;
     private int curLevel;
 
     public Bejeweled(){
-        super();
+        super("BEJEWELED");
+        System.out.println("~~~~ Bejeweled ~~~~");
+        playerCreation();
     };
 
     public int getTargetScore() {
