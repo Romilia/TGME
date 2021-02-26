@@ -8,7 +8,7 @@ public class Move {
 	
 	private Board board;
 	
-	Moves(Board board)
+	Move(Board board)
 	{
 		this.board = board;
 	}
@@ -78,20 +78,23 @@ public class Move {
 				{
 					removableTiles = getRemovableTilesSwitchingUp(row,col);
 				}
-				else if(direction == "down")
-				{
+				else 
+				{ //down
 					removableTiles = getRemovableTilesSwitchingDown(row,col);
 				}
 				
 				if(removableTiles.size() >= 3)
 				{
-					//board should remove all these Tuple pairs and update board
-					board.updateBoard(removableTiles);
+					//board should remove all these Tuple pairs and generate new tiles onto the board
+					this.board.updateBoard(removableTiles);
 					
 					//after update, should check if there is anymore matches formed
 					while(true)
 					{
+						//start checking from bottom
+						removableTiles = findAllMatchesAfterUpdate();
 						
+						//update board
 					}
 				}
 			}
@@ -389,9 +392,10 @@ public class Move {
 		return removableTiles;
 	}
 	
-	public void findAllMatchesAfterUpdate()
+	public ArrayList<Tuple> findAllMatchesAfterUpdate()
 	{
+		ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 		
+		return removableTiles;
 	}
 }
-
