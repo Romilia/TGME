@@ -1,4 +1,6 @@
 package Main;
+import GameLogic.Tuple;
+
 import java.util.ArrayList;
 
 public class Board {
@@ -26,16 +28,61 @@ public class Board {
         return col;
     }
 
-    public void updateBoard(int selectedRow, int selectedCol, int targetRow, int targetCol) {
+    public void updateBoard(ArrayList<Tuple> oldTiles) {
         //TODO: remove matches and add new tiles, check for new matches
-        String oldVal = board[targetRow][targetCol];
-        board[targetRow][targetCol] = board[selectedRow][selectedCol];
-        board[selectedRow][selectedCol] = oldVal;
-        //find matches
-        String match = findMatch(selectedRow, selectedCol);
-        if(match != "") {
-
+        //replace all tiles with " "
+        for (int i = 0; i < oldTiles.size(); i++) {
+            board[oldTiles.get(i).row][oldTiles.get(i).col] = " ";
         }
+        //move everything down
+        moveColumnsDown();
+
+        //find matches
+        //String match = findMatch();
+//        if(match != "") {
+//
+//        }
+    }
+//    for(int i = row-1; i >= 0; i--) {
+//        for(int j = 0; j < col; j++) {
+//            if (board[i][j].equals(" ") && i != 0) {
+//                for (int k = i; k > 0; k--) {
+//                    board[k][j] = board[k - 1][j];
+//                    if (k == 1) {
+//                        board[k-1][j] = " ";
+//                    }
+//                }
+//
+//            }
+//        }
+//    }
+
+    private void moveColumnsDown() {
+        for (int j = 0; j < col; j++) {
+            for (int i = row-1; i >= 0; i++) {
+                if (board[i][j].equals(" ")) {
+                    int ct = countSpaces(i, j);
+                    for (int k = i; k > 0; k--) {
+                        if ((k-ct) >= 0) {
+                            board[k][j] = board[k - ct][j];
+                        }
+                        if (k == 1) {
+                            board[0][j] = " ";
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private int countSpaces(int row, int col) {
+        int reCount = 1;
+        for (int i = row-1; i >= 0; i++) {
+            if (board[i][col].equals(" ")) {
+                reCount += 1;
+            }
+        }
+        return reCount;
     }
 
     private String findMatch(int selectedRow, int selectedCol) {
