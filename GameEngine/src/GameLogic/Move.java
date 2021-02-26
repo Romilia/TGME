@@ -7,10 +7,15 @@ public class Move {
 	//remove and update the board if there is a match
 	
 	private Board board;
+	private ScoreManager scoreManager;
+	private TurnManager turnManager;
+	private int score = 0;
 	
-	Move(Board board)
+	Move(Board board, ScoreManager scoreManager, TurnManager turnManager)
 	{
 		this.board = board;
+		this.scoreManager = scoreManager;
+		this.turnManager = turnManager;
 	}
 	
 // Not sure how to pass by reference	
@@ -29,9 +34,9 @@ public class Move {
 //		String direction = input.nextLine();
 //	}
 	
-	public Boolean isValidMove(int row, int col, String direction)
+	private Boolean isValidMove(int row, int col, String direction)
 	{
-		ArrayList<String> availableDirections = new ArrayList<String>(){{
+		final ArrayList<String> availableDirections = new ArrayList<String>(){{
 			add("left");
 			add("right");
 			add("up");
@@ -87,6 +92,7 @@ public class Move {
 				if(removableTiles.size() >= 3)
 				{
 					//board should remove all these Tuple pairs and generate new tiles onto the board
+					score += removableTiles.size();
 					this.board.updateBoard(removableTiles);
 					
 					//after update, should check if there is anymore matches formed
@@ -94,7 +100,7 @@ public class Move {
 					{
 						//start checking from bottom
 						removableTiles = findAllMatchesAfterUpdate();
-						
+						score += removableTiles.size();
 						//if no more matches, break
 						if(removableTiles.size() < 3)
 						{
@@ -111,6 +117,15 @@ public class Move {
 			//need to check if there is possible matches to be make
 			if(!hasMovesToMake())
 			{
+				if(turnManager.getPlayerTurn() == 0) //player one
+				{
+					scoreManager.setPlayer1(scoreManager.getPlayer1()+score);
+				}
+				else
+				{
+					scoreManager.setPlayer2(scoreManager.getPlayer2()+score);
+				}
+				
 				break;
 			}
 			//if not, break out the while loop
@@ -140,7 +155,7 @@ public class Move {
 		return false;
 	}
 	
-	public ArrayList<Tuple> getRemovableTilesSwitchingLeft(int row, int col)
+	private ArrayList<Tuple> getRemovableTilesSwitchingLeft(int row, int col)
 	{
 		ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 		
@@ -201,7 +216,7 @@ public class Move {
 		return removableTiles; 
 	}
 	
-	public ArrayList<Tuple> getRemovableTilesSwitchingRight(int row, int col)
+	private ArrayList<Tuple> getRemovableTilesSwitchingRight(int row, int col)
 	{
 		ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 		
@@ -263,7 +278,7 @@ public class Move {
 		return removableTiles; 
 	}
 	
-	public ArrayList<Tuple> getRemovableTilesSwitchingUp(int row, int col)
+	private ArrayList<Tuple> getRemovableTilesSwitchingUp(int row, int col)
 	{
 		ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 		
@@ -326,7 +341,7 @@ public class Move {
 		return removableTiles; 
 	}
 	
-	public ArrayList<Tuple> getRemovableTilesSwitchingDown(int row, int col)
+	private ArrayList<Tuple> getRemovableTilesSwitchingDown(int row, int col)
 	{
 		ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 		
@@ -394,14 +409,12 @@ public class Move {
 		
 		int comparingRow = tile.row-1;
 		String currentTile = boardCopy[tile.row][tile.col];
-		
-		while(comparingRow >= 0 &&  currentTile == boardCopy[comparingRow][tile.col])
+		while(comparingRow >= 0 &&  boardCopy[comparingRow][tile.col].equals(currentTile))
 		{
 			Tuple t = new Tuple(comparingRow,tile.col);
 			removableTiles.add(t);
 			comparingRow -= 1;
 		}
-
 		return removableTiles;
 	}
 	
@@ -412,7 +425,7 @@ public class Move {
 		int comparingRow = tile.row+1;
 		String currentTile = boardCopy[tile.row][tile.col];
 		
-		while(comparingRow < this.board.getRow() &&  currentTile == boardCopy[comparingRow][tile.col])
+		while(comparingRow < this.board.getRow() &&  boardCopy[comparingRow][tile.col].equals(currentTile))
 		{
 			Tuple t = new Tuple(comparingRow,tile.col);
 			removableTiles.add(t);
@@ -429,7 +442,7 @@ public class Move {
 		int comparingCol = tile.row-1;
 		String currentTile = boardCopy[tile.row][tile.col];
 		
-		while(comparingCol >= 0 &&  currentTile == boardCopy[tile.row][comparingCol])
+		while(comparingCol >= 0 &&  boardCopy[tile.row][comparingCol].equals(currentTile))
 		{
 			Tuple t = new Tuple(tile.row,comparingCol);
 			removableTiles.add(t);
@@ -445,14 +458,12 @@ public class Move {
 		
 		int comparingCol = tile.col+1;
 		String currentTile = boardCopy[tile.row][tile.col];
-		
-		while(comparingCol < this.board.getCol() &&  currentTile == boardCopy[tile.row][comparingCol])
+		while(comparingCol < this.board.getCol() &&  boardCopy[tile.row][comparingCol].equals(currentTile))
 		{
 			Tuple t = new Tuple(tile.row,comparingCol);
 			removableTiles.add(t);
 			comparingCol += 1;
 		}
-
 		return removableTiles;
 	}
 	
@@ -469,66 +480,35 @@ public class Move {
 			{
 				Tuple tile = new Tuple(row,col);
 				
-				if(visited[row][col] == null) // this has not been visited
+				//check up
+				ArrayList<Tuple> up = checkUp(tile,this.board.getBoard());
+				if(up.size() + 1 >= 3)
 				{
-					//check up
-					ArrayList<Tuple> up = checkUp(tile,this.board.getBoard());
-					if(up.size() + 1 >= 3)
+					for(Tuple t: up)
 					{
-						for(Tuple t: up)
-						{
-							removableTiles.add(t);
-							visited[t.row][t.col] = "visited";
-						}
-						removableTiles.add(tile); //add the current tile because it is not included in the array list
-					}
-					
-					//check right
-					ArrayList<Tuple> right = checkRight(tile,this.board.getBoard());
-					if(right.size() + 1 >= 3)
-					{
-						for(Tuple t: right)
-						{
-							removableTiles.add(t);
-							visited[t.row][t.col] = "visited";
-						}
-						
 						if(!removableTiles.contains(tile))
 						{
-							removableTiles.add(tile);
+							removableTiles.add(t);
 						}
 					}
-					visited[tile.row][tile.col] = "visited"; //current tile has not been visited
+					removableTiles.add(tile); //add the current tile because it is not included in the array list
 				}
-				else // current tile has been visited
+				
+				//check right
+				ArrayList<Tuple> right = checkRight(tile,this.board.getBoard());
+				if(right.size() + 1 >= 3)
 				{
-					//if bottom has not been visit, check up
-					if(tile.row+1 < this.board.getRow() && visited[tile.row+1][tile.col] == null)
+					for(Tuple t: right)
 					{
-						ArrayList<Tuple> up = checkUp(tile,this.board.getBoard());
-						if(up.size() + 1 >= 3)
+						if(!removableTiles.contains(tile))
 						{
-							for(Tuple t: up)
-							{
-								removableTiles.add(t);
-								visited[t.row][t.col] = "visited";
-							}
-							//current tile has been visited, don't need to add
+							removableTiles.add(t);
 						}
 					}
 					
-					//if left has not been visit, check right
-					if(tile.col-1 >= 0 && visited[tile.row][tile.col-1] == null)
+					if(!removableTiles.contains(tile))
 					{
-						ArrayList<Tuple> right = checkRight(tile,this.board.getBoard());
-						if(right.size() + 1 >= 3)
-						{
-							for(Tuple t: right)
-							{
-								removableTiles.add(t);
-								visited[t.row][t.col] = "visited";
-							}
-						}
+						removableTiles.add(tile);
 					}
 				}
 			}
@@ -537,4 +517,3 @@ public class Move {
 		return removableTiles;
 	}
 }
-
