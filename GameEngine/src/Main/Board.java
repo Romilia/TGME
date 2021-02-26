@@ -19,7 +19,15 @@ public class Board {
     }
 
     public String[][] getBoard() {
-        return board;
+        //I made this change because with the original code, it will constantly return a new board with different values
+        //original code --> return board;
+        String[][] newBoard = new String[this.row][this.col];
+    	for(int i = 0; i < this.row; i++) {
+    		for(int j = 0; j < this.col; j++) {
+    			newBoard[i][j] = this.board[i][j];
+    		}
+    	}
+        return newBoard;
     }
 
     public void setBoard(String[][] newBoard) { this.board = newBoard; }
