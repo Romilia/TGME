@@ -1,4 +1,5 @@
-public class CandyCrush {
+import Main.Game;
+public class CandyCrush extends Game{
     private final int lives = 10; //TODO: decide on how many lives
     private CandyCrushLevel[] levels;
     private int minBoardSize;
@@ -6,6 +7,7 @@ public class CandyCrush {
     private CandyCrushLevel curLevel;
 
     public CandyCrush(){
+        super();
         //TODO decide levels, minBoardSize, maxBoardSize, curLevel
         curLevel = null;
     }
