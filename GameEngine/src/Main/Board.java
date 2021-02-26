@@ -11,6 +11,8 @@ public class Board {
     ArrayList<String> tiles;
 
     Board(ArrayList<String> tileTypes, int col, int row) {
+        this.col = col;
+        this.row = row;
         board = new String[row][col];
         tiles = tileTypes;
         populateBoard();
