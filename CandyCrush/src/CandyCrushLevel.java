@@ -1,10 +1,12 @@
-public class CandyCrushLevel {
+import Main.Level;
+public class CandyCrushLevel extends  Level{
 
     int stars;
     int movesLeft;
     int hintsLeft;
 
-    public CandyCrushLevel(int row, int col){ //TODO get movesLeft? What happens with stars and these row and cols?
+    public CandyCrushLevel(int row, int col){
+        super(); //TODO get movesLeft? What happens with stars and these row and cols?
         hintsLeft = 3;
     }
 
