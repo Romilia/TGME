@@ -12,10 +12,6 @@ import java.util.Scanner;
 public class Runnable {
     Main mn;
     private Scanner scan = new Scanner(System.in);
-    private Game games[];
-
-    private Game currentGame;
-    private String names[] = new String[]{"BEJEWELED", "CANDY_CRUSH"};
 
     public Runnable()
     {

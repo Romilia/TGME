@@ -12,7 +12,13 @@ public class Bejeweled extends Game { // HOW TO ACCESS GAME CLASS?
         super("BEJEWELED");
         System.out.println("~~~~ Bejeweled ~~~~");
         playerCreation();
+        initializeGame();
     };
+
+    private void initializeGame()
+    {
+        level = new BejeweledLevel(5,5);
+    }
 
     public int getTargetScore() {
         return targetScore;

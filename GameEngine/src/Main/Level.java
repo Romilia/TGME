@@ -10,11 +10,27 @@ public class Level {
     ArrayList<String> tiles;
     Move move;
 
-    Level(ArrayList<String> tiles, int row, int col, int target){
+
+    public Level( int target){
         this.targetScore = target;
-        this.tiles = tiles;
-        board = new Board(tiles, row, col);
+//        this.tiles = tiles;
+//        board = new Board(tiles, row, col);
        /* move = new Move(board);*/
+    }
+
+    protected void setTiles(ArrayList<String> gameTiles)
+    {
+        tiles = gameTiles;
+    }
+
+    protected void setBoard(int row, int col)
+    {
+        board = new Board(tiles, row, col);
+    }
+
+    protected Board getLevelBoard()
+    {
+        return board;
     }
 
     int getTargetScore(){
