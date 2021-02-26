@@ -13,6 +13,7 @@ public class Move {
 		this.board = board;
 	}
 	
+// Not sure how to pass by reference	
 //	public void promptUserInput()
 //	{
 //		Scanner input = new Scanner(System.in);
@@ -94,18 +95,49 @@ public class Move {
 						//start checking from bottom
 						removableTiles = findAllMatchesAfterUpdate();
 						
-						//update board
+						//if no more matches, break
+						if(removableTiles.size() < 3)
+						{
+							break;
+						}
+						
+						//else update the board
+						this.board.updateBoard(removableTiles);
 					}
 				}
 			}
-			else
-			{
-				//if not a valid move, nothing changes and prompt user for input again
-			}
+			//if not a valid move, nothing changes and prompt user for input again
 			
 			//need to check if there is possible matches to be make
+			if(!hasMovesToMake())
+			{
+				break;
+			}
 			//if not, break out the while loop
 		}
+	}
+	
+	public boolean hasMovesToMake()
+	{
+		//start from bottom left corner
+		for(int row = this.board.getRow()-1; row >= 0; row--)
+		{
+			for(int col = 0; col < this.board.getCol(); col++)
+			{
+				ArrayList<Tuple> switchLeft = getRemovableTilesSwitchingLeft(row,col);
+				ArrayList<Tuple> switchRight = getRemovableTilesSwitchingRight(row,col);
+				
+				ArrayList<Tuple> switchUp = getRemovableTilesSwitchingUp(row,col);
+				ArrayList<Tuple> switchDown = getRemovableTilesSwitchingDown(row,col);
+				
+				if(switchLeft.size() > 0 || switchRight.size() > 0 || switchUp.size() > 0 || switchDown.size() > 0)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	public ArrayList<Tuple> getRemovableTilesSwitchingLeft(int row, int col)
@@ -136,6 +168,10 @@ public class Move {
 			if(leftLeft.size()+1 >= 3)
 			{
 				removableTiles.addAll(leftLeft);
+				if(!removableTiles.contains(leftTile))
+				{
+					removableTiles.add(leftTile);
+				}
 			}
 			
 			//right tile
@@ -155,6 +191,10 @@ public class Move {
 			if(rightRight.size()+1 >= 3)
 			{
 				removableTiles.addAll(rightRight);
+				if(!removableTiles.contains(rightTile))
+				{
+					removableTiles.add(rightTile);
+				}
 			}
 		}
 		
@@ -190,6 +230,10 @@ public class Move {
 			if(rightRight.size()+1 >= 3)
 			{
 				removableTiles.addAll(rightRight);
+				if(!removableTiles.contains(rightTile))
+				{
+					removableTiles.add(rightTile);
+				}
 			}
 			
 			//left tile 
@@ -209,6 +253,10 @@ public class Move {
 			if(leftLeft.size()+1 >= 3)
 			{
 				removableTiles.addAll(leftLeft);
+				if(!removableTiles.contains(leftTile))
+				{
+					removableTiles.add(leftTile);
+				}
 			}
 		}
 		
@@ -244,6 +292,10 @@ public class Move {
 			if(topUp.size()+1 >= 3)
 			{
 				removableTiles.addAll(topUp);
+				if(!removableTiles.contains(topTile))
+				{
+					removableTiles.add(topTile);
+				}
 			}
 			
 			//down tile
@@ -264,6 +316,10 @@ public class Move {
 			if(bottomDown.size()+1 >= 3)
 			{
 				removableTiles.addAll(bottomDown);
+				if(!removableTiles.contains(bottomTile))
+				{
+					removableTiles.add(bottomTile);
+				}
 			}
 		}
 		
@@ -299,6 +355,10 @@ public class Move {
 			if(bottomDown.size()+1 >= 3)
 			{
 				removableTiles.addAll(bottomDown);
+				if(!removableTiles.contains(bottomTile))
+				{
+					removableTiles.add(bottomTile);
+				}
 			}
 			
 			//up tile
@@ -311,13 +371,17 @@ public class Move {
 			{
 				removableTiles.addAll(topLeft);
 				removableTiles.addAll(topRight);
-				removableTiles.add(bottomTile);
+				removableTiles.add(topTile);
 			}
 			
 			ArrayList<Tuple> topUp = checkUp(topTile,boardCopy);
 			if(topUp.size()+1 >= 3)
 			{
 				removableTiles.addAll(topUp);
+				if(!removableTiles.contains(topTile))
+				{
+					removableTiles.add(topTile);
+				}
 			}
 		}
 		
@@ -395,7 +459,82 @@ public class Move {
 	public ArrayList<Tuple> findAllMatchesAfterUpdate()
 	{
 		ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
+		String[][] visited = new String[this.board.getRow()][this.board.getCol()];
+		
+		//checking from bottom
+		//starting from bottom left corner
+		for(int row = this.board.getRow()-1; row >= 0; row--)
+		{
+			for(int col = 0; col < this.board.getCol(); col++)
+			{
+				Tuple tile = new Tuple(row,col);
+				
+				if(visited[row][col] == null) // this has not been visited
+				{
+					//check up
+					ArrayList<Tuple> up = checkUp(tile,this.board.getBoard());
+					if(up.size() + 1 >= 3)
+					{
+						for(Tuple t: up)
+						{
+							removableTiles.add(t);
+							visited[t.row][t.col] = "visited";
+						}
+						removableTiles.add(tile); //add the current tile because it is not included in the array list
+					}
+					
+					//check right
+					ArrayList<Tuple> right = checkRight(tile,this.board.getBoard());
+					if(right.size() + 1 >= 3)
+					{
+						for(Tuple t: right)
+						{
+							removableTiles.add(t);
+							visited[t.row][t.col] = "visited";
+						}
+						
+						if(!removableTiles.contains(tile))
+						{
+							removableTiles.add(tile);
+						}
+					}
+					visited[tile.row][tile.col] = "visited"; //current tile has not been visited
+				}
+				else // current tile has been visited
+				{
+					//if bottom has not been visit, check up
+					if(tile.row+1 < this.board.getRow() && visited[tile.row+1][tile.col] == null)
+					{
+						ArrayList<Tuple> up = checkUp(tile,this.board.getBoard());
+						if(up.size() + 1 >= 3)
+						{
+							for(Tuple t: up)
+							{
+								removableTiles.add(t);
+								visited[t.row][t.col] = "visited";
+							}
+							//current tile has been visited, don't need to add
+						}
+					}
+					
+					//if left has not been visit, check right
+					if(tile.col-1 >= 0 && visited[tile.row][tile.col-1] == null)
+					{
+						ArrayList<Tuple> right = checkRight(tile,this.board.getBoard());
+						if(right.size() + 1 >= 3)
+						{
+							for(Tuple t: right)
+							{
+								removableTiles.add(t);
+								visited[t.row][t.col] = "visited";
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		return removableTiles;
 	}
 }
+
