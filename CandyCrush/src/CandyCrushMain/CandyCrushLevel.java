@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CandyCrushLevel extends Level{
-    int stars;
-    int movesLeft;
-    int hintsLeft;
+    private int stars;
+    private int movesLeft;
+    private int hintsLeft;
     private ArrayList<String> candyCrushTiles = new ArrayList<String>(Arrays.asList("P","B","O","Y"));
 
     public CandyCrushLevel(int row, int col, TurnManager turnManager, ScoreManager scoreManager){
