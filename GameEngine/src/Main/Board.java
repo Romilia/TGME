@@ -17,14 +17,9 @@ public class Board {
         board = new String[row][col];
         tiles = tileTypes;
         populateBoard();
-//        while(Move.hasMoveToMake) {
-//          popluateBoard();
-//        }
     }
 
     public String[][] getBoard() {
-        //I made this change because with the original code, it will constantly return a new board with different values
-        //original code --> return board;
         String[][] newBoard = new String[this.row][this.col];
     	for(int i = 0; i < this.row; i++) {
     		for(int j = 0; j < this.col; j++) {

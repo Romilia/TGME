@@ -21,6 +21,11 @@ public class Move {
 	Move(Board board)
 	{
 		this.board = board;
+		//simpler to move this code to this class than try to call hasMovesToMake in board
+		//populateBoard was already public
+		while (hasMovesToMake()) {
+			this.board.populateBoard();
+		}
 	}
 
 	public Move(Board board, ScoreManager scoreManager, TurnManager turnManager)
@@ -28,6 +33,11 @@ public class Move {
 		this.board = board;
 		this.scoreManager = scoreManager;
 		this.turnManager = turnManager;
+		//simpler to move this code to this class than try to call hasMovesToMake in board
+		//populateBoard was already public
+		while (hasMovesToMake()) {
+			this.board.populateBoard();
+		}
 	}
 	
 	private Boolean isValidMove(int row, int col, String direction)
