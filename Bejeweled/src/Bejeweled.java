@@ -1,12 +1,17 @@
 import Main.Game;
-public class Bejeweled extends Game{ // HOW TO ACCESS GAME CLASS?
+import GameLogic.Tuple;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Bejeweled extends Game{
     private int targetScore;
-    //private levelTargetScoreList; // JAVA TUPLES?
+    private List<Tuple> levelTargetScoreList;
     private BejeweledLevel level;
     private int curLevel;
 
-    public Bejeweled(){
-        super();
+    public Bejeweled(String gameName){
+        super(gameName);
+        levelTargetScoreList = new ArrayList<>();
     };
 
     public int getTargetScore() {
@@ -35,7 +40,8 @@ public class Bejeweled extends Game{ // HOW TO ACCESS GAME CLASS?
 
     //TODO
     public void increaseTime(){
-        // HOW ARE WE IMPLEMENTING THIS?
+        level.getTimer().addTime(3); // Are we adding a specific amt of time?
+
     }
 
 

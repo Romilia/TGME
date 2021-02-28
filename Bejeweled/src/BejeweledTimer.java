@@ -16,7 +16,6 @@ public class BejeweledTimer {
     public void setRunTime(int runTime) {
         this.runTime = runTime;
     }
-
     public void startTimer(){
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -26,5 +25,13 @@ public class BejeweledTimer {
             }
         }, 0, 1000); //period is in milliseconds
     }
+
+    public void addTime(int timeToAdd){ // Do we ADD ON time or CHANGE the time?
+        if(runTime == 0){
+            runTime += timeToAdd;
+        }
+    }
+
+    //TODO: Method to stop the timer
 
 }
