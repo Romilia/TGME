@@ -18,7 +18,7 @@ public class Bejeweled extends Game {
         initializeGame();
         // init targetScore
         // init levelTargetScoreList
-        
+
     };
 
     private void initializeGame()
