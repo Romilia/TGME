@@ -11,7 +11,7 @@ public class CandyCrushLevel extends Level{
     int stars;
     int movesLeft;
     int hintsLeft;
-    private ArrayList<String> candyCrushTiles = new ArrayList<String>(Arrays.asList("P","B","O","Y"));
+    private ArrayList<String> candyCrushTiles = new ArrayList<String>(Arrays.asList("P","B","O","Y", "A", "D", "C"));
 
     public CandyCrushLevel(int row, int col, TurnManager turnManager, ScoreManager scoreManager){
         super((row+col) / 2); //TODO what to do with stars and how do they work? Do we just want to ignore?
@@ -25,8 +25,12 @@ public class CandyCrushLevel extends Level{
     public void startLevel(int lvl)
     {
         System.out.println("Candy Crush Level " + lvl);
-        getLevelBoard().print();
+//        getLevelBoard().print();
+//        for (int i = 0; i < 2 ; i++){
+        System.out.println("Player " +  move.scoreManager.getPlayer1().getName() + " Turn");
         move.makeMove();
+        move.turnManager.toggleTurn();
+//        }
     }
 
     public int getHintsLeft() {

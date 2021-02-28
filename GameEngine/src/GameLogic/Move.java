@@ -11,8 +11,8 @@ public class Move {
 	//remove and update the board if there is a match
 	
 	private Board board;
-	private ScoreManager scoreManager;
-	private TurnManager turnManager;
+	public ScoreManager scoreManager;
+	public TurnManager turnManager;
 	private int score = 0;
 
 	public Move(){
@@ -35,8 +35,13 @@ public class Move {
 		this.turnManager = turnManager;
 		//simpler to move this code to this class than try to call hasMovesToMake in board
 		//populateBoard was already public
-		while (!hasMovesToMake()) {
-			this.board.populateBoard();
+		ArrayList<Tuple> list = findAllMatchesAfterUpdate();
+		while (list.size() >= 3){
+			this.board.updateBoard(list);
+			list = findAllMatchesAfterUpdate();
+			while (!hasMovesToMake()) {
+				this.board.populateBoard();
+			}
 		}
 	}
 	
@@ -62,6 +67,7 @@ public class Move {
 	{
 		while(true) // if no more matches, game ends
 		{
+			this.board.print();
 			Scanner input = new Scanner(System.in);
 			
 			System.out.print("Enter the row of the position: ");
@@ -77,16 +83,18 @@ public class Move {
 			//ensures that it is a valid move
 			if(this.isValidMove(row,col,direction))
 			{
+				System.out.println("VALID");
 				ArrayList<Tuple> removableTiles;
-				if(direction == "left")
+				if(direction.equals("left"))
 				{
 					removableTiles = getRemovableTilesSwitchingLeft(row,col);
+
 				}
-				else if(direction == "right")
+				else if(direction.equals("right"))
 				{
 					removableTiles = getRemovableTilesSwitchingRight(row,col);
 				}
-				else if(direction == "up")
+				else if(direction.equals("up"))
 				{
 					removableTiles = getRemovableTilesSwitchingUp(row,col);
 				}
@@ -94,12 +102,15 @@ public class Move {
 				{ //down
 					removableTiles = getRemovableTilesSwitchingDown(row,col);
 				}
-				
+
+				System.out.println("Size: " + removableTiles.size());
 				if(removableTiles.size() >= 3)
 				{
 					//board should remove all these Tuple pairs and generate new tiles onto the board
 					score += removableTiles.size();
+					System.out.println(removableTiles);
 					this.board.updateBoard(removableTiles);
+					this.board.print();
 					
 					//after update, should check if there is anymore matches formed
 					while(true)
@@ -115,6 +126,7 @@ public class Move {
 						
 						//else update the board
 						this.board.updateBoard(removableTiles);
+						this.board.print();
 					}
 				}
 			}
@@ -126,18 +138,24 @@ public class Move {
 				if(turnManager.getPlayerTurn() == 0) //player one
 				{
 					//new function in ScoreManager: addToCurrentP1Score() and getCurrentP1Score()
-					scoreManager.setPlayer1(scoreManager.getPlayer1()+score);
+					scoreManager.addToCurrentP1Score(score);
 				}
 				else
 				{
 					//new function in ScoreManager: addToCurrentP2Score() and getCurrentP2Score()
-					scoreManager.setPlayer2(scoreManager.getPlayer2()+score);
+					scoreManager.addToCurrentP2Score(score);
 				}
 				
 				break;
 			}
+			break;
 			//if not, break out the while loop
 		}
+		this.board.populateBoard();
+		while (!hasMovesToMake()) {
+			this.board.populateBoard();
+		}
+
 	}
 	
 	public boolean hasMovesToMake()
@@ -219,8 +237,11 @@ public class Move {
 					removableTiles.add(rightTile);
 				}
 			}
+			if (removableTiles.size() >= 3){
+				this.board.setBoard(boardCopy);
+			}
 		}
-		
+		System.out.println(removableTiles.size());
 		return removableTiles; 
 	}
 	
@@ -281,8 +302,11 @@ public class Move {
 					removableTiles.add(leftTile);
 				}
 			}
+			if (removableTiles.size() >= 3){
+				this.board.setBoard(boardCopy);
+			}
 		}
-		
+		System.out.println(removableTiles);
 		return removableTiles; 
 	}
 	
@@ -344,8 +368,11 @@ public class Move {
 					removableTiles.add(bottomTile);
 				}
 			}
+			if (removableTiles.size() >= 3){
+				this.board.setBoard(boardCopy);
+			}
 		}
-		
+		System.out.println(removableTiles);
 		return removableTiles; 
 	}
 	
@@ -406,8 +433,11 @@ public class Move {
 					removableTiles.add(topTile);
 				}
 			}
+			if (removableTiles.size() >= 3){
+				this.board.setBoard(boardCopy);
+			}
 		}
-		
+		System.out.println(removableTiles);
 		return removableTiles; 
 	}
 	

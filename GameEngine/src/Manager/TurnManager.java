@@ -12,7 +12,7 @@ public class TurnManager {
         return playerTurn;
     }
 
-    void toggleTurn(){
+    public void toggleTurn(){
         playerTurn = playerTurn == 0 ? 1 : 0;
     }
 
