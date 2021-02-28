@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import GameLogic.Move;
+import Manager.ScoreManager;
 import Manager.TurnManager;
 import Player.Player;
 
 public class Game extends Main{
     private Scanner scan = new Scanner(System.in);
     private String gameName;
+    protected TurnManager turnManager;
+    protected ScoreManager scoreManager;
     private ArrayList<Player> players = new ArrayList<Player>();
 
     public Game(String name)
     {
         gameName = name;
+        turnManager = new TurnManager();
+        scoreManager = new ScoreManager();
     }
 
 
@@ -32,11 +37,15 @@ public class Game extends Main{
             case 1:
                 System.out.println("Enter Player 1's Username:");
                 String name = scan.nextLine();
-                players.add( new Player(name));
+                Player player1 = new Player(name);
+                players.add(player1);
+                existingPlayers.add(player1);
 
                 System.out.println("Enter Player 2's Username:");
                 name = scan.nextLine();
-                players.add( new Player(name));
+                Player player2 = new Player(name);
+                players.add(player2);
+                existingPlayers.add(player2);
                 break;
             case 2:
                 System.out.println("Enter Player 1's Existing Username:");
