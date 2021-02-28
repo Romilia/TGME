@@ -126,12 +126,12 @@ public class Move {
 				if(turnManager.getPlayerTurn() == 0) //player one
 				{
 					//new function in ScoreManager: addToCurrentP1Score() and getCurrentP1Score()
-					scoreManager.setPlayer1(scoreManager.getPlayer1()+score);
+					scoreManager.addToCurrentP1Score(score);
 				}
 				else
 				{
 					//new function in ScoreManager: addToCurrentP2Score() and getCurrentP2Score()
-					scoreManager.setPlayer2(scoreManager.getPlayer2()+score);
+					scoreManager.addToCurrentP2Score(score);
 				}
 				
 				break;

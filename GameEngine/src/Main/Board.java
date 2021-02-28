@@ -101,11 +101,11 @@ public class Board {
 
     public void print() {
         //top of board
-        System.out.print("---");
+        System.out.print("  -");
         for(int i = 0; i < col; i++) {
             System.out.print("- "+i+" -");
         }
-        System.out.print("---");
+        System.out.print("-");
         System.out.println();
         //board contents and side boundaries
         for(int i = 0; i < row; i++) {
@@ -123,9 +123,9 @@ public class Board {
             System.out.println();
         }
         //bottom boundary of board
-        System.out.print("-");
+        System.out.print("   ");
         for(int i = 0; i < col; i++) {
-            System.out.print(" --- ");
+            System.out.print("-----");
         }
         System.out.println();
     }
