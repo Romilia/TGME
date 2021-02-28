@@ -1,4 +1,5 @@
 package Main;
+import GameLogic.Move;
 import GameLogic.Tuple;
 
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ public class Board {
         board = new String[row][col];
         tiles = tileTypes;
         populateBoard();
+//        while(Move.hasMoveToMake) {
+//          popluateBoard();
+//        }
     }
 
     public String[][] getBoard() {
