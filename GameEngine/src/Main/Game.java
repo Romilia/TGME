@@ -72,7 +72,7 @@ public class Game extends Main{
     //TODO: Implement function
     protected boolean gameEnded()
     {
-        return false;
+        return true;
     }
 
     //TODO: Implement function

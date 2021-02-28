@@ -6,21 +6,17 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public ArrayList<Player> existingPlayers = new ArrayList<Player>();
+    public static ArrayList<Player> existingPlayers = new ArrayList<Player>();
     private Game currentGame;
 
     public Main(){
 
     }
 
-     public Main(Game currGame){
+     public void setGame(Game currGame){
          currentGame = currGame;
      }
 
-    public void startGame()
-    {
-        currentGame.startGame();
-    }
 
     public void viewPlayer(String playerName)
     {
