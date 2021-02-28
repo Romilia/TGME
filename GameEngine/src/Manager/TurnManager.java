@@ -8,7 +8,7 @@ public class TurnManager {
         playerTurn = 0;
     }
 
-    int getPlayerTurn() {
+    public int getPlayerTurn() {
         return playerTurn;
     }
 

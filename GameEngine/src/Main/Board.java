@@ -1,4 +1,5 @@
 package Main;
+import GameLogic.Move;
 import GameLogic.Tuple;
 
 import java.util.ArrayList;
@@ -10,17 +11,30 @@ public class Board {
     String board[][];
     ArrayList<String> tiles;
 
-    Board(ArrayList<String> tileTypes, int col, int row) {
+    Board(ArrayList<String> tileTypes, int row, int col) {
         this.col = col;
         this.row = row;
         board = new String[row][col];
         tiles = tileTypes;
         populateBoard();
+//        while(Move.hasMoveToMake) {
+//          popluateBoard();
+//        }
     }
 
     public String[][] getBoard() {
-        return board;
+        //I made this change because with the original code, it will constantly return a new board with different values
+        //original code --> return board;
+        String[][] newBoard = new String[this.row][this.col];
+    	for(int i = 0; i < this.row; i++) {
+    		for(int j = 0; j < this.col; j++) {
+    			newBoard[i][j] = this.board[i][j];
+    		}
+    	}
+        return newBoard;
     }
+
+    public void setBoard(String[][] newBoard) { this.board = newBoard; }
 
     public int getRow() {
         return row;
@@ -31,7 +45,6 @@ public class Board {
     }
 
     public void updateBoard(ArrayList<Tuple> oldTiles) {
-        //TODO: remove matches and add new tiles, check for new matches
         //replace all tiles with " "
         for (int i = 0; i < oldTiles.size(); i++) {
             board[oldTiles.get(i).row][oldTiles.get(i).col] = " ";
@@ -39,26 +52,7 @@ public class Board {
         //move everything down
         moveColumnsDown();
         addRandomTiles();
-
-        //find matches
-        //String match = findMatch();
-//        if(match != "") {
-//
-//        }
     }
-//    for(int i = row-1; i >= 0; i--) {
-//        for(int j = 0; j < col; j++) {
-//            if (board[i][j].equals(" ") && i != 0) {
-//                for (int k = i; k > 0; k--) {
-//                    board[k][j] = board[k - 1][j];
-//                    if (k == 1) {
-//                        board[k-1][j] = " ";
-//                    }
-//                }
-//
-//            }
-//        }
-//    }
 
     private void moveColumnsDown() {
         for (int j = 0; j < col; j++) {
@@ -92,47 +86,17 @@ public class Board {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 if (board[i][j].equals(" ")) {
-
+                    int index = (int)(Math.random() *(tiles.size()-1));
+                    board[i][j] = tiles.get(index);
                 }
             }
         }
     }
 
-    private String findMatch(int selectedRow, int selectedCol) {
-        //left
-        if ((selectedCol-1) >= 0 && (selectedCol-2) >= 0) {
-            if (board[selectedRow][selectedCol] == board[selectedRow][selectedCol-1]
-                    && board[selectedRow][selectedCol] == board[selectedRow][selectedCol-2]) {
-                return "left";
-            }
-        }
-        //right
-        else if ((selectedCol+1)<= (col-1) && (selectedCol+2) <= (col-1)) {
-            if (board[selectedRow][selectedCol] == board[selectedRow][selectedCol+1]
-                    && board[selectedRow][selectedCol] == board[selectedRow][selectedCol+2]) {
-                return "right";
-            }
-        }
-        //up
-        else if ((selectedRow-1) >= 0 && (selectedRow-2) >= 0) {
-            if (board[selectedRow][selectedCol] == board[selectedRow-1][selectedCol]
-              && board[selectedRow][selectedCol] == board[selectedRow-2][selectedCol]) {
-                return "up";
-            }
-        }
-        //down
-        else if ((selectedRow+1) <= (row-1) && (selectedRow+2) <= (row-1)) {
-            if (board[selectedRow][selectedCol] == board[selectedRow+1][selectedCol]
-                    && board[selectedRow][selectedCol] == board[selectedRow+2][selectedCol]) {
-                return "down";
-            }
-        }
-        return "";
-    }
 
     public void populateBoard() {
-        for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
                 int index = (int)(Math.random() *(tiles.size()-1));
                 board[i][j] = tiles.get(index);
             }
@@ -141,7 +105,8 @@ public class Board {
 
     public void print() {
         //top of board
-        for(int i = 0; i < row; i++) {
+        System.out.print("-");
+        for(int i = 0; i < col; i++) {
             System.out.print("---");
         }
         System.out.println();
@@ -149,15 +114,23 @@ public class Board {
         for(int i = 0; i < row; i++) {
             System.out.print("|");
             for (int j = 0; j < col; j++) {
-                System.out.print(" " + board[i][j] + " ");
+                if (board[i][j].contains("S")) {
+                    System.out.print(" " + board[i][j] + "  ");
+                }
+                //return String.format("%1$" + length + "s", inputString).replace(' ', '0');
+                else {
+                    System.out.print("  " + board[i][j] + "  ");
+                }
             }
             System.out.print("|");
             System.out.println();
         }
         //bottom boundary of board
-        for(int i = 0; i < row; i++) {
+        System.out.print("-");
+        for(int i = 0; i < col; i++) {
             System.out.print("---");
         }
+        System.out.println();
     }
 
 

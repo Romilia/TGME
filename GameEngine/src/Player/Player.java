@@ -8,7 +8,7 @@ public class Player {
     private int lives;
     ArrayList<Integer> scoreHistory;
 
-    Player(String givenName)
+    public Player(String givenName)
     {
         name = givenName;
         lives = -1;
