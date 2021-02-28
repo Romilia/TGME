@@ -4,7 +4,7 @@ import Player.Player;
 public class TurnManager {
     int playerTurn;
 
-    TurnManager(){
+    public TurnManager(){
         playerTurn = 0;
     }
 
