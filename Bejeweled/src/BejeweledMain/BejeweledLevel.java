@@ -18,4 +18,29 @@ public class BejeweledLevel extends Level {
         getLevelBoard().print();
     }
 
+    public float getTimeLimit() {
+        return timeLimit;
+    }
+
+    public void setTimeLimit(float timeLimit) {
+        this.timeLimit = timeLimit;
+    }
+
+    public BejeweledTimer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(BejeweledTimer timer) {
+        this.timer = timer;
+    }
+
+    public ArrayList<String> getBejeweledTiles() {
+        return bejeweledTiles;
+    }
+
+    public void setBejeweledTiles(ArrayList<String> bejeweledTiles) {
+        this.bejeweledTiles = bejeweledTiles;
+    }
+
+
 }

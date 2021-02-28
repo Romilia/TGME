@@ -8,7 +8,9 @@ public class BejeweledTimer {
     private int runTime;
 
     public BejeweledTimer(){
+
         timer = new Timer();
+        runTime = 240; // set initial time to complete level at 3 minutes
     }
 
     public int getRunTime() {
@@ -28,12 +30,16 @@ public class BejeweledTimer {
         }, 0, 1000); //period is in milliseconds
     }
 
-    public void addTime(int timeToAdd){ // Do we ADD ON time or CHANGE the time?
+    public void addTime(int timeToAdd){
         if(runTime == 0){
             runTime += timeToAdd;
         }
     }
 
-    //TODO: Method to stop the timer
+    public void stopTimer(){
+        if(runTime > 0){
+            timer.cancel();
+        }
+    }
 
 }
