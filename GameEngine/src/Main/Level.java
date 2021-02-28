@@ -7,9 +7,9 @@ import Manager.TurnManager;
 import java.util.ArrayList;
 
 public class Level {
-    Board board;
-    int targetScore;
-    ArrayList<String> tiles;
+    private Board board;
+    private int targetScore;
+    private ArrayList<String> tiles;
     public Move move;
 
 
@@ -38,6 +38,7 @@ public class Level {
     {
         return board;
     }
+
 
     int getTargetScore(){
         return targetScore;
