@@ -23,7 +23,7 @@ public class Move {
 		this.board = board;
 		//simpler to move this code to this class than try to call hasMovesToMake in board
 		//populateBoard was already public
-		while (hasMovesToMake()) {
+		while (!hasMovesToMake()) {
 			this.board.populateBoard();
 		}
 	}
@@ -35,7 +35,7 @@ public class Move {
 		this.turnManager = turnManager;
 		//simpler to move this code to this class than try to call hasMovesToMake in board
 		//populateBoard was already public
-		while (hasMovesToMake()) {
+		while (!hasMovesToMake()) {
 			this.board.populateBoard();
 		}
 	}
@@ -125,11 +125,13 @@ public class Move {
 			{
 				if(turnManager.getPlayerTurn() == 0) //player one
 				{
-					scoreManager.setPlayer1(scoreManager.getPlayer1()+score);
+					//new function in ScoreManager: addToCurrentP1Score() and getCurrentP1Score()
+					scoreManager.addToCurrentP1Score(score);
 				}
 				else
 				{
-					scoreManager.setPlayer2(scoreManager.getPlayer2()+score);
+					//new function in ScoreManager: addToCurrentP2Score() and getCurrentP2Score()
+					scoreManager.addToCurrentP2Score(score);
 				}
 				
 				break;

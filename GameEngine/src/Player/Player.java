@@ -15,6 +15,7 @@ public class Player {
         scoreHistory = new ArrayList<>();
     }
 
+
     public void setLives(int givenLives) {
         lives = givenLives;
     }

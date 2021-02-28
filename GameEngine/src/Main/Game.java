@@ -19,7 +19,6 @@ public class Game extends Main{
     {
         gameName = name;
         turnManager = new TurnManager();
-        scoreManager = new ScoreManager();
     }
 
 
@@ -46,6 +45,7 @@ public class Game extends Main{
                 Player player2 = new Player(name);
                 players.add(player2);
                 existingPlayers.add(player2);
+                scoreManager = new ScoreManager(player1, player2);
                 break;
             case 2:
                 System.out.println("Enter Player 1's Existing Username:");
@@ -59,6 +59,7 @@ public class Game extends Main{
                         players.add(player);
                     }
                 }
+                scoreManager = new ScoreManager(players.get(0), players.get(1));
                 break;
         }
     }
