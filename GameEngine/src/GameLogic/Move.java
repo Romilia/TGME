@@ -17,6 +17,11 @@ public class Move {
 
 	public Move(){
 	}
+	
+	Move(Board board)
+	{
+		this.board = board;
+	}
 
 	public Move(Board board, ScoreManager scoreManager, TurnManager turnManager)
 	{
