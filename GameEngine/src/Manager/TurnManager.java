@@ -2,9 +2,9 @@ package Manager;
 import Player.Player;
 
 public class TurnManager {
-    int playerTurn;
+    private int playerTurn;
 
-    TurnManager(){
+    public TurnManager(){
         playerTurn = 0;
     }
 

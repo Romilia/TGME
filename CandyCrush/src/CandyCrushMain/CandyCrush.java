@@ -28,7 +28,7 @@ public class CandyCrush extends Game {
         for(int i = 0; i < 5 && !gameEnded(); i++){
             int row = generateNewBoardDimension();
             int col = generateNewBoardDimension();
-            levels[i] = new CandyCrushLevel(row, col);
+            levels[i] = new CandyCrushLevel(row, col, turnManager, scoreManager);
             levels[i].startLevel(i+1);
         }
     }
