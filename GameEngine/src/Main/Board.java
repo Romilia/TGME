@@ -90,9 +90,10 @@ public class Board {
 
 
     public void populateBoard() {
+        //edited range
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                int index = (int)(Math.random() *(tiles.size()-1));
+                int index = (int)(Math.random() *(tiles.size()));
                 board[i][j] = tiles.get(index);
             }
         }
@@ -100,14 +101,15 @@ public class Board {
 
     public void print() {
         //top of board
-        System.out.print("-");
+        System.out.print("---");
         for(int i = 0; i < col; i++) {
-            System.out.print("---");
+            System.out.print("- "+i+" -");
         }
+        System.out.print("---");
         System.out.println();
         //board contents and side boundaries
         for(int i = 0; i < row; i++) {
-            System.out.print("|");
+            System.out.print(i + " |");
             for (int j = 0; j < col; j++) {
                 if (board[i][j].contains("S")) {
                     System.out.print(" " + board[i][j] + "  ");
@@ -123,7 +125,7 @@ public class Board {
         //bottom boundary of board
         System.out.print("-");
         for(int i = 0; i < col; i++) {
-            System.out.print("---");
+            System.out.print(" --- ");
         }
         System.out.println();
     }
