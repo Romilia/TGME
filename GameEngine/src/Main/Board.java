@@ -110,8 +110,13 @@ public class Board {
         for(int i = 0; i < row; i++) {
             System.out.print("|");
             for (int j = 0; j < col; j++) {
+                if (board[i][j].contains("S")) {
+                    System.out.print(" " + board[i][j] + "  ");
+                }
                 //return String.format("%1$" + length + "s", inputString).replace(' ', '0');
-                System.out.print(" " + board[i][j] + " ");
+                else {
+                    System.out.print("  " + board[i][j] + "  ");
+                }
             }
             System.out.print("|");
             System.out.println();
