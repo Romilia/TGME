@@ -3,7 +3,7 @@ package CandyCrushMain;
 import Main.Game;
 
 public class CandyCrush extends Game {
-    private final int lives = 10; //TODO: decide on how many lives
+    private final int lives = 3; //TODO: ask if 3 lives is good
     private CandyCrushLevel[] levels;
     private int minBoardSize;
     private int maxBoardSize;
@@ -11,7 +11,7 @@ public class CandyCrush extends Game {
 
     public CandyCrush(){
         super("CANDY_CRUSH");
-        System.out.println("~~~~ Candy Crush ~~~~");
+        //System.out.println("~~~~ Candy Crush ~~~~");
         playerCreation();
 
         //TODO decide levels, minBoardSize, maxBoardSize, curLevel
@@ -22,11 +22,13 @@ public class CandyCrush extends Game {
     {
         levels = new CandyCrushLevel[5];
         curLevel = null;
-        minBoardSize = 3;
-        maxBoardSize = 5;
+        minBoardSize = 4;
+        maxBoardSize = 6; //TODO the smallest board we can get is 4x4 adn the biggest is 6x6. Is this fine?
 
         for(int i = 0; i < 5 && !gameEnded(); i++){
-            levels[i] = new CandyCrushLevel(generateNewBoardDimension(),generateNewBoardDimension());
+            int row = generateNewBoardDimension();
+            int col = generateNewBoardDimension();
+            levels[i] = new CandyCrushLevel(row, col);
             levels[i].startLevel(i+1);
         }
     }

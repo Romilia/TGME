@@ -15,7 +15,7 @@ public class Level {
         this.targetScore = target;
 //        this.tiles = tiles;
 //        board = new Board(tiles, row, col);
-       /* move = new Move(board);*/
+       /* move = new Move(board);*/ //TODO how do I initialize Move here since Move takes in a score manager and turn manager
     }
 
     protected void setTiles(ArrayList<String> gameTiles)
