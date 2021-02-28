@@ -1,6 +1,6 @@
 package GameLogic;
 import Main.Board;
-import Main.ScoreManager;
+import Manager.ScoreManager;
 import Manager.TurnManager;
 
 import java.util.*;

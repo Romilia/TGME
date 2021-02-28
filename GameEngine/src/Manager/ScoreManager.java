@@ -1,4 +1,4 @@
-package Main;
+package Manager;
 
 public class ScoreManager {
 	private int player1 = 0;
