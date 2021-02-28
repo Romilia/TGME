@@ -10,7 +10,7 @@ public class Board {
     String board[][];
     ArrayList<String> tiles;
 
-    Board(ArrayList<String> tileTypes, int col, int row) {
+    Board(ArrayList<String> tileTypes, int row, int col) {
         this.col = col;
         this.row = row;
         board = new String[row][col];
@@ -91,8 +91,8 @@ public class Board {
 
 
     public void populateBoard() {
-        for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
                 int index = (int)(Math.random() *(tiles.size()-1));
                 board[i][j] = tiles.get(index);
             }
