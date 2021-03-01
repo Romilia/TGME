@@ -69,6 +69,19 @@ public class Game extends Main{
         return gameName;
     }
 
+    public boolean anotherGame()
+    {
+        boolean ret = false;
+        System.out.println("Do you want to play another game?(Y/N)");
+        String another = scan.nextLine();
+
+        if(another.equals("Y"))
+        {
+            ret = true;
+        }
+
+        return ret;
+    }
     //TODO: Implement function
     protected boolean gameEnded()
     {

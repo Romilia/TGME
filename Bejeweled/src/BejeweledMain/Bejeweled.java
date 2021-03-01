@@ -13,17 +13,23 @@ public class Bejeweled extends Game {
 
     public Bejeweled(){
         super("BEJEWELED");
-        System.out.println("~~~~ Bejeweled ~~~~");
-        playerCreation();
-        initializeGame();
+//        System.out.println("~~~~ Bejeweled ~~~~");
         // init targetScore
         // init levelTargetScoreList
 
     };
 
+    public boolean startGame(){
+        playerCreation();
+        initializeGame();
+        return anotherGame();
+
+    }
+
     private void initializeGame()
     {
         level = new BejeweledLevel(5,5);
+
     }
 
     public int getTargetScore() {

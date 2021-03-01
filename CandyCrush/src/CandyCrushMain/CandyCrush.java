@@ -23,10 +23,11 @@ public class CandyCrush extends Game {
         playerCreation();
 
         //TODO decide levels, minBoardSize, maxBoardSize, curLevel
-        return initializeGame();
+        initializeGame();
+        return anotherGame();
     }
 
-    public boolean initializeGame()
+    public void initializeGame()
     {
         levels = new CandyCrushLevel[5];
         curLevel = null;
@@ -40,18 +41,9 @@ public class CandyCrush extends Game {
             levels[i].startLevel(i+1);
         }
 
-        boolean ret = false;
-        System.out.println("Do you want to play another game?(Y/N)");
-        String another = scan.nextLine();
-
-        if(another.equals("Y"))
-        {
-            ret = true;
-        }
-
-        return ret;
-
     }
+
+
 
     public int generateNewBoardDimension() {
         return (int) ((Math.random() * (maxBoardSize - minBoardSize)) + minBoardSize);

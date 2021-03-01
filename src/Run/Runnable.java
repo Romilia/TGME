@@ -31,11 +31,11 @@ public class Runnable {
             int choice = scan.nextInt();
             scan.nextLine();
 
-
             switch (choice) {
                 case 1:
                     Bejeweled bej = new Bejeweled();
                     mn.setGame(bej);
+                    cont = bej.startGame();
                     break;
                 case 2:
                     CandyCrush crush = new CandyCrush();
