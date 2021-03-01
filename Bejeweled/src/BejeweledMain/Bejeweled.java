@@ -11,25 +11,18 @@ public class Bejeweled extends Game {
     private BejeweledLevel level;
     private int curLevel;
 
-    public Bejeweled(){
+    public Bejeweled() {
         super("BEJEWELED");
-//        System.out.println("~~~~ Bejeweled ~~~~");
-        // init targetScore
-        // init levelTargetScoreList
+    }
 
-    };
-
-    public boolean startGame(){
+    public boolean startGame() {
         playerCreation();
         initializeGame();
         return anotherGame();
-
     }
 
-    private void initializeGame()
-    {
-        level = new BejeweledLevel(5,5);
-
+    private void initializeGame() {
+        level = new BejeweledLevel(5, 5);
     }
 
     public int getTargetScore() {
@@ -64,7 +57,7 @@ public class Bejeweled extends Game {
         this.levelTargetScoreList = levelTargetScoreList;
     }
 
-    public void increaseTime(){
+    public void increaseTime() {
         level.getTimer().addTime(30);
     }
 

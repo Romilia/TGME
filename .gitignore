@@ -2,11 +2,20 @@
 
 .idea/
 GameEngine/src/Main/BoardTest.java
-*.class
-out/production/CandyCrush/CandyCrushMain/CandyCrush.class
-out/production/CandyCrush/CandyCrushMain/CandyCrushLevel.class
-out/production/GameEngine/GameLogic/Move$1.class
-out/production/GameEngine/GameLogic/Move.class
-out/production/GameEngine/Main/Board.class
-out/production/GameEngine/Main/Level.class
+
+
+out/production/TMGE/Run/Runnable.class
+out/production/GameEngine/Player/Player.class
 out/production/GameEngine/Manager/TurnManager.class
+out/production/GameEngine/Main/Main.class
+out/production/GameEngine/Main/Level.class
+out/production/GameEngine/Main/Game.class
+out/production/GameEngine/Main/Board.class
+out/production/GameEngine/GameLogic/Move.class
+out/production/GameEngine/GameLogic/Move$1.class
+out/production/CandyCrush/CandyCrushMain/CandyCrushMove.class
+out/production/CandyCrush/CandyCrushMain/CandyCrushLevel.class
+out/production/CandyCrush/CandyCrushMain/CandyCrush.class
+out/production/Bejeweled/BejeweledMain/BejeweledTimer.class
+out/production/Bejeweled/BejeweledMain/BejeweledTimer$1.class
+out/production/Bejeweled/BejeweledMain/Bejeweled.class

@@ -13,22 +13,21 @@ public class Runnable {
     Main mn = new Main();
     private Scanner scan = new Scanner(System.in);
 
-    public Runnable()
-    {
+    public Runnable() {
         menuChoice();
     }
 
-    public void menuChoice()
-    {
+    public void menuChoice() {
         boolean cont = true;
 
-        do
-        {
+        do {
+            int choice;
+
             System.out.println("Make a Selection");
             System.out.println("1. Bejeweled");
             System.out.println("2. Candy Crush");
             System.out.println("3. View Player Stats");
-            int choice = scan.nextInt();
+            choice = scan.nextInt();
             scan.nextLine();
 
             switch (choice) {
@@ -43,12 +42,16 @@ public class Runnable {
                     cont = crush.startGame();
                     break;
                 case 3:
-                    System.out.println("Enter the player name:");
-                    String name = scan.nextLine();
-                    mn.viewPlayer(name);
+                    if (mn.existingPlayers.isEmpty()) {
+                        System.out.println("There are no players");
+                    } else {
+                        System.out.println("Enter the player2 name:");
+                        String name = scan.nextLine();
+                        mn.viewPlayer(name);
+                    }
                     break;
             }
-        }while(cont);
+        } while (cont);
     }
 
 
