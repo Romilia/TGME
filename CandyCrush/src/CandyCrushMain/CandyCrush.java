@@ -5,7 +5,7 @@ import Main.Game;
 import java.util.Scanner;
 
 public class CandyCrush extends Game {
-    private final int lives = 3; //TODO: ask if 3 lives is good
+    private final int lives = 3;
     private CandyCrushLevel[] levels;
     private int minBoardSize;
     private int maxBoardSize;
@@ -22,7 +22,6 @@ public class CandyCrush extends Game {
     {
         playerCreation();
 
-        //TODO decide levels, minBoardSize, maxBoardSize, curLevel
         initializeGame();
         return anotherGame();
     }
@@ -32,7 +31,7 @@ public class CandyCrush extends Game {
         levels = new CandyCrushLevel[5];
         curLevel = null;
         minBoardSize = 4;
-        maxBoardSize = 6; //TODO the smallest board we can get is 4x4 adn the biggest is 6x6. Is this fine?
+        maxBoardSize = 6;
 
         for(int i = 0; i < 5 && !gameEnded(); i++){
             int row = generateNewBoardDimension();

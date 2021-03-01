@@ -51,7 +51,7 @@ public class Board {
 
     private void moveColumnsDown() {
         for (int j = 0; j < col; j++) {
-            for (int i = row-1; i >= 0; i++) {
+            for (int i = row-1; i >= 0; i--) {
                 if (board[i][j].equals(" ")) {
                     int ct = countSpaces(i, j);
                     for (int k = i; k > 0; k--) {
@@ -67,10 +67,10 @@ public class Board {
         }
     }
 
-    private int countSpaces(int row, int col) {
+    private int countSpaces(int r, int c) {
         int reCount = 1;
-        for (int i = row-1; i >= 0; i++) {
-            if (board[i][col].equals(" ")) {
+        for (int i = r-1; i >= 0; i--) {
+            if (board[i][c].equals(" ")) {
                 reCount += 1;
             }
         }
