@@ -47,6 +47,8 @@ public class Board {
         for (int i = 0; i < oldTiles.size(); i++) {
             board[oldTiles.get(i).row][oldTiles.get(i).col] = " ";
         }
+        System.out.println("Update Board");
+        this.print();
         //move everything down
         moveColumnsDown();
         addRandomTiles();
@@ -68,6 +70,7 @@ public class Board {
                 }
             }
         }
+        this.print();
     }
 
     private int countSpaces(int r, int c) {

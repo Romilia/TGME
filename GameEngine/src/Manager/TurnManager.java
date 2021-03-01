@@ -14,7 +14,7 @@ public class TurnManager {
     }
 
     public void toggleTurn() {
-        playerTurn = playerTurn == 0 ? 1 : 0;
+        this.playerTurn = (this.playerTurn == 0 ? 1 : 0);
     }
 
 }

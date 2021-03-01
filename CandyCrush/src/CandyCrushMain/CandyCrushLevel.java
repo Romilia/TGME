@@ -25,11 +25,19 @@ public class CandyCrushLevel extends Level {
     public void startLevel(int lvl) {
         System.out.println("Candy Crush Level " + lvl);
 //        getLevelBoard().print();
-//        for (int i = 0; i < 2 ; i++){
-        System.out.println("Player " + move.scoreManager.getPlayer1().getName() + " Turn");
-        move.makeMove();
-        move.turnManager.toggleTurn();
-//        }
+        for (int i = 0; i < 2 ; i++){
+            String currentPlayer;
+            if(move.turnManager.getPlayerTurn() == 0) {
+               currentPlayer =  move.scoreManager.getPlayer1().getName();
+            }
+            else
+            {
+                currentPlayer =  move.scoreManager.getPlayer2().getName();
+            }
+            System.out.println("Player " + currentPlayer + " Turn");
+            move.makeMove();
+            move.turnManager.toggleTurn();
+        }
     }
 
     public int getHintsLeft() {
