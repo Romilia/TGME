@@ -8,31 +8,32 @@ import Manager.ScoreManager;
 import Manager.TurnManager;
 import Player.Player;
 
-public class Game extends Main{
+public class Game extends Main {
     private Scanner scan = new Scanner(System.in);
     private String gameName;
     protected TurnManager turnManager;
     protected ScoreManager scoreManager;
     private ArrayList<Player> players = new ArrayList<Player>();
 
-    public Game(String name)
-    {
+    public Game(String name) {
         gameName = name;
         turnManager = new TurnManager();
     }
 
-
-    protected void playerCreation()
-    {
+    protected void playerCreation() {
+        int choice;
         System.out.println("----" + gameName + "----");
-        System.out.println("Select a choice");
-        System.out.println("1. Create new players");
-        System.out.println("2. Play as existing players");
-        int choice = scan.nextInt();
-        scan.nextLine();
+        if (existingPlayers.isEmpty()) {
+            choice = 1;
+        } else {
+            System.out.println("Select a choice");
+            System.out.println("1. Create new players");
+            System.out.println("2. Play as existing players");
+            choice = scan.nextInt();
+            scan.nextLine();
+        }
 
-        switch(choice)
-        {
+        switch (choice) {
             case 1:
                 System.out.println("Enter Player 1's Username:");
                 String name = scan.nextLine();
@@ -52,10 +53,8 @@ public class Game extends Main{
                 String name1 = scan.nextLine();
                 System.out.println("Enter Player 2's Existing Username:");
                 String name2 = scan.nextLine();
-                for(Player player: existingPlayers)
-                {
-                    if(player.getName().equals(name1) || player.getName().equals(name2) )
-                    {
+                for (Player player : existingPlayers) {
+                    if (player.getName().equals(name1) || player.getName().equals(name2)) {
                         players.add(player);
                     }
                 }
@@ -64,27 +63,21 @@ public class Game extends Main{
         }
     }
 
-    String getGameName()
-    {
-        return gameName;
+    public boolean anotherGame() {
+        boolean ret = false;
+        System.out.println("Do you want to play another game?(Y/N)");
+        String another = scan.nextLine();
+
+        if (another.equals("Y")) {
+            ret = true;
+        }
+
+        return ret;
     }
 
     //TODO: Implement function
-    protected boolean gameEnded()
-    {
+    protected boolean gameEnded() {
         return false;
-    }
-
-    //TODO: Implement function
-    void updateBoard()
-    {
-
-    }
-
-    //TODO: Implement function
-    ArrayList<String> getTiles()
-    {
-        return new ArrayList<String>();
     }
 
 }

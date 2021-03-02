@@ -13,31 +13,28 @@ public class Level {
     public Move move;
 
 
-    public Level(int target){
+    public Level(int target) {
         this.targetScore = target;
     }
 
-    protected void setTiles(ArrayList<String> gameTiles)
-    {
+    protected void setTiles(ArrayList<String> gameTiles) {
         tiles = gameTiles;
     }
 
-    protected void setBoard(int row, int col)
-    {
+    protected void setBoard(int row, int col) {
         board = new Board(tiles, row, col);
     }
 
-    protected void setMove(TurnManager turnManager, ScoreManager scoreManager){
+    protected void setMove(TurnManager turnManager, ScoreManager scoreManager) {
         move = new Move(board, scoreManager, turnManager);
     }
 
-    protected Board getLevelBoard()
-    {
+    protected Board getLevelBoard() {
         return board;
     }
 
 
-    int getTargetScore(){
+    int getTargetScore() {
         return targetScore;
     }
 }

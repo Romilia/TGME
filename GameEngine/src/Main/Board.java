@@ -1,4 +1,5 @@
 package Main;
+
 import GameLogic.Move;
 import GameLogic.Tuple;
 
@@ -21,15 +22,17 @@ public class Board {
 
     public String[][] getBoard() {
         String[][] newBoard = new String[this.row][this.col];
-    	for(int i = 0; i < this.row; i++) {
-    		for(int j = 0; j < this.col; j++) {
-    			newBoard[i][j] = this.board[i][j];
-    		}
-    	}
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
+                newBoard[i][j] = this.board[i][j];
+            }
+        }
         return newBoard;
     }
 
-    public void setBoard(String[][] newBoard) { this.board = newBoard; }
+    public void setBoard(String[][] newBoard) {
+        this.board = newBoard;
+    }
 
     public int getRow() {
         return row;
@@ -51,11 +54,11 @@ public class Board {
 
     private void moveColumnsDown() {
         for (int j = 0; j < col; j++) {
-            for (int i = row-1; i >= 0; i--) {
+            for (int i = row - 1; i >= 0; i--) {
                 if (board[i][j].equals(" ")) {
                     int ct = countSpaces(i, j);
                     for (int k = i; k > 0; k--) {
-                        if ((k-ct) >= 0) {
+                        if ((k - ct) >= 0) {
                             board[k][j] = board[k - ct][j];
                         }
                         if (k == 1) {
@@ -69,7 +72,7 @@ public class Board {
 
     private int countSpaces(int r, int c) {
         int reCount = 1;
-        for (int i = r-1; i >= 0; i--) {
+        for (int i = r - 1; i >= 0; i--) {
             if (board[i][c].equals(" ")) {
                 reCount += 1;
             }
@@ -81,7 +84,7 @@ public class Board {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 if (board[i][j].equals(" ")) {
-                    int index = (int)(Math.random() *(tiles.size()-1));
+                    int index = (int) (Math.random() * (tiles.size() - 1));
                     board[i][j] = tiles.get(index);
                 }
             }
@@ -93,7 +96,7 @@ public class Board {
         //edited range
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                int index = (int)(Math.random() *(tiles.size()));
+                int index = (int) (Math.random() * (tiles.size()));
                 board[i][j] = tiles.get(index);
             }
         }
@@ -102,13 +105,13 @@ public class Board {
     public void print() {
         //top of board
         System.out.print("  -");
-        for(int i = 0; i < col; i++) {
-            System.out.print("- "+i+" -");
+        for (int i = 0; i < col; i++) {
+            System.out.print("- " + i + " -");
         }
         System.out.print("-");
         System.out.println();
         //board contents and side boundaries
-        for(int i = 0; i < row; i++) {
+        for (int i = 0; i < row; i++) {
             System.out.print(i + " |");
             for (int j = 0; j < col; j++) {
                 if (board[i][j].contains("S")) {
@@ -124,12 +127,11 @@ public class Board {
         }
         //bottom boundary of board
         System.out.print("   ");
-        for(int i = 0; i < col; i++) {
+        for (int i = 0; i < col; i++) {
             System.out.print("-----");
         }
         System.out.println();
     }
-
 
 
 }

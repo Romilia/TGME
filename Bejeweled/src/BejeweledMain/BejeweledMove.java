@@ -5,7 +5,7 @@ import Main.Board;
 
 public class BejeweledMove extends Move { // need to import Move
 
-    public BejeweledMove(){
+    public BejeweledMove() {
         super();
     }
     /*
