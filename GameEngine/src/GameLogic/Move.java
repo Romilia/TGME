@@ -44,13 +44,16 @@ public class Move {
         return true;
     }
 
-    public void makeMove() {
+    public void makeMove(int numOfMoves, int targetScore) {
+        //set score back to 0 for player 2
+        score = 0;
+
         //ensures that all the updates are made and still has moves to make
         ArrayList<Tuple> list = findAllMatchesAfterUpdate();
         while (list.size() >= 3 || !hasMovesToMake()) {
-            this.board.print();
+//            this.board.print();
             if(list.size() < 3 && !hasMovesToMake()) {
-                System.out.println("Don't Have Moves To Make. Generating New Board...");
+//                System.out.println("Don't Have Moves To Make. Generating New Board...");
             }
             this.board.updateBoard(list);
             while (!hasMovesToMake()) {
@@ -61,6 +64,14 @@ public class Move {
 
         while (true) // if no more matches, game ends
         {
+            if (numOfMoves <= 0)
+                break;
+            if (score >= targetScore){
+                System.out.println("CONGRATS: you successfully achieved the target score!!!\n");
+                return; //return so that the Game Over message at the bottom doesn't get printed;
+            }
+            System.out.println("\nMoves left: " + numOfMoves);
+            System.out.println("Current Score: " + score);
             this.board.print();
             Scanner input = new Scanner(System.in);
 
@@ -96,7 +107,7 @@ public class Move {
                     this.board.setBoard(this.newBoard);
 //                    System.out.println(removableTiles);
                     this.board.updateBoard(removableTiles);
-                    this.board.print();
+//                    this.board.print();
 
                     //after update, should check if there is anymore matches formed
                     while (true) {
@@ -111,7 +122,7 @@ public class Move {
                         //else update the board
                         this.board.setBoard(this.newBoard);
                         this.board.updateBoard(removableTiles);
-                        this.board.print();
+//                        this.board.print();
                     }
                 }
                 else
@@ -121,7 +132,7 @@ public class Move {
             }
             else
             {
-                System.out.println("Invalid Move.");
+                System.out.println("Invalid Move. Try again.");
             }
             //if not a valid move, nothing changes and prompt user for input again
 
@@ -138,13 +149,14 @@ public class Move {
 
                 break;
             }
+            numOfMoves--;
 //            break;
             //if not, break out the while loop
         }
 
         //prepare board for player 2
-        this.board.print();
-        System.out.println("Game Over");
+//        this.board.print();
+        System.out.println("GAME OVER: No more available moves to make. Failed to achieve target score.");
 
 //        this.board.populateBoard();
 //        list = findAllMatchesAfterUpdate();

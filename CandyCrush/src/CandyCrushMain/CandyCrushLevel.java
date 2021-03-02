@@ -23,8 +23,10 @@ public class CandyCrushLevel extends Level {
     }
 
     public void startLevel(int lvl) {
-        System.out.println("Candy Crush Level " + lvl);
+        System.out.println(">>>CANDY CRUSH LEVEL " + lvl + "<<<");
 //        getLevelBoard().print();
+        System.out.println("NUMBER OF MOVES AVAILABLE: " + movesLeft);
+        System.out.println("TARGET SCORE: " + getTargetScore());
         for (int i = 0; i < 2 ; i++){
             String currentPlayer;
             if(move.turnManager.getPlayerTurn() == 0) {
@@ -34,8 +36,8 @@ public class CandyCrushLevel extends Level {
             {
                 currentPlayer =  move.scoreManager.getPlayer2().getName();
             }
-            System.out.println("Player " + currentPlayer + " Turn");
-            move.makeMove();
+            System.out.println("PLAYER TURN: " + currentPlayer);
+            move.makeMove(movesLeft, getTargetScore());
             move.turnManager.toggleTurn();
         }
     }
