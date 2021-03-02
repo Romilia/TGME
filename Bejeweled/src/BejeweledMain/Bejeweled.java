@@ -8,11 +8,13 @@ import java.util.ArrayList;
 public class Bejeweled extends Game {
     private int targetScore;
     private ArrayList<Tuple> levelTargetScoreList;
-    private BejeweledLevel level;
+    private BejeweledLevel[] levels;
     private int curLevel;
 
     public Bejeweled() {
+
         super("BEJEWELED");
+
     }
 
     public boolean startGame() {
@@ -22,7 +24,15 @@ public class Bejeweled extends Game {
     }
 
     private void initializeGame() {
-        level = new BejeweledLevel(5, 5);
+        levels = new BejeweledLevel[5];
+        curLevel = 0;
+
+        for (int i = 0; i < 5 && !gameEnded(); i++) {
+            levels[i] = new BejeweledLevel(5, 5, turnManager, scoreManager);
+            levels[i].startLevel(i + 1);
+            curLevel++;
+        }
+
     }
 
     public int getTargetScore() {
@@ -33,12 +43,12 @@ public class Bejeweled extends Game {
         this.targetScore = targetScore;
     }
 
-    public BejeweledLevel getLevel() {
-        return level;
+    public BejeweledLevel[] getLevel() {
+        return levels;
     }
 
-    public void setLevel(BejeweledLevel level) {
-        this.level = level;
+    public void setLevel(BejeweledLevel[] level) {
+        this.levels = level;
     }
 
     public int getCurLevel() {
@@ -58,7 +68,7 @@ public class Bejeweled extends Game {
     }
 
     public void increaseTime() {
-        level.getTimer().addTime(30);
+        levels[curLevel].getTimer().addTime(30);
     }
 
 
