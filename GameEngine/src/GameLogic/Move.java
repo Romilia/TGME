@@ -15,17 +15,9 @@ public class Move {
     public ScoreManager scoreManager;
     public TurnManager turnManager;
     private int score = 0;
+    private String[][] newBoard;
 
     public Move() {
-    }
-
-    Move(Board board) {
-        this.board = board;
-        //simpler to move this code to this class than try to call hasMovesToMake in board
-        //populateBoard was already public
-        while (!hasMovesToMake()) {
-            this.board.populateBoard();
-        }
     }
 
     public Move(Board board, ScoreManager scoreManager, TurnManager turnManager) {
@@ -34,14 +26,6 @@ public class Move {
         this.turnManager = turnManager;
         //simpler to move this code to this class than try to call hasMovesToMake in board
         //populateBoard was already public
-        ArrayList<Tuple> list = findAllMatchesAfterUpdate();
-        while (list.size() >= 3) {
-            this.board.updateBoard(list);
-            list = findAllMatchesAfterUpdate();
-            while (!hasMovesToMake()) {
-                this.board.populateBoard();
-            }
-        }
     }
 
     private Boolean isValidMove(int row, int col, String direction) {
@@ -60,9 +44,34 @@ public class Move {
         return true;
     }
 
-    public void makeMove() {
+    public void makeMove(int numOfMoves, int targetScore) {
+        //set score back to 0 for player 2
+        score = 0;
+
+        //ensures that all the updates are made and still has moves to make
+        ArrayList<Tuple> list = findAllMatchesAfterUpdate();
+        while (list.size() >= 3 || !hasMovesToMake()) {
+//            this.board.print();
+            if(list.size() < 3 && !hasMovesToMake()) {
+//                System.out.println("Don't Have Moves To Make. Generating New Board...");
+            }
+            this.board.updateBoard(list);
+            while (!hasMovesToMake()) {
+                this.board.populateBoard();
+            }
+            list = findAllMatchesAfterUpdate();
+        }
+
         while (true) // if no more matches, game ends
         {
+            if (numOfMoves <= 0)
+                break;
+            if (score >= targetScore){
+                System.out.println("CONGRATS: you successfully achieved the target score!!!\n");
+                return; //return so that the Game Over message at the bottom doesn't get printed;
+            }
+            System.out.println("\nMoves left: " + numOfMoves);
+            System.out.println("Current Score: " + score);
             this.board.print();
             Scanner input = new Scanner(System.in);
 
@@ -78,7 +87,7 @@ public class Move {
 
             //ensures that it is a valid move
             if (this.isValidMove(row, col, direction)) {
-                System.out.println("VALID");
+//                System.out.println("VALID");
                 ArrayList<Tuple> removableTiles;
                 if (direction.equals("left")) {
                     removableTiles = getRemovableTilesSwitchingLeft(row, col);
@@ -91,13 +100,14 @@ public class Move {
                     removableTiles = getRemovableTilesSwitchingDown(row, col);
                 }
 
-                System.out.println("Size: " + removableTiles.size());
+//                System.out.println("Size: " + removableTiles.size());
                 if (removableTiles.size() >= 3) {
                     //board should remove all these Tuple pairs and generate new tiles onto the board
                     score += removableTiles.size();
-                    System.out.println(removableTiles);
+                    this.board.setBoard(this.newBoard);
+//                    System.out.println(removableTiles);
                     this.board.updateBoard(removableTiles);
-                    this.board.print();
+//                    this.board.print();
 
                     //after update, should check if there is anymore matches formed
                     while (true) {
@@ -110,10 +120,19 @@ public class Move {
                         }
 
                         //else update the board
+                        this.board.setBoard(this.newBoard);
                         this.board.updateBoard(removableTiles);
-                        this.board.print();
+//                        this.board.print();
                     }
                 }
+                else
+                {
+                    System.out.println("No Matches Found");
+                }
+            }
+            else
+            {
+                System.out.println("Invalid Move. Try again.");
             }
             //if not a valid move, nothing changes and prompt user for input again
 
@@ -130,13 +149,24 @@ public class Move {
 
                 break;
             }
-            break;
+            numOfMoves--;
+//            break;
             //if not, break out the while loop
         }
-        this.board.populateBoard();
-        while (!hasMovesToMake()) {
-            this.board.populateBoard();
-        }
+
+        //prepare board for player 2
+//        this.board.print();
+        System.out.println("GAME OVER: No more available moves to make. Failed to achieve target score.");
+
+//        this.board.populateBoard();
+//        list = findAllMatchesAfterUpdate();
+//        while (list.size() >= 3 || !hasMovesToMake()) {
+//            this.board.updateBoard(list);
+//            list = findAllMatchesAfterUpdate();
+//            while (!hasMovesToMake()) {
+//                this.board.populateBoard();
+//            }
+//        }
 
     }
 
@@ -150,7 +180,10 @@ public class Move {
                 ArrayList<Tuple> switchUp = getRemovableTilesSwitchingUp(row, col);
                 ArrayList<Tuple> switchDown = getRemovableTilesSwitchingDown(row, col);
 
-                if (switchLeft.size() > 0 || switchRight.size() > 0 || switchUp.size() > 0 || switchDown.size() > 0) {
+                if (switchLeft.size() >= 3
+                        || switchRight.size() >= 3
+                        || switchUp.size() >= 3
+                        || switchDown.size() >= 3) {
                     return true;
                 }
             }
@@ -209,10 +242,10 @@ public class Move {
                 }
             }
             if (removableTiles.size() >= 3) {
-                this.board.setBoard(boardCopy);
+                this.newBoard = boardCopy;
             }
         }
-        System.out.println(removableTiles.size());
+//        System.out.println(removableTiles.size());
         return removableTiles;
     }
 
@@ -267,10 +300,10 @@ public class Move {
                 }
             }
             if (removableTiles.size() >= 3) {
-                this.board.setBoard(boardCopy);
+                this.newBoard = boardCopy;
             }
         }
-        System.out.println(removableTiles);
+//        System.out.println(removableTiles);
         return removableTiles;
     }
 
@@ -326,10 +359,10 @@ public class Move {
                 }
             }
             if (removableTiles.size() >= 3) {
-                this.board.setBoard(boardCopy);
+                this.newBoard = boardCopy;
             }
         }
-        System.out.println(removableTiles);
+//        System.out.println(removableTiles);
         return removableTiles;
     }
 
@@ -384,10 +417,10 @@ public class Move {
                 }
             }
             if (removableTiles.size() >= 3) {
-                this.board.setBoard(boardCopy);
+                this.newBoard = boardCopy;
             }
         }
-        System.out.println(removableTiles);
+//        System.out.println(removableTiles);
         return removableTiles;
     }
 
@@ -449,7 +482,6 @@ public class Move {
 
     public ArrayList<Tuple> findAllMatchesAfterUpdate() {
         ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
-        String[][] visited = new String[this.board.getRow()][this.board.getCol()];
 
         //checking from bottom
         //starting from bottom left corner
@@ -461,23 +493,14 @@ public class Move {
                 //check up
                 ArrayList<Tuple> up = checkUp(tile, this.board.getBoard());
                 if (up.size() + 1 >= 3) {
-                    for (Tuple t : up) {
-                        //avoid repeated tiles
-                        if (!removableTiles.contains(tile)) {
-                            removableTiles.add(t);
-                        }
-                    }
+                    removableTiles.addAll(up);
                     removableTiles.add(tile); //add the current tile because it is not included in the array list
                 }
 
                 //check right
                 ArrayList<Tuple> right = checkRight(tile, this.board.getBoard());
                 if (right.size() + 1 >= 3) {
-                    for (Tuple t : right) {
-                        if (!removableTiles.contains(tile)) {
-                            removableTiles.add(t);
-                        }
-                    }
+                    removableTiles.addAll(right);
 
                     if (!removableTiles.contains(tile)) {
                         removableTiles.add(tile);
