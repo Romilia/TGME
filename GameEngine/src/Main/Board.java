@@ -120,7 +120,6 @@ public class Board {
                 if (board[i][j].contains("S")) {
                     System.out.print(" " + board[i][j] + "  ");
                 }
-                //return String.format("%1$" + length + "s", inputString).replace(' ', '0');
                 else {
                     System.out.print("  " + board[i][j] + "  ");
                 }
