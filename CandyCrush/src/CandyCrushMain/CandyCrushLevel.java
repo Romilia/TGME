@@ -11,7 +11,7 @@ public class CandyCrushLevel extends Level {
     int movesLeft;
     int hintsLeft;
     private CandyCrushMove candyCrushMove;
-    private ArrayList<String> candyCrushTiles = new ArrayList<String>(Arrays.asList("P", "B", "O", "Y", "A", "D", "C"));
+    private ArrayList<String> candyCrushTiles = new ArrayList<String>(Arrays.asList("P", "O", "Y", "A", "D"));
 
     private void setMove(TurnManager turnManager, ScoreManager scoreManager)
     {

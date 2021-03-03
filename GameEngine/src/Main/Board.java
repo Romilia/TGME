@@ -56,22 +56,56 @@ public class Board {
     }
 
     private void moveColumnsDown() {
-        for (int j = 0; j < col; j++) {
-            for (int i = row - 1; i >= 0; i--) {
-                if (board[i][j].equals(" ")) {
-                    int ct = countSpaces(i, j);
-                    for (int k = i; k > 0; k--) {
-                        if ((k - ct) >= 0) {
-                            board[k][j] = board[k - ct][j];
-                        }
-                        if (k == 1) {
-                            board[0][j] = " ";
-                        }
+        for(int col = 0; col < this.getCol(); col++)
+        {
+            ArrayList<String> values = new ArrayList<String>();
+            for(int row = this.getRow()-1; row >= 0 ; row--)
+            {
+                //if value exist on board, meaning not empty space
+                if(!this.board[row][col].equals(" "))
+                {
+                    //store in the value list
+                    values.add(this.board[row][col]);
+                }
+            }
+
+            //after all the values are added to the list
+            //put it back to the board starting from bottom
+            int listSize = values.size();
+            int itemPosition = 0;
+            if(listSize < getRow())
+            {
+                for(int row = this.getRow()-1; row >= 0; row--)
+                {
+                    if(itemPosition < listSize)
+                    {
+                        this.board[row][col] = values.get(itemPosition);
+                        itemPosition += 1;
+                    }
+                    else
+                    {
+                        //set to empty space
+                        this.board[row][col] = " ";
                     }
                 }
             }
         }
-//        this.print();
+//        for (int j = 0; j < col; j++) {
+//            for (int i = row - 1; i >= 0; i--) {
+//                if (board[i][j].equals(" ")) {
+//                    int ct = countSpaces(i, j);
+//                    for (int k = i; k > 0; k--) {
+//                        if ((k - ct) >= 0) {
+//                            board[k][j] = board[k - ct][j];
+//                        }
+//                        if (k == 1) {
+//                            board[0][j] = " ";
+//                        }
+//                    }
+//                }
+//            }
+//        }
+////        this.print();
     }
 
     private int countSpaces(int r, int c) {

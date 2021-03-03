@@ -6,7 +6,6 @@ import Main.Board;
 import Manager.ScoreManager;
 import Manager.TurnManager;
 import GameLogic.Tuple;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -31,32 +30,32 @@ public class CandyCrushMove extends Move{
         for (int row = this.board.getRow() - 1; row >= 0; row--) {
             for (int col = 0; col < this.board.getCol(); col++) {
                 //if the current tile is a special candy, then it has a move
-                if(this.board.getBoard()[row][col].equals("B") || this.board.getBoard()[row][col].equals("C") || this.board.getBoard()[row][col].equals("R"))
+                if(this.board.getBoard()[row][col].equals("!") || this.board.getBoard()[row][col].equals("*") || this.board.getBoard()[row][col].equals("#"))
                 {
                     return true;
                 }
 
                 //if the tile that the current tile is switching with is a special candy, then it has a move
                 //check left
-                if(0 <= col-1 && (this.board.getBoard()[row][col-1].equals("B") || this.board.getBoard()[row][col-1].equals("C") || this.board.getBoard()[row][col-1].equals("R")))
+                if(0 <= col-1 && (this.board.getBoard()[row][col-1].equals("!") || this.board.getBoard()[row][col-1].equals("*") || this.board.getBoard()[row][col-1].equals("#")))
                 {
                     return true;
                 }
 
                 //check right
-                if(col+1 < this.board.getCol() && (this.board.getBoard()[row][col+1].equals("B") || this.board.getBoard()[row][col+1].equals("C") || this.board.getBoard()[row][col+1].equals("R")))
+                if(col+1 < this.board.getCol() && (this.board.getBoard()[row][col+1].equals("!") || this.board.getBoard()[row][col+1].equals("*") || this.board.getBoard()[row][col+1].equals("#")))
                 {
                     return true;
                 }
 
                 //check up
-                if(0 <= row-1 && (this.board.getBoard()[row-1][col].equals("B") || this.board.getBoard()[row-1][col].equals("C") || this.board.getBoard()[row-1][col].equals("R")))
+                if(0 <= row-1 && (this.board.getBoard()[row-1][col].equals("!") || this.board.getBoard()[row-1][col].equals("*") || this.board.getBoard()[row-1][col].equals("#")))
                 {
                     return true;
                 }
 
                 //check down
-                if(row+1 < this.board.getRow() && (this.board.getBoard()[row+1][col].equals("B") || this.board.getBoard()[row+1][col].equals("C") || this.board.getBoard()[row+1][col].equals("R")))
+                if(row+1 < this.board.getRow() && (this.board.getBoard()[row+1][col].equals("!") || this.board.getBoard()[row+1][col].equals("*") || this.board.getBoard()[row+1][col].equals("#")))
                 {
                     return true;
                 }
@@ -118,8 +117,6 @@ public class CandyCrushMove extends Move{
                 }
 
                 if (removableTiles.size() >= 3) {
-                    numOfMoves--;
-
                     //board should remove all these Tuple pairs and generate new tiles onto the board
                     this.score += removableTiles.size();
                     this.board.setBoard(this.newBoard);
@@ -146,6 +143,7 @@ public class CandyCrushMove extends Move{
                 System.out.println("Invalid Move. Try again.");
             }
             //if not a valid move, nothing changes and prompt user for input again
+            numOfMoves--;
 
             //need to check if there is possible matches to be make
             //if no more moves to make and there is # of moves left, generate new board
@@ -171,7 +169,7 @@ public class CandyCrushMove extends Move{
             scoreManager.addToCurrentP2Score(score);
         }
 
-        if(score == targetScore)
+        if(score >= targetScore)
         {
             System.out.println("CONGRATS: you successfully achieved the target score!!!\n");
         }
@@ -198,19 +196,19 @@ public class CandyCrushMove extends Move{
             boardCopy[row][col-1] = val;
 
             //if it is switching with a special tile
-            if(this.board.getBoard()[leftTile.row][leftTile.col].equals("C")
-                ||this.board.getBoard()[rightTile.row][rightTile.col].equals("C"))
+            if(this.board.getBoard()[leftTile.row][leftTile.col].equals("*")
+                    ||this.board.getBoard()[rightTile.row][rightTile.col].equals("*"))
             {
                 removableTiles.addAll(chocolateSprinkleEffect(leftTile,rightTile));
             }
-            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("B")
-                ||this.board.getBoard()[rightTile.row][rightTile.col].equals("B"))
+            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("!")
+                    ||this.board.getBoard()[rightTile.row][rightTile.col].equals("!"))
             {
                 //bomb
-                removableTiles.addAll(bombEffect(leftTile,rightTile,"left"));
+                removableTiles.addAll(bombEffect(leftTile,rightTile,boardCopy));
             }
-            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("R")
-                || this.board.getBoard()[rightTile.row][rightTile.col].equals("R"))
+            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("#")
+                    || this.board.getBoard()[rightTile.row][rightTile.col].equals("#"))
             {
                 //rocket
                 removableTiles.addAll(rocketEffect(leftTile,"left"));
@@ -232,7 +230,7 @@ public class CandyCrushMove extends Move{
             }
             if(removableTiles.size() >= 3)
             {
-               this.newBoard = boardCopy;
+                this.newBoard = boardCopy;
             }
         }
 
@@ -243,9 +241,9 @@ public class CandyCrushMove extends Move{
     {
         HashSet<Tuple> removableTiles = new HashSet<Tuple>();
         boolean twoChocolate = false; // if both tiles are chocolate sprinkles, remove everything on board
-        if(this.board.getBoard()[switchWithTile.row][switchWithTile.col].equals("C"))
+        if(this.board.getBoard()[switchWithTile.row][switchWithTile.col].equals("*"))
         {
-            if(this.board.getBoard()[selectedTile.row][selectedTile.col].equals("C"))
+            if(this.board.getBoard()[selectedTile.row][selectedTile.col].equals("*"))
             {
                 twoChocolate = true;
             }
@@ -278,114 +276,74 @@ public class CandyCrushMove extends Move{
         return removableTiles;
     }
 
-    private HashSet<Tuple> bombEffect(Tuple selectedTile, Tuple switchWithTile, String direction)
+    // used in bombEffect function
+    private void addTiles(Tuple tile,HashSet<Tuple> removableTiles)
+    {
+        //add itself
+        removableTiles.add(tile);
+        //up row
+        if(0 <= tile.row-1)
+        {
+            //top tile
+            removableTiles.add(new Tuple(tile.row-1,tile.col));
+
+            if(0 <= tile.col-1)
+            {
+                //top left
+                removableTiles.add(new Tuple(tile.row-1,tile.col-1));
+            }
+
+            if(tile.col+1 < this.board.getCol())
+            {
+                //top right
+                removableTiles.add(new Tuple(tile.row-1,tile.col+1));
+            }
+        }
+
+        if(0 <= tile.col-1)
+        {
+            //current left
+            removableTiles.add(new Tuple(tile.row,tile.col-1));
+        }
+
+        if(tile.col+1 < this.board.getCol())
+        {
+            //current right
+            removableTiles.add(new Tuple(tile.row,tile.col+1));
+        }
+
+        //bottom row
+        if(tile.row+1 < this.board.getRow())
+        {
+            //bottom tile
+            removableTiles.add(new Tuple(tile.row+1,tile.col));
+
+            if(0 <= tile.col-1)
+            {
+                //bottom left
+                removableTiles.add(new Tuple(tile.row+1,tile.col-1));
+            }
+
+            if(tile.col+1 < this.board.getCol())
+            {
+                //bottom right
+                removableTiles.add(new Tuple(tile.row+1,tile.col+1));
+            }
+        }
+    }
+    private HashSet<Tuple> bombEffect(Tuple selectedTile, Tuple switchWithTile, String[][] boardCopy)
     {
         HashSet<Tuple> removableTiles = new HashSet<Tuple>();
-        Tuple t;
-
-        if(direction.equals("up") || direction.equals("down")) {
-            //S = selectedTile, C = switchWithTile
-            //0 0 0
-            //0 S 0
-            //0 C 0
-            //0 0 0
-            if(0 <= selectedTile.row-1)
-            {
-                t = new Tuple(selectedTile.row-1,selectedTile.col);
-                removableTiles.add(t);
-                if(0 <= selectedTile.col-1)
-                {
-                    t = new Tuple(selectedTile.row-1,selectedTile.col-1);
-                    removableTiles.add(t);
-
-                    t = new Tuple(selectedTile.row,selectedTile.col-1);
-                    removableTiles.add(t);
-                }
-                if(selectedTile.col+1 < this.board.getCol())
-                {
-                    t = new Tuple(selectedTile.row-1,selectedTile.col+1);
-                    removableTiles.add(t);
-
-                    t = new Tuple(selectedTile.row,selectedTile.col+1);
-                    removableTiles.add(t);
-                }
-            }
-
-            if(switchWithTile.row+1 < this.board.getRow())
-            {
-                t = new Tuple(switchWithTile.row+1,switchWithTile.col);
-                removableTiles.add(t);
-                if(0 <= switchWithTile.col-1)
-                {
-                    t = new Tuple(switchWithTile.row+1,switchWithTile.col-1);
-                    removableTiles.add(t);
-
-                    t = new Tuple(switchWithTile.row,switchWithTile.col-1);
-                    removableTiles.add(t);
-                }
-                if(switchWithTile.col+1 < this.board.getCol())
-                {
-                    t = new Tuple(switchWithTile.row+1,switchWithTile.col+1);
-                    removableTiles.add(t);
-
-                    t = new Tuple(switchWithTile.row,switchWithTile.col+1);
-                    removableTiles.add(t);
-                }
-            }
-        }
-        else if(direction.equals("left") || direction.equals("right"))
+        if(boardCopy[selectedTile.row][selectedTile.col].equals("!"))
         {
-            //0 0 0 0
-            //0 S C 0
-            //0 0 0 0
-            if(0 <= selectedTile.row-1)
-            {
-                t = new Tuple(selectedTile.row-1,selectedTile.col);
-                removableTiles.add(t);
-                t = new Tuple(switchWithTile.row-1,switchWithTile.col);
-                removableTiles.add(t);
-                if(0 <= selectedTile.col-1)
-                {
-                    t = new Tuple(selectedTile.row-1,selectedTile.col-1);
-                    removableTiles.add(t);
-
-                    t = new Tuple(selectedTile.row,selectedTile.col-1);
-                    removableTiles.add(t);
-                }
-                if(switchWithTile.col+1 < this.board.getCol())
-                {
-                    t = new Tuple(switchWithTile.row-1,switchWithTile.col+1);
-                    removableTiles.add(t);
-
-                    t = new Tuple(switchWithTile.row,switchWithTile.col+1);
-                    removableTiles.add(t);
-                }
-            }
-
-            if(selectedTile.row+1 < this.board.getRow())
-            {
-                t = new Tuple(selectedTile.row+1,selectedTile.col);
-                removableTiles.add(t);
-                t = new Tuple(switchWithTile.row+1,switchWithTile.col);
-                removableTiles.add(t);
-                if(0 <= selectedTile.col-1)
-                {
-                    t = new Tuple(selectedTile.row+1,selectedTile.col-1);
-                    removableTiles.add(t);
-                }
-
-                if(switchWithTile.col+1 < this.board.getCol())
-                {
-                    t = new Tuple(switchWithTile.row+1,switchWithTile.col+1);
-                    removableTiles.add(t);
-                }
-            }
+            addTiles(selectedTile,removableTiles);
         }
 
-        removableTiles.add(selectedTile);
-        removableTiles.add(switchWithTile);
+        if(boardCopy[switchWithTile.row][switchWithTile.col].equals("!"))
+        {
+            addTiles(switchWithTile,removableTiles);
+        }
 
-//        findSpecialCandies(removableTiles);
         return removableTiles;
     }
 
@@ -421,18 +379,18 @@ public class CandyCrushMove extends Move{
             HashSet<Tuple> newTiles = new HashSet<Tuple>();
 
             //if this is a special candy, let it take effect
-            if(this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("B") || this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("C") || this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("R")) {
-                if (this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("B")) {
-                    newTiles = this.bombEffect(arr.get(num), arr.get(num), "up");
+            if(this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("!") || this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("*") || this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("#")) {
+                if (this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("!")) {
+                    newTiles = this.bombEffect(arr.get(num), arr.get(num), this.board.getBoard());
 
-                } else if (this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("C")) {
+                } else if (this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("*")) {
                     Random rand = new Random();
                     ArrayList<Tuple> directions = getDirections(arr.get(num));
                     int upperbound = directions.size();
                     int int_rand = rand.nextInt(upperbound);
                     newTiles = this.chocolateSprinkleEffect(arr.get(num), directions.get(int_rand));
 
-                } else if (this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("R")) {
+                } else if (this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("#")) {
                     ArrayList<String> directions = new ArrayList<String>(Arrays.asList("up", "down", "left", "right"));
                     Random rand = new Random();
                     int upperbound = 4;
@@ -503,19 +461,19 @@ public class CandyCrushMove extends Move{
             boardCopy[row][col] = boardCopy[row][col+1];
             boardCopy[row][col+1] = val;
 
-            if(this.board.getBoard()[leftTile.row][leftTile.col].equals("C")
-                    ||this.board.getBoard()[rightTile.row][rightTile.col].equals("C"))
+            if(this.board.getBoard()[leftTile.row][leftTile.col].equals("*")
+                    ||this.board.getBoard()[rightTile.row][rightTile.col].equals("*"))
             {
                 removableTiles.addAll(chocolateSprinkleEffect(leftTile,rightTile));
             }
-            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("B")
-                    ||this.board.getBoard()[rightTile.row][rightTile.col].equals("B"))
+            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("!")
+                    ||this.board.getBoard()[rightTile.row][rightTile.col].equals("!"))
             {
                 //bomb
-                removableTiles.addAll(bombEffect(leftTile,rightTile,"right"));
+                removableTiles.addAll(bombEffect(leftTile,rightTile,boardCopy));
             }
-            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("R")
-                    || this.board.getBoard()[rightTile.row][rightTile.col].equals("R"))
+            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("#")
+                    || this.board.getBoard()[rightTile.row][rightTile.col].equals("#"))
             {
                 //rocket
                 removableTiles.addAll(rocketEffect(rightTile,"right"));
@@ -560,19 +518,19 @@ public class CandyCrushMove extends Move{
             boardCopy[row][col] = boardCopy[row-1][col];
             boardCopy[row-1][col] = val;
 
-            if(this.board.getBoard()[topTile.row][topTile.col].equals("C")
-                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("C"))
+            if(this.board.getBoard()[topTile.row][topTile.col].equals("*")
+                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("*"))
             {
                 removableTiles.addAll(chocolateSprinkleEffect(topTile,bottomTile));
             }
-            else if(this.board.getBoard()[topTile.row][topTile.col].equals("B")
-                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("B"))
+            else if(this.board.getBoard()[topTile.row][topTile.col].equals("!")
+                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("!"))
             {
                 //bomb
-                removableTiles.addAll(bombEffect(topTile,bottomTile,"up"));
+                removableTiles.addAll(bombEffect(topTile,bottomTile,boardCopy));
             }
-            else if(this.board.getBoard()[topTile.row][topTile.col].equals("R")
-                    || this.board.getBoard()[bottomTile.row][bottomTile.col].equals("R"))
+            else if(this.board.getBoard()[topTile.row][topTile.col].equals("#")
+                    || this.board.getBoard()[bottomTile.row][bottomTile.col].equals("#"))
             {
                 //rocket
                 removableTiles.addAll(rocketEffect(topTile,"up"));
@@ -618,19 +576,19 @@ public class CandyCrushMove extends Move{
             boardCopy[row][col] = boardCopy[row+1][col];
             boardCopy[row+1][col] = val;
 
-            if(this.board.getBoard()[topTile.row][topTile.col].equals("C")
-                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("C"))
+            if(this.board.getBoard()[topTile.row][topTile.col].equals("*")
+                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("*"))
             {
                 removableTiles.addAll(chocolateSprinkleEffect(topTile,bottomTile));
             }
-            else if(this.board.getBoard()[topTile.row][topTile.col].equals("B")
-                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("B"))
+            else if(this.board.getBoard()[topTile.row][topTile.col].equals("!")
+                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("!"))
             {
                 //bomb
-                removableTiles.addAll(bombEffect(topTile,bottomTile,"down"));
+                removableTiles.addAll(bombEffect(topTile,bottomTile,boardCopy));
             }
-            else if(this.board.getBoard()[topTile.row][topTile.col].equals("R")
-                    || this.board.getBoard()[bottomTile.row][bottomTile.col].equals("R"))
+            else if(this.board.getBoard()[topTile.row][topTile.col].equals("#")
+                    || this.board.getBoard()[bottomTile.row][bottomTile.col].equals("#"))
             {
                 //rocket
                 removableTiles.addAll(rocketEffect(topTile,"down"));
@@ -671,7 +629,7 @@ public class CandyCrushMove extends Move{
             removableTiles.addAll(list1);
             removableTiles.addAll(list2);
             removableTiles.addAll(list3);
-            boardCopy[tile.row][tile.col] = "C";
+            boardCopy[tile.row][tile.col] = "*";
         }
         else if(5 <= list1.size() + list2.size() + list3.size() + 1 &&
                 list1.size() + list2.size() + list3.size() + 1 <= 6 &&
@@ -683,7 +641,7 @@ public class CandyCrushMove extends Move{
             removableTiles.addAll(list1);
             removableTiles.addAll(list2);
             removableTiles.addAll(list3);
-            boardCopy[tile.row][tile.col] = "B";
+            boardCopy[tile.row][tile.col] = "!";
         }
         else if((5 == list1.size() + list2.size() + list3.size() + 1 && list3.size() == 1)
                 || (list1.size() + list2.size() + list3.size() + 1 == 4 && list3.size() == 0))
@@ -696,7 +654,7 @@ public class CandyCrushMove extends Move{
             //  B                 B
             removableTiles.addAll(list1);
             removableTiles.addAll(list2);
-            boardCopy[tile.row][tile.col] = "R";
+            boardCopy[tile.row][tile.col] = "#";
         }
         else if(list3.size() <= 1 && list1.size() + list2.size() + 1 == 3)
         {
