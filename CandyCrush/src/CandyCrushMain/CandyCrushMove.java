@@ -253,6 +253,7 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
+                findSpecialCandies(removableTiles);
             }
         }
 
@@ -391,7 +392,6 @@ public class CandyCrushMove extends Move{
             }
         }
 
-//        findSpecialCandies(removableTiles);
         return removableTiles;
     }
 
@@ -403,18 +403,21 @@ public class CandyCrushMove extends Move{
             HashSet<Tuple> newTiles = new HashSet<Tuple>();
 
             //if this is a special candy, let it take effect
-            if(this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("!") || this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("*") || this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("#")) {
-                if (this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("!")) {
-                    newTiles = this.bombEffect(arr.get(num), arr.get(num), this.board.getBoard());
-
-                } else if (this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("*")) {
+            String current_tile = this.board.getBoard()[arr.get(num).row][arr.get(num).col];
+            if(current_tile.equals("!") ||
+                    current_tile.equals("*") ||
+                    current_tile.equals("#"))
+            {
+                if (current_tile.equals("!")) {
+                    newTiles = this.bombEffect(arr.get(num), arr.get(num), this.newBoard);
+                } else if (current_tile.equals("*")) {
                     Random rand = new Random();
                     ArrayList<Tuple> directions = getDirections(arr.get(num));
                     int upperbound = directions.size();
                     int int_rand = rand.nextInt(upperbound);
                     newTiles = this.chocolateSprinkleEffect(arr.get(num), directions.get(int_rand));
 
-                } else if (this.board.getBoard()[arr.get(num).row][arr.get(num).col].equals("#")) {
+                } else if (current_tile.equals("#")) {
                     ArrayList<String> directions = new ArrayList<String>(Arrays.asList("up", "down", "left", "right"));
                     Random rand = new Random();
                     int upperbound = 4;
@@ -426,22 +429,22 @@ public class CandyCrushMove extends Move{
             //if the newtiles contains all the tiles, add everything to removable and break
             if(newTiles.size() == this.board.getCol()*this.board.getRow())
             {
-                removableTiles.addAll(newTiles);
+                arr = new ArrayList<Tuple>(newTiles);
                 break;
             }
 
             //loop over the newTiles to see if it is contained in removableTiles
             for(Tuple nt: newTiles)
             {
-                //if not contained, add to removableTiles
-                if(!removableTiles.contains(nt))
+                //if not contained, add to arr
+                if(!arr.contains(nt))
                 {
-                    removableTiles.add(nt);
                     arr.add(nt);
                 }
             }
             num +=1;
         }
+        removableTiles = new HashSet<Tuple>(arr);
     }
 
     private ArrayList<Tuple> getDirections(Tuple t)
@@ -521,6 +524,7 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
+                findSpecialCandies(removableTiles);
             }
         }
 
@@ -579,6 +583,7 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
+                findSpecialCandies(removableTiles);
             }
         }
 
@@ -635,6 +640,7 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
+                findSpecialCandies(removableTiles);
             }
         }
 
