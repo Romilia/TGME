@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Level {
     private Board board;
-    private int targetScore;
+    int targetScore;
     private ArrayList<String> tiles;
     public Move move;
 
@@ -34,7 +34,7 @@ public class Level {
     }
 
 
-    int getTargetScore() {
+    public int getTargetScore() {
         return targetScore;
     }
 }
