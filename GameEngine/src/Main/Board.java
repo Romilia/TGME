@@ -4,13 +4,14 @@ import GameLogic.Move;
 import GameLogic.Tuple;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Board {
 
     static private int col;
     static private int row;
-    String board[][];
-    ArrayList<String> tiles;
+    public String board[][];
+    public ArrayList<String> tiles;
 
     Board(ArrayList<String> tileTypes, int row, int col) {
         this.col = col;
@@ -42,10 +43,10 @@ public class Board {
         return col;
     }
 
-    public void updateBoard(ArrayList<Tuple> oldTiles) {
+    public void updateBoard(HashSet<Tuple> oldTiles) {
         //replace all tiles with " "
-        for (int i = 0; i < oldTiles.size(); i++) {
-            board[oldTiles.get(i).row][oldTiles.get(i).col] = " ";
+        for (Tuple t: oldTiles) {
+            board[t.row][t.col] = " ";
         }
 //        System.out.println("Update Board");
 //        this.print();
