@@ -6,10 +6,8 @@ import Main.Board;
 import Manager.ScoreManager;
 import Manager.TurnManager;
 import GameLogic.Tuple;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Random;
+
+import java.util.*;
 
 public class CandyCrushMove extends Move{
     private Board board;
@@ -76,6 +74,7 @@ public class CandyCrushMove extends Move{
                         || switchRight.size() >= 3
                         || switchUp.size() >= 3
                         || switchDown.size() >= 3) {
+                    this.hint = new Tuple(row,col);
                     return true;
                 }
             }
@@ -84,10 +83,10 @@ public class CandyCrushMove extends Move{
         return false;
     }
 
-    public void makeMove(int numOfMoves, int targetScore) {
+    public void makeMove(int hintLeft, int numOfMoves, int targetScore) {
         //set score back to 0 for player 2
         this.score = 0;
-
+        hintLeft = 3;
         //ensures that all the updates are made and still has moves to make
         HashSet<Tuple> list = findAllMatchesAfterUpdate();
         while (list.size() >= 3 || !hasMovesToMake()) {
@@ -102,14 +101,30 @@ public class CandyCrushMove extends Move{
         {
             System.out.println("\nMoves left: " + numOfMoves);
             System.out.println("Current Score: " + score);
+            System.out.println("Hint:" + hintLeft);
+
             this.board.print();
+
+            Scanner input = new Scanner(System.in);
+            System.out.println("Do you want to use the hint?(Yes/No):");
+            String decision = input.nextLine();
+            if(decision.toLowerCase().equals("yes")) {
+                if(hintLeft > 0) {
+                    System.out.println("hint:" + this.hint.row + " " + this.hint.col);
+                    hintLeft -= 1;
+                }
+                else
+                {
+                    System.out.println("You have no more hint.");
+                }
+            }
 
             int row = super.promptRow();
             int col = super.promptCol();
             String direction = super.promptDirection();
 
             //ensures that it is a valid move
-            if (super.isValidMove(row, col, direction, this.board.getRow(),this.board.getCol())) {
+            if (super.isValidMove(row, col, direction, this.board.getRow(), this.board.getCol())) {
                 HashSet<Tuple> removableTiles;
                 if (direction.equals("left")) {
                     removableTiles = this.getRemovableTilesSwitchingLeft(row, col);
@@ -164,6 +179,7 @@ public class CandyCrushMove extends Move{
                     list = findAllMatchesAfterUpdate();
                 }
             }
+
         }
 
         if (turnManager.getPlayerTurn() == 0) //player one
@@ -246,7 +262,8 @@ public class CandyCrushMove extends Move{
     private HashSet<Tuple> chocolateSprinkleEffect(Tuple selectedTile, Tuple switchWithTile)
     {
         HashSet<Tuple> removableTiles = new HashSet<Tuple>();
-        boolean twoChocolate = false; // if both tiles are chocolate sprinkles, remove everything on board
+        boolean twoChocolate = false;
+        // if both tiles are chocolate sprinkles (*), remove everything on board
         if(this.board.getBoard()[switchWithTile.row][switchWithTile.col].equals("*"))
         {
             if(this.board.getBoard()[selectedTile.row][selectedTile.col].equals("*"))
@@ -254,10 +271,13 @@ public class CandyCrushMove extends Move{
                 twoChocolate = true;
             }
             removableTiles.add(selectedTile);
-            selectedTile = switchWithTile;
+
+            //if only switchWithTile is *, then need to remove all the tiles same as selectedTile
         }
         else
         {
+            //if only selectedTile is *, then need to remove all the tiles same as switchWithTile
+            selectedTile = switchWithTile;
             removableTiles.add(switchWithTile);
         }
 
@@ -267,13 +287,11 @@ public class CandyCrushMove extends Move{
             {
                 if(twoChocolate)
                 {
-                    Tuple t = new Tuple(row, col);
-                    removableTiles.add(t);
+                    removableTiles.add(new Tuple(row, col));
                 }
                 else {
                     if (this.board.getBoard()[row][col].equals(this.board.getBoard()[selectedTile.row][selectedTile.col])) {
-                        Tuple t = new Tuple(row, col);
-                        removableTiles.add(t);
+                        removableTiles.add(new Tuple(row, col));
                     }
                 }
             }
@@ -718,7 +736,7 @@ public class CandyCrushMove extends Move{
                         {
                             tilesFound.addAll(right);
                         }
-                        boardCopy[row][col] = "C";
+                        boardCopy[row][col] = "*";
                     }
                     else if(3 <= up.size() + down.size() + left.size() + right.size() + 1 )
                     {
