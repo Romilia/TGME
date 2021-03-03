@@ -9,6 +9,10 @@ import GameLogic.Tuple;
 
 import java.util.*;
 
+//* --> remove all the selected color
+//! --> bomb, removes all the surrounding tiles (neighbors)
+//# --> rocket, removes all the tiles in the chosen direction
+
 public class CandyCrushMove extends Move{
     private Board board;
     public ScoreManager scoreManager;
