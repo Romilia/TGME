@@ -12,8 +12,8 @@ import java.util.HashSet;
 //need to set the time
 public class BejeweledMove extends Move { // need to import Move
     private Board board;
-    private ScoreManager scoreManager;
-    private TurnManager turnManager;
+    public ScoreManager scoreManager;
+    public TurnManager turnManager;
     private int score = 0;
     private String[][] newBoard;
     private BejeweledTimer timer;
@@ -57,6 +57,7 @@ public class BejeweledMove extends Move { // need to import Move
     //take in time
     public void makeMove(int targetScore) {
         //set score back to 0 for player 2
+        timer.setRunTime(5);
         this.score = 0;
         int currentLevelTargetScore = targetScore/5;
         int currentLevel = 1;
@@ -74,6 +75,10 @@ public class BejeweledMove extends Move { // need to import Move
         timer.startTimer();
         while (timer.getRunTime() > 0) // if times up, game ends
         {
+            if(timer.getRunTime() == 0)
+            {
+                break;
+            }
             System.out.println("\nCurrentLevel: " + currentLevel);
             System.out.println("Current Score: " + score);
             System.out.println("Time Left: " + timer.getRunTime());

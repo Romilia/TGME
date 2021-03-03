@@ -1,6 +1,8 @@
 package BejeweledMain;
 
 import Main.Level;
+import Manager.ScoreManager;
+import Manager.TurnManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,13 +11,48 @@ public class BejeweledLevel extends Level {
     private float timeLimit;
     private BejeweledTimer timer;
     private ArrayList<String> bejeweledTiles = new ArrayList<String>(Arrays.asList("R", "G", "B", "Y"));
+    int movesLeft;
+    private BejeweledMove bejeweledMove;
 
-    public BejeweledLevel(int row, int column) {
+    private void setMove(TurnManager turnManager, ScoreManager scoreManager)
+    {
+        bejeweledMove = new BejeweledMove(super.board,scoreManager,turnManager);
+    }
+    public BejeweledLevel(int row, int column, TurnManager turnManager, ScoreManager scoreManager) {
         super(5);
+        timer = new BejeweledTimer();
         setTiles(bejeweledTiles);
-        setBoard(row, column);
-        System.out.println("Bejeweled Level");
-        getLevelBoard().print();
+        setBoard(5,5);
+        this.setMove(turnManager, scoreManager);
+        movesLeft = 10;
+        //setBoard(row, column);
+//        getLevelBoard().print();
+    }
+
+    public void startLevel(int lvl) {
+        System.out.println("Bejeweled Level " + lvl);
+        //System.out.println("Player " + move.scoreManager.getPlayer1().getName() + " Turn");
+
+//        System.out.println("NUMBER OF MOVES AVAILABLE: " + movesLeft);
+        System.out.println("TARGET SCORE: " + getTargetScore());
+        for (int i = 0; i < 2 ; i++){
+            String currentPlayer;
+            if(bejeweledMove.turnManager.getPlayerTurn() == 0) {
+                currentPlayer =  bejeweledMove.scoreManager.getPlayer1().getName();
+            }
+            else
+            {
+                currentPlayer =  bejeweledMove.scoreManager.getPlayer2().getName();
+            }
+            System.out.println("PLAYER TURN: " + currentPlayer);
+            timer.startTimer();
+            System.out.println("Timer Started at: " + timer.getRunTime());
+            bejeweledMove.makeMove(getTargetScore());
+            bejeweledMove.turnManager.toggleTurn();
+            System.out.println("Time Left: " + timer.getRunTime());
+            timer.stopTimer();
+            timer.setRunTime(240);// reset timer
+        }
     }
 
     public float getTimeLimit() {

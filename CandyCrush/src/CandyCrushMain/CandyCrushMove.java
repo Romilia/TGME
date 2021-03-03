@@ -17,6 +17,7 @@ public class CandyCrushMove extends Move{
     public TurnManager turnManager;
     private int score = 0;
     private String[][] newBoard;
+    private Tuple hint;
 
     public CandyCrushMove(Board board, ScoreManager scoreManager, TurnManager turnManager) {
         super(); //so i can use functions like check up,down,left,right
@@ -32,6 +33,7 @@ public class CandyCrushMove extends Move{
                 //if the current tile is a special candy, then it has a move
                 if(this.board.getBoard()[row][col].equals("!") || this.board.getBoard()[row][col].equals("*") || this.board.getBoard()[row][col].equals("#"))
                 {
+                    this.hint = new Tuple(row,col);
                     return true;
                 }
 
@@ -39,24 +41,28 @@ public class CandyCrushMove extends Move{
                 //check left
                 if(0 <= col-1 && (this.board.getBoard()[row][col-1].equals("!") || this.board.getBoard()[row][col-1].equals("*") || this.board.getBoard()[row][col-1].equals("#")))
                 {
+                    this.hint = new Tuple(row,col);
                     return true;
                 }
 
                 //check right
                 if(col+1 < this.board.getCol() && (this.board.getBoard()[row][col+1].equals("!") || this.board.getBoard()[row][col+1].equals("*") || this.board.getBoard()[row][col+1].equals("#")))
                 {
+                    this.hint = new Tuple(row,col);
                     return true;
                 }
 
                 //check up
                 if(0 <= row-1 && (this.board.getBoard()[row-1][col].equals("!") || this.board.getBoard()[row-1][col].equals("*") || this.board.getBoard()[row-1][col].equals("#")))
                 {
+                    this.hint = new Tuple(row,col);
                     return true;
                 }
 
                 //check down
                 if(row+1 < this.board.getRow() && (this.board.getBoard()[row+1][col].equals("!") || this.board.getBoard()[row+1][col].equals("*") || this.board.getBoard()[row+1][col].equals("#")))
                 {
+                    this.hint = new Tuple(row,col);
                     return true;
                 }
 
@@ -547,8 +553,8 @@ public class CandyCrushMove extends Move{
                 //check in here because if up tile does not exist, cannot switch
 
                 HashSet<Tuple> bottomLeft = super.checkLeft(bottomTile, boardCopy);
-                HashSet<Tuple> bottomRight = super.checkRight(bottomTile, boardCopy, this.board.getRow());
-                HashSet<Tuple> bottomDown = super.checkDown(bottomTile, boardCopy, this.board.getCol());
+                HashSet<Tuple> bottomRight = super.checkRight(bottomTile, boardCopy, this.board.getCol());
+                HashSet<Tuple> bottomDown = super.checkDown(bottomTile, boardCopy, this.board.getRow());
 
                 removableTiles.addAll(this.getRemovableTiles(bottomTile, boardCopy, bottomLeft, bottomRight, bottomDown));
             }
