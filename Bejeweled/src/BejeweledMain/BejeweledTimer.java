@@ -9,7 +9,7 @@ public class BejeweledTimer {
 
     public BejeweledTimer() {
 
-        runTime = 240; // set initial time to complete level at 3 minutes
+        runTime = 45; // set initial time to complete level at 3 minutes
     }
 
     public int getRunTime() {
