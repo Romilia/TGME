@@ -51,8 +51,8 @@ public class Move {
         return true;
     }
 
-    protected HashSet<Tuple> checkUp(Tuple tile, String[][] boardCopy) {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+    protected ArrayList<Tuple> checkUp(Tuple tile, String[][] boardCopy) {
+        ArrayList<Tuple> removableTiles = new ArrayList<>();
 
         int comparingRow = tile.row - 1;
         String currentTile = boardCopy[tile.row][tile.col];
@@ -64,8 +64,8 @@ public class Move {
         return removableTiles;
     }
 
-    protected HashSet<Tuple> checkDown(Tuple tile, String[][] boardCopy, int boardRow) {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+    protected ArrayList<Tuple> checkDown(Tuple tile, String[][] boardCopy, int boardRow) {
+        ArrayList<Tuple> removableTiles = new ArrayList<>();
 
         int comparingRow = tile.row + 1;
         String currentTile = boardCopy[tile.row][tile.col];
@@ -79,8 +79,8 @@ public class Move {
         return removableTiles;
     }
 
-    protected HashSet<Tuple> checkLeft(Tuple tile, String[][] boardCopy) {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+    protected ArrayList<Tuple> checkLeft(Tuple tile, String[][] boardCopy) {
+        ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 
         int comparingCol = tile.col - 1;
         String currentTile = boardCopy[tile.row][tile.col];
@@ -94,8 +94,8 @@ public class Move {
         return removableTiles;
     }
 
-    protected HashSet<Tuple> checkRight(Tuple tile, String[][] boardCopy, int boardCol) {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+    protected ArrayList<Tuple> checkRight(Tuple tile, String[][] boardCopy, int boardCol) {
+        ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 
         int comparingCol = tile.col + 1;
         String currentTile = boardCopy[tile.row][tile.col];

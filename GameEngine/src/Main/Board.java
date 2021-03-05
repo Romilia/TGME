@@ -43,7 +43,7 @@ public class Board {
         return col;
     }
 
-    public void updateBoard(HashSet<Tuple> oldTiles) {
+    public void updateBoard(ArrayList<Tuple> oldTiles) {
         //replace all tiles with " "
         for (Tuple t: oldTiles) {
             board[t.row][t.col] = " ";

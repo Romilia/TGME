@@ -64,11 +64,11 @@ public class CandyCrushMove extends Move{
                     return true;
                 }
 
-                HashSet<Tuple> switchLeft = this.getRemovableTilesSwitchingLeft(row, col);
-                HashSet<Tuple> switchRight = this.getRemovableTilesSwitchingRight(row, col);
+                ArrayList<Tuple> switchLeft = this.getRemovableTilesSwitchingLeft(row, col);
+                ArrayList<Tuple> switchRight = this.getRemovableTilesSwitchingRight(row, col);
 
-                HashSet<Tuple> switchUp = this.getRemovableTilesSwitchingUp(row, col);
-                HashSet<Tuple> switchDown = this.getRemovableTilesSwitchingDown(row, col);
+                ArrayList<Tuple> switchUp = this.getRemovableTilesSwitchingUp(row, col);
+                ArrayList<Tuple> switchDown = this.getRemovableTilesSwitchingDown(row, col);
 
                 if (switchLeft.size() >= 3
                         || switchRight.size() >= 3
@@ -88,7 +88,7 @@ public class CandyCrushMove extends Move{
         this.score = 0;
         hintLeft = 3;
         //ensures that all the updates are made and still has moves to make
-        HashSet<Tuple> list = findAllMatchesAfterUpdate();
+        ArrayList<Tuple> list = findAllMatchesAfterUpdate();
         while (list.size() >= 3 || !hasMovesToMake()) {
             this.board.updateBoard(list);
             while (!hasMovesToMake()) {
@@ -125,7 +125,7 @@ public class CandyCrushMove extends Move{
 
             //ensures that it is a valid move
             if (super.isValidMove(row, col, direction, this.board.getRow(), this.board.getCol())) {
-                HashSet<Tuple> removableTiles;
+                ArrayList<Tuple> removableTiles;
                 if (direction.equals("left")) {
                     removableTiles = this.getRemovableTilesSwitchingLeft(row, col);
 
@@ -202,9 +202,9 @@ public class CandyCrushMove extends Move{
     }
 
     //need to check for bomb, rocket, and chocolate sprinkle candies
-    private HashSet<Tuple> getRemovableTilesSwitchingLeft(int row, int col)
+    private ArrayList<Tuple> getRemovableTilesSwitchingLeft(int row, int col)
     {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+        ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 
         Tuple leftTile = new Tuple(row,col-1);
         Tuple rightTile = new Tuple(row, col);
@@ -236,17 +236,17 @@ public class CandyCrushMove extends Move{
                 removableTiles.addAll(rocketEffect(leftTile,"left"));
             }
             else {
-                HashSet<Tuple> leftUp = super.checkUp(leftTile, boardCopy);
-                HashSet<Tuple> leftDown = super.checkDown(leftTile, boardCopy, this.board.getRow());
-                HashSet<Tuple> leftLeft = super.checkLeft(leftTile, boardCopy);
+                ArrayList<Tuple> leftUp = super.checkUp(leftTile, boardCopy);
+                ArrayList<Tuple> leftDown = super.checkDown(leftTile, boardCopy, this.board.getRow());
+                ArrayList<Tuple> leftLeft = super.checkLeft(leftTile, boardCopy);
 
                 removableTiles.addAll(this.getRemovableTiles(leftTile, boardCopy, leftUp, leftDown, leftLeft));
 
                 //right tile
                 //check in here because if left tile does not exist, cannot switch
-                HashSet<Tuple> rightUp = super.checkUp(rightTile, boardCopy);
-                HashSet<Tuple> rightDown = super.checkDown(rightTile, boardCopy, this.board.getRow());
-                HashSet<Tuple> rightRight = super.checkRight(rightTile, boardCopy, this.board.getCol());
+                ArrayList<Tuple> rightUp = super.checkUp(rightTile, boardCopy);
+                ArrayList<Tuple> rightDown = super.checkDown(rightTile, boardCopy, this.board.getRow());
+                ArrayList<Tuple> rightRight = super.checkRight(rightTile, boardCopy, this.board.getCol());
 
                 removableTiles.addAll(this.getRemovableTiles(rightTile, boardCopy, rightUp, rightDown, rightRight));
             }
@@ -263,9 +263,9 @@ public class CandyCrushMove extends Move{
         return removableTiles;
     }
 
-    private HashSet<Tuple> chocolateSprinkleEffect(Tuple selectedTile, Tuple switchWithTile)
+    private ArrayList<Tuple> chocolateSprinkleEffect(Tuple selectedTile, Tuple switchWithTile)
     {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+        ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
         boolean twoChocolate = false;
         // if both tiles are chocolate sprinkles (*), remove everything on board
         if(this.board.getBoard()[switchWithTile.row][switchWithTile.col].equals("*"))
@@ -305,7 +305,7 @@ public class CandyCrushMove extends Move{
     }
 
     // used in bombEffect function
-    private void addTiles(Tuple tile,HashSet<Tuple> removableTiles)
+    private void addTiles(Tuple tile,ArrayList<Tuple> removableTiles)
     {
         //add itself
         removableTiles.add(tile);
@@ -359,9 +359,9 @@ public class CandyCrushMove extends Move{
             }
         }
     }
-    private HashSet<Tuple> bombEffect(Tuple selectedTile, Tuple switchWithTile, String[][] boardCopy)
+    private ArrayList<Tuple> bombEffect(Tuple selectedTile, Tuple switchWithTile, String[][] boardCopy)
     {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+        ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
         if(boardCopy[selectedTile.row][selectedTile.col].equals("!"))
         {
             addTiles(selectedTile,removableTiles);
@@ -375,9 +375,9 @@ public class CandyCrushMove extends Move{
         return removableTiles;
     }
 
-    private HashSet<Tuple> rocketEffect(Tuple tile, String direction)
+    private ArrayList<Tuple> rocketEffect(Tuple tile, String direction)
     {
-        HashSet<Tuple> removableTiles = new HashSet<>();
+        ArrayList<Tuple> removableTiles = new ArrayList<>();
         if(direction.equals("up") || direction.equals("down"))
         {
             for(int row = 0; row < this.board.getRow(); row++)
@@ -398,12 +398,12 @@ public class CandyCrushMove extends Move{
         return removableTiles;
     }
 
-    private void findSpecialCandies(HashSet<Tuple> removableTiles)
+    private void findSpecialCandies(ArrayList<Tuple> removableTiles)
     {
         int num = 0;
         ArrayList<Tuple> arr = new ArrayList<Tuple>(removableTiles);
         while(num < arr.size()){
-            HashSet<Tuple> newTiles = new HashSet<Tuple>();
+            ArrayList<Tuple> newTiles = new ArrayList<Tuple>();
 
             //if this is a special candy, let it take effect
             String current_tile = this.board.getBoard()[arr.get(num).row][arr.get(num).col];
@@ -448,7 +448,7 @@ public class CandyCrushMove extends Move{
             }
             num +=1;
         }
-        removableTiles = new HashSet<Tuple>(arr);
+        removableTiles = new ArrayList<Tuple>(arr);
     }
 
     private ArrayList<Tuple> getDirections(Tuple t)
@@ -477,9 +477,9 @@ public class CandyCrushMove extends Move{
         return directions;
     }
 
-    private HashSet<Tuple> getRemovableTilesSwitchingRight(int row, int col)
+    private ArrayList<Tuple> getRemovableTilesSwitchingRight(int row, int col)
     {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+        ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 
         Tuple rightTile = new Tuple(row,col+1);
         Tuple leftTile = new Tuple(row, col);
@@ -511,17 +511,17 @@ public class CandyCrushMove extends Move{
             }
             else {
                 //right tile
-                HashSet<Tuple> rightUp = super.checkUp(rightTile, boardCopy);
-                HashSet<Tuple> rightDown = super.checkDown(rightTile, boardCopy, this.board.getRow());
-                HashSet<Tuple> rightRight = super.checkRight(rightTile, boardCopy, this.board.getCol());
+                ArrayList<Tuple> rightUp = super.checkUp(rightTile, boardCopy);
+                ArrayList<Tuple> rightDown = super.checkDown(rightTile, boardCopy, this.board.getRow());
+                ArrayList<Tuple> rightRight = super.checkRight(rightTile, boardCopy, this.board.getCol());
 
                 removableTiles.addAll(this.getRemovableTiles(rightTile, boardCopy, rightUp, rightDown, rightRight));
 
                 //left tile
                 //check in here because if right tile does not exist, cannot switch
-                HashSet<Tuple> leftUp = super.checkUp(leftTile, boardCopy);
-                HashSet<Tuple> leftDown = super.checkDown(leftTile, boardCopy, this.board.getRow());
-                HashSet<Tuple> leftLeft = super.checkLeft(leftTile, boardCopy);
+                ArrayList<Tuple> leftUp = super.checkUp(leftTile, boardCopy);
+                ArrayList<Tuple> leftDown = super.checkDown(leftTile, boardCopy, this.board.getRow());
+                ArrayList<Tuple> leftLeft = super.checkLeft(leftTile, boardCopy);
 
                 removableTiles.addAll(this.getRemovableTiles(leftTile, boardCopy, leftUp, leftDown, leftLeft));
             }
@@ -538,9 +538,9 @@ public class CandyCrushMove extends Move{
         return removableTiles;
     }
 
-    private HashSet<Tuple> getRemovableTilesSwitchingUp(int row, int col)
+    private ArrayList<Tuple> getRemovableTilesSwitchingUp(int row, int col)
     {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+        ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 
         Tuple topTile = new Tuple(row-1,col);
         Tuple bottomTile = new Tuple(row,col);
@@ -572,18 +572,18 @@ public class CandyCrushMove extends Move{
             }
             else {
                 //up tile
-                HashSet<Tuple> topLeft = super.checkLeft(topTile, boardCopy);
-                HashSet<Tuple> topRight = super.checkRight(topTile, boardCopy, this.board.getCol());
-                HashSet<Tuple> topUp = super.checkUp(topTile, boardCopy);
+                ArrayList<Tuple> topLeft = super.checkLeft(topTile, boardCopy);
+                ArrayList<Tuple> topRight = super.checkRight(topTile, boardCopy, this.board.getCol());
+                ArrayList<Tuple> topUp = super.checkUp(topTile, boardCopy);
 
                 removableTiles.addAll(this.getRemovableTiles(topTile, boardCopy, topLeft, topRight, topUp));
 
                 //down tile
                 //check in here because if up tile does not exist, cannot switch
 
-                HashSet<Tuple> bottomLeft = super.checkLeft(bottomTile, boardCopy);
-                HashSet<Tuple> bottomRight = super.checkRight(bottomTile, boardCopy, this.board.getCol());
-                HashSet<Tuple> bottomDown = super.checkDown(bottomTile, boardCopy, this.board.getRow());
+                ArrayList<Tuple> bottomLeft = super.checkLeft(bottomTile, boardCopy);
+                ArrayList<Tuple> bottomRight = super.checkRight(bottomTile, boardCopy, this.board.getCol());
+                ArrayList<Tuple> bottomDown = super.checkDown(bottomTile, boardCopy, this.board.getRow());
 
                 removableTiles.addAll(this.getRemovableTiles(bottomTile, boardCopy, bottomLeft, bottomRight, bottomDown));
             }
@@ -600,9 +600,9 @@ public class CandyCrushMove extends Move{
         return removableTiles;
     }
 
-    private HashSet<Tuple> getRemovableTilesSwitchingDown(int row, int col)
+    private ArrayList<Tuple> getRemovableTilesSwitchingDown(int row, int col)
     {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+        ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 
         Tuple bottomTile = new Tuple(row+1,col);
         Tuple topTile = new Tuple(row, col);
@@ -634,16 +634,16 @@ public class CandyCrushMove extends Move{
             }
             else {
                 //down tile
-                HashSet<Tuple> bottomLeft = super.checkLeft(bottomTile, boardCopy);
-                HashSet<Tuple> bottomRight = super.checkRight(bottomTile, boardCopy, this.board.getCol());
-                HashSet<Tuple> bottomDown = super.checkDown(bottomTile, boardCopy, this.board.getRow());
+                ArrayList<Tuple> bottomLeft = super.checkLeft(bottomTile, boardCopy);
+                ArrayList<Tuple> bottomRight = super.checkRight(bottomTile, boardCopy, this.board.getCol());
+                ArrayList<Tuple> bottomDown = super.checkDown(bottomTile, boardCopy, this.board.getRow());
 
                 removableTiles.addAll(this.getRemovableTiles(bottomTile, boardCopy, bottomLeft, bottomRight, bottomDown));
                 //up tile
                 //check in here because if bottom tile does not exist, cannot switch
-                HashSet<Tuple> topLeft = super.checkLeft(topTile, boardCopy);
-                HashSet<Tuple> topRight = super.checkRight(topTile, boardCopy, this.board.getCol());
-                HashSet<Tuple> topUp = super.checkUp(topTile, boardCopy);
+                ArrayList<Tuple> topLeft = super.checkLeft(topTile, boardCopy);
+                ArrayList<Tuple> topRight = super.checkRight(topTile, boardCopy, this.board.getCol());
+                ArrayList<Tuple> topUp = super.checkUp(topTile, boardCopy);
 
                 removableTiles.addAll(this.getRemovableTiles(topTile, boardCopy, topLeft, topRight, topUp));
             }
@@ -660,9 +660,9 @@ public class CandyCrushMove extends Move{
         return removableTiles;
     }
 
-    private HashSet<Tuple> getRemovableTiles(Tuple tile, String[][] boardCopy,HashSet<Tuple> list1,HashSet<Tuple> list2,HashSet<Tuple> list3)
+    private ArrayList<Tuple> getRemovableTiles(Tuple tile, String[][] boardCopy,ArrayList<Tuple> list1,ArrayList<Tuple> list2,ArrayList<Tuple> list3)
     {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+        ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
         //R for rocket, B for bomb, C for chocolate sprinkle candy
         if(list1.size() + list2.size() + list3.size() + 1 >= 7 && list3.size() >= 2)
         {
@@ -715,9 +715,9 @@ public class CandyCrushMove extends Move{
         return removableTiles;
     }
 
-    public HashSet<Tuple> findAllMatchesAfterUpdate()
+    public ArrayList<Tuple> findAllMatchesAfterUpdate()
     {
-        HashSet<Tuple> removableTiles = new HashSet<Tuple>();
+        ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
         String[][] visited = new String[this.board.getRow()][this.board.getCol()];
         String[][] boardCopy = this.board.getBoard();
 
@@ -727,14 +727,14 @@ public class CandyCrushMove extends Move{
             for(int col = 0; col < this.board.getCol(); col++)
             {
                 Tuple tile = new Tuple(row,col);
-                HashSet<Tuple> tilesFound = new HashSet<Tuple>();
+                ArrayList<Tuple> tilesFound = new ArrayList<Tuple>();
                 //if this tile has not been visited
                 if(visited[row][col] == null)
                 {
-                    HashSet<Tuple> up = super.checkUp(tile,this.board.getBoard());
-                    HashSet<Tuple> down = super.checkDown(tile,this.board.getBoard(),this.board.getRow());
-                    HashSet<Tuple> left = super.checkLeft(tile,this.board.getBoard());
-                    HashSet<Tuple> right = super.checkRight(tile,this.board.getBoard(),this.board.getCol());
+                    ArrayList<Tuple> up = super.checkUp(tile,this.board.getBoard());
+                    ArrayList<Tuple> down = super.checkDown(tile,this.board.getBoard(),this.board.getRow());
+                    ArrayList<Tuple> left = super.checkLeft(tile,this.board.getBoard());
+                    ArrayList<Tuple> right = super.checkRight(tile,this.board.getBoard(),this.board.getCol());
 
                     if(7 <= up.size() + down.size() + left.size() + right.size() + 1)
                     {
