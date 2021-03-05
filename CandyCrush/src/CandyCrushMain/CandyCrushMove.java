@@ -253,7 +253,10 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
-                findSpecialCandies(removableTiles);
+                if(removableTiles.size() != this.board.getCol() * this.board.getRow())
+                {
+                    findSpecialCandies(removableTiles);
+                }
             }
         }
 
@@ -437,6 +440,7 @@ public class CandyCrushMove extends Move{
             for(Tuple nt: newTiles)
             {
                 //if not contained, add to arr
+                System.out.println(nt+ ", ");
                 if(!arr.contains(nt))
                 {
                     arr.add(nt);
@@ -524,7 +528,10 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
-                findSpecialCandies(removableTiles);
+                if(removableTiles.size() != this.board.getCol() * this.board.getRow())
+                {
+                    findSpecialCandies(removableTiles);
+                }
             }
         }
 
@@ -583,7 +590,10 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
-                findSpecialCandies(removableTiles);
+                if(removableTiles.size() != this.board.getCol() * this.board.getRow())
+                {
+                    findSpecialCandies(removableTiles);
+                }
             }
         }
 
@@ -640,7 +650,10 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
-                findSpecialCandies(removableTiles);
+                if(removableTiles.size() != this.board.getCol() * this.board.getRow())
+                {
+                    findSpecialCandies(removableTiles);
+                }
             }
         }
 

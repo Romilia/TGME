@@ -57,7 +57,7 @@ public class BejeweledMove extends Move { // need to import Move
     //take in time
     public void makeMove(int targetScore) {
         //set score back to 0 for player 2
-        timer.setRunTime(5);
+//        timer.setRunTime(5);
         this.score = 0;
         int currentLevelTargetScore = targetScore/5;
         int currentLevel = 1;
@@ -71,12 +71,10 @@ public class BejeweledMove extends Move { // need to import Move
             }
             list = findAllMatchesAfterUpdate();
         }
-
         timer.startTimer();
         while (timer.getRunTime() > 0) // if times up, game ends
         {
-            if(timer.getRunTime() == 0)
-            {
+            if (timer.getRunTime() == 0) {
                 break;
             }
             System.out.println("\nCurrentLevel: " + currentLevel);
@@ -89,7 +87,7 @@ public class BejeweledMove extends Move { // need to import Move
             String direction = super.promptDirection();
 
             //ensures that it is a valid move
-            if (this.isValidMove(row, col, direction,this.board.getRow(),this.board.getCol())) {
+            if (this.isValidMove(row, col, direction, this.board.getRow(), this.board.getCol())) {
                 HashSet<Tuple> removableTiles;
                 if (direction.equals("left")) {
                     removableTiles = getRemovableTilesSwitchingLeft(row, col);
@@ -127,10 +125,9 @@ public class BejeweledMove extends Move { // need to import Move
                         this.board.updateBoard(removableTiles);
                     }
 
-                    if(this.score >= currentLevelTargetScore)
-                    {
+                    if (this.score >= currentLevelTargetScore) {
                         currentLevel += 1;
-                        currentLevelTargetScore += (targetScore/5);
+                        currentLevelTargetScore += (targetScore / 5);
                     }
 
                 } else {

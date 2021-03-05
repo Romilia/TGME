@@ -45,7 +45,7 @@ public class BejeweledLevel extends Level {
                 currentPlayer =  bejeweledMove.scoreManager.getPlayer2().getName();
             }
             System.out.println("PLAYER TURN: " + currentPlayer);
-            timer.startTimer();
+//            timer.startTimer();
             System.out.println("Timer Started at: " + timer.getRunTime());
             bejeweledMove.makeMove(getTargetScore());
             bejeweledMove.turnManager.toggleTurn();
