@@ -28,7 +28,6 @@ public class BejeweledLevel extends Level {
         setBoard(5,5);
         this.setMove(turnManager, scoreManager);
         movesLeft = 10;
-        //getLevelBoard().print();
     }
     public BejeweledMove getBejeweledMove(){
         return bejeweledMove;
@@ -36,7 +35,6 @@ public class BejeweledLevel extends Level {
 
     public void startLevel(int lvl) {
         System.out.println("Bejeweled Level " + lvl);
-        //System.out.println("Player " + move.scoreManager.getPlayer1().getName() + " Turn");
 
         System.out.println("TARGET SCORE: " + getTargetScore());
         for (int i = 0; i < 2 ; i++){

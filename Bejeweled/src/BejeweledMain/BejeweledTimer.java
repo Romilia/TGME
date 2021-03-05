@@ -9,9 +9,6 @@ public class BejeweledTimer {
     private Timer timer;
     private int runTime;
 
-
-    //public BejeweledTimer() {}
-
     public static BejeweledTimer getInstance()
     {
         if (bTimer == null)

@@ -27,8 +27,6 @@ public class BejeweledMove extends Move { // need to import Move
         this.board = board;
         this.scoreManager = scoreManager;
         this.turnManager = turnManager;
-        //simpler to move this code to this class than try to call hasMovesToMake in board
-        //populateBoard was already public
     }
 
 
@@ -105,7 +103,6 @@ public class BejeweledMove extends Move { // need to import Move
             }
             input = new Scanner(System.in);
             System.out.print("Switch with (left, right, up, down): ");
-            //input = new Scanner(System.in);
             direction = input.nextLine();
             if(BejeweledTimer.getInstance().getRunTime() <= 0){
                 run = false;
@@ -115,7 +112,6 @@ public class BejeweledMove extends Move { // need to import Move
 
             //ensures that it is a valid move
             if (this.isValidMove(row, col, direction)) {
-//                System.out.println("VALID");
                 ArrayList<Tuple> removableTiles;
                 if (direction.equals("left")) {
                     removableTiles = getRemovableTilesSwitchingLeft(row, col);
@@ -128,14 +124,11 @@ public class BejeweledMove extends Move { // need to import Move
                     removableTiles = getRemovableTilesSwitchingDown(row, col);
                 }
 
-//                System.out.println("Size: " + removableTiles.size());
                 if (removableTiles.size() >= 3) {
                     //board should remove all these Tuple pairs and generate new tiles onto the board
                     score += removableTiles.size();
                     this.board.setBoard(this.newBoard);
-//                    System.out.println(removableTiles);
                     this.board.updateBoard(removableTiles);
-//                    this.board.print();
 
                     //after update, should check if there is anymore matches formed
                     while (true) {
@@ -168,10 +161,8 @@ public class BejeweledMove extends Move { // need to import Move
             if (!hasMovesToMake()) {
                 if (turnManager.getPlayerTurn() == 0) //player one
                 {
-                    //new function in ScoreManager: addToCurrentP1Score() and getCurrentP1Score()
                     scoreManager.addToCurrentP1Score(score);
                 } else {
-                    //new function in ScoreManager: addToCurrentP2Score() and getCurrentP2Score()
                     scoreManager.addToCurrentP2Score(score);
                 }
 
@@ -183,21 +174,9 @@ public class BejeweledMove extends Move { // need to import Move
         }
 
         //prepare board for player 2
-//        this.board.print();
         System.out.println("GAME OVER: No more available moves to make. Failed to achieve target score.");
         BejeweledTimer.getInstance().stopTimer();
         return;
-
-//        this.board.populateBoard();
-//        list = findAllMatchesAfterUpdate();
-//        while (list.size() >= 3 || !hasMovesToMake()) {
-//            this.board.updateBoard(list);
-//            list = findAllMatchesAfterUpdate();
-//            while (!hasMovesToMake()) {
-//                this.board.populateBoard();
-//            }
-//        }
-
     }
 
     public boolean hasMovesToMake() {
@@ -275,7 +254,6 @@ public class BejeweledMove extends Move { // need to import Move
                 this.newBoard = boardCopy;
             }
         }
-//        System.out.println(removableTiles.size());
         return removableTiles;
     }
 
@@ -333,7 +311,6 @@ public class BejeweledMove extends Move { // need to import Move
                 this.newBoard = boardCopy;
             }
         }
-//        System.out.println(removableTiles);
         return removableTiles;
     }
 
@@ -392,7 +369,6 @@ public class BejeweledMove extends Move { // need to import Move
                 this.newBoard = boardCopy;
             }
         }
-//        System.out.println(removableTiles);
         return removableTiles;
     }
 
@@ -450,7 +426,6 @@ public class BejeweledMove extends Move { // need to import Move
                 this.newBoard = boardCopy;
             }
         }
-//        System.out.println(removableTiles);
         return removableTiles;
     }
 

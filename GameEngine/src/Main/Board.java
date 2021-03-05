@@ -48,8 +48,6 @@ public class Board {
         for (Tuple t: oldTiles) {
             board[t.row][t.col] = " ";
         }
-//        System.out.println("Update Board");
-//        this.print();
         //move everything down
         moveColumnsDown();
         addRandomTiles();
@@ -90,22 +88,6 @@ public class Board {
                 }
             }
         }
-//        for (int j = 0; j < col; j++) {
-//            for (int i = row - 1; i >= 0; i--) {
-//                if (board[i][j].equals(" ")) {
-//                    int ct = countSpaces(i, j);
-//                    for (int k = i; k > 0; k--) {
-//                        if ((k - ct) >= 0) {
-//                            board[k][j] = board[k - ct][j];
-//                        }
-//                        if (k == 1) {
-//                            board[0][j] = " ";
-//                        }
-//                    }
-//                }
-//            }
-//        }
-////        this.print();
     }
 
     private int countSpaces(int r, int c) {
@@ -155,7 +137,6 @@ public class Board {
                 if (board[i][j].contains("S")) {
                     System.out.print(" " + board[i][j] + "  ");
                 }
-                //return String.format("%1$" + length + "s", inputString).replace(' ', '0');
                 else {
                     System.out.print("  " + board[i][j] + "  ");
                 }
