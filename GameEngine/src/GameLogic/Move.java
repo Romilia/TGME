@@ -45,6 +45,7 @@ public class Move {
     }
 
     public void makeMove(int numOfMoves, int targetScore) {
+
         //set score back to 0 for player 2
         score = 0;
 
