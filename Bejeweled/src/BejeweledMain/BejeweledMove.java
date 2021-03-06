@@ -46,7 +46,7 @@ public class BejeweledMove extends Move { // need to import Move
         return true;
     }
 
-    public void makeMove(int targetScore) {
+    public void makeMove(int targetScore, BejeweledTimer timer) {
 
         //set score back to 0 for player 2
         score = 0;
@@ -54,9 +54,8 @@ public class BejeweledMove extends Move { // need to import Move
         //ensures that all the updates are made and still has moves to make
         ArrayList<Tuple> list = findAllMatchesAfterUpdate();
         while (list.size() >= 3 || !hasMovesToMake()) {
-//            this.board.print();
             if(list.size() < 3 && !hasMovesToMake()) {
-//                System.out.println("Don't Have Moves To Make. Generating New Board...");
+
             }
             this.board.updateBoard(list);
             while (!hasMovesToMake()) {
@@ -69,9 +68,10 @@ public class BejeweledMove extends Move { // need to import Move
         {
 
             if (score >= targetScore){
-                System.out.println("CONGRATS: you successfully achieved the target score!!!\n");
+                System.out.println("CONGRATS: you successfully achieved the target score!!!. Your final score is " + score);
                 return; //return so that the Game Over message at the bottom doesn't get printed;
             }
+            System.out.println("\nTime Left: " + (timer.getRunTime()));
             System.out.println("Current Score: " + score);
             this.board.print();
             int row = 0;

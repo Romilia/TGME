@@ -34,7 +34,7 @@ public class BejeweledTimer {
                 runTime--;
                 if (runTime < 0) {
                     timer.cancel();
-                    System.out.println("\nYou're Out of Time, Press <ENTER> to Continue.");
+                    System.out.print("\nYou're Out of Time, Press <ENTER> to Continue.");
                 }
 
             }

@@ -34,9 +34,9 @@ public class BejeweledLevel extends Level {
     }
 
     public void startLevel(int lvl) {
-        System.out.println("Bejeweled Level " + lvl);
-
+        System.out.println("\n>>>BEJEWELED LEVEL " + lvl + "<<<");
         System.out.println("TARGET SCORE: " + getTargetScore());
+        System.out.println("TIMER STARTED AT: 10"); //need to update if we change the runTime in BejeweledTimer
         for (int i = 0; i < 2 ; i++){
             String currentPlayer;
             if(bejeweledMove.turnManager.getPlayerTurn() == 0) {
@@ -46,14 +46,12 @@ public class BejeweledLevel extends Level {
             {
                 currentPlayer =  bejeweledMove.scoreManager.getPlayer2().getName();
             }
-            System.out.println("PLAYER TURN: " + currentPlayer);
+            System.out.println("\nPLAYER TURN: " + currentPlayer);
 
 
             timer.startTimer();
-            System.out.println("Timer Started at: " + timer.getRunTime());
-            bejeweledMove.makeMove(getTargetScore());
+            bejeweledMove.makeMove(getTargetScore(), timer);
             bejeweledMove.turnManager.toggleTurn();
-            System.out.println("Time Left: " + (timer.getRunTime() + 1));
             timer.stopTimer();
             timer.setRunTime(10);// reset timer
         }

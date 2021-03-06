@@ -193,7 +193,7 @@ public class CandyCrushMove extends Move{
 
         if(score >= targetScore)
         {
-            System.out.println("CONGRATS: you successfully achieved the target score!!!\n");
+            System.out.println("CONGRATS: you successfully achieved the target score!!!. Your final score is " + score);
         }
         else
         {
@@ -440,7 +440,6 @@ public class CandyCrushMove extends Move{
             for(Tuple nt: newTiles)
             {
                 //if not contained, add to arr
-                System.out.println(nt+ ", ");
                 if(!arr.contains(nt))
                 {
                     arr.add(nt);
