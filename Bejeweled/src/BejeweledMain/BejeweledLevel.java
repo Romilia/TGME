@@ -64,6 +64,9 @@ public class BejeweledLevel extends Level {
             if(timer.getRunTime() > 0){
                 timer.addPlayerExtraTime(currentPlayer,5);
             }
+            else{
+                timer.addPlayerExtraTime(currentPlayer,0);
+            }
 
         }
     }

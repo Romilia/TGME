@@ -73,7 +73,12 @@ public class BejeweledTimer {
 
         for(var player : extraTime.keySet()){
             if(player.equals(name)){
-                extraTime.put(player, time);
+                if(time == 0){
+                    extraTime.put(player, 0);
+                }
+                else {
+                    extraTime.put(player, extraTime.get(player) + time);
+                }
             }
         }
     }
