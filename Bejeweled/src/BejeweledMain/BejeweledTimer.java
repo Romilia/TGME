@@ -1,6 +1,7 @@
 package BejeweledMain;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,11 +9,13 @@ public class BejeweledTimer {
     public static BejeweledTimer bTimer;
     private Timer timer;
     private int runTime;
+    private HashMap<String, Integer> extraTime = new HashMap<>();
 
     public static BejeweledTimer getInstance()
     {
         if (bTimer == null)
             bTimer = new BejeweledTimer();
+
 
         return bTimer;
     }
@@ -27,7 +30,6 @@ public class BejeweledTimer {
 
     public void startTimer() {
         timer = new Timer();
-        runTime = 10;
 
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -51,6 +53,33 @@ public class BejeweledTimer {
         if (runTime > 0) {
             timer.cancel();
         }
+    }
+
+    public void initExtraTime(String name, int time){
+        extraTime.put(name,time);
+    }
+
+    public int getPlayerExtraTime(String name){
+
+        for(var player : extraTime.keySet()){
+            if(player.equals(name)){
+                return extraTime.get(player);
+            }
+        }
+        return 0;
+    }
+
+    public void addPlayerExtraTime(String name, int time){
+
+        for(var player : extraTime.keySet()){
+            if(player.equals(name)){
+                extraTime.put(player, time);
+            }
+        }
+    }
+
+    public int getExtraTimeSize(){
+        return extraTime.size();
     }
 
 
