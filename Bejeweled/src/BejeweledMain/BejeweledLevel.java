@@ -62,9 +62,7 @@ public class BejeweledLevel extends Level {
             bejeweledMove.turnManager.toggleTurn();
             timer.stopTimer();
             if(timer.getRunTime() > 0){
-                System.out.println(currentPlayer);
                 timer.addPlayerExtraTime(currentPlayer,5);
-
             }
 
         }
