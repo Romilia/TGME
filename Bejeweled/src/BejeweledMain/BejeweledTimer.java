@@ -50,7 +50,7 @@ public class BejeweledTimer {
     }
 
     public void stopTimer() {
-        if (runTime > 0) {
+        if (runTime >= 0) {
             timer.cancel();
         }
     }
