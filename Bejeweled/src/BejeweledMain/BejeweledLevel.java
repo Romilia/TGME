@@ -8,13 +8,14 @@ import Manager.TurnManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 public class BejeweledLevel extends Level {
 
     private float timeLimit;
     private BejeweledTimer timer;
     private ArrayList<String> bejeweledTiles = new ArrayList<String>(Arrays.asList("R", "G", "B", "Y"));
-    int movesLeft;
     private BejeweledMove bejeweledMove;
+
 
     public void setMove(TurnManager turnManager, ScoreManager scoreManager)
     {
@@ -27,18 +28,20 @@ public class BejeweledLevel extends Level {
         setTiles(bejeweledTiles);
         setBoard(5,5);
         this.setMove(turnManager, scoreManager);
-        movesLeft = 10;
-        //getLevelBoard().print();
+
     }
     public BejeweledMove getBejeweledMove(){
         return bejeweledMove;
     }
 
     public void startLevel(int lvl) {
-        System.out.println("Bejeweled Level " + lvl);
-        //System.out.println("Player " + move.scoreManager.getPlayer1().getName() + " Turn");
-
+        System.out.println("\n>>>BEJEWELED LEVEL " + lvl + "<<<");
         System.out.println("TARGET SCORE: " + getTargetScore());
+        if(timer.getExtraTimeSize() <= 0) {
+            timer.initExtraTime(bejeweledMove.scoreManager.getPlayer1().getName(), 0);
+            timer.initExtraTime(bejeweledMove.scoreManager.getPlayer2().getName(), 0);
+        }
+
         for (int i = 0; i < 2 ; i++){
             String currentPlayer;
             if(bejeweledMove.turnManager.getPlayerTurn() == 0) {
@@ -48,16 +51,23 @@ public class BejeweledLevel extends Level {
             {
                 currentPlayer =  bejeweledMove.scoreManager.getPlayer2().getName();
             }
-            System.out.println("PLAYER TURN: " + currentPlayer);
 
+            int newRunTime = timer.getPlayerExtraTime(currentPlayer) + 45;
+            timer.setRunTime(newRunTime);
+            System.out.println("TIMER STARTED AT: " + timer.getRunTime()); //need to update if we change the runTime in BejeweledTimer
+            System.out.println("\nPLAYER TURN: " + currentPlayer);
 
             timer.startTimer();
-            System.out.println("Timer Started at: " + timer.getRunTime());
-            bejeweledMove.makeMove(getTargetScore());
+            bejeweledMove.makeMove(getTargetScore(), timer);
             bejeweledMove.turnManager.toggleTurn();
-            System.out.println("Time Left: " + (timer.getRunTime() + 1));
             timer.stopTimer();
-            timer.setRunTime(10);// reset timer
+            if(timer.getRunTime() > 0){
+                timer.addPlayerExtraTime(currentPlayer,5);
+            }
+            else{
+                timer.addPlayerExtraTime(currentPlayer,0);
+            }
+
         }
     }
 

@@ -65,7 +65,7 @@ public class Game extends Main {
 
     public boolean anotherGame() {
         boolean ret = false;
-        System.out.println("Do you want to play another game?(Y/N)");
+        System.out.println("Do you want to return to the home menu? Choosing 'N' will exit the program (Y/N)");
         String another = scan.nextLine();
 
         if (another.equals("Y")) {

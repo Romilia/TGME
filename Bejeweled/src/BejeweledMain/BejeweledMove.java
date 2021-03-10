@@ -27,8 +27,6 @@ public class BejeweledMove extends Move { // need to import Move
         this.board = board;
         this.scoreManager = scoreManager;
         this.turnManager = turnManager;
-        //simpler to move this code to this class than try to call hasMovesToMake in board
-        //populateBoard was already public
     }
 
 
@@ -48,7 +46,7 @@ public class BejeweledMove extends Move { // need to import Move
         return true;
     }
 
-    public void makeMove(int targetScore) {
+    public void makeMove(int targetScore, BejeweledTimer timer) {
 
         //set score back to 0 for player 2
         score = 0;
@@ -56,9 +54,8 @@ public class BejeweledMove extends Move { // need to import Move
         //ensures that all the updates are made and still has moves to make
         ArrayList<Tuple> list = findAllMatchesAfterUpdate();
         while (list.size() >= 3 || !hasMovesToMake()) {
-//            this.board.print();
             if(list.size() < 3 && !hasMovesToMake()) {
-//                System.out.println("Don't Have Moves To Make. Generating New Board...");
+
             }
             this.board.updateBoard(list);
             while (!hasMovesToMake()) {
@@ -71,9 +68,10 @@ public class BejeweledMove extends Move { // need to import Move
         {
 
             if (score >= targetScore){
-                System.out.println("CONGRATS: you successfully achieved the target score!!!\n");
+                System.out.println("CONGRATS: you successfully achieved the target score!!!. Your final score is " + score);
                 return; //return so that the Game Over message at the bottom doesn't get printed;
             }
+            System.out.println("\nTime Left: " + (timer.getRunTime()));
             System.out.println("Current Score: " + score);
             this.board.print();
             int row = 0;
@@ -105,7 +103,6 @@ public class BejeweledMove extends Move { // need to import Move
             }
             input = new Scanner(System.in);
             System.out.print("Switch with (left, right, up, down): ");
-            //input = new Scanner(System.in);
             direction = input.nextLine();
             if(BejeweledTimer.getInstance().getRunTime() <= 0){
                 run = false;
@@ -115,7 +112,6 @@ public class BejeweledMove extends Move { // need to import Move
 
             //ensures that it is a valid move
             if (this.isValidMove(row, col, direction)) {
-//                System.out.println("VALID");
                 ArrayList<Tuple> removableTiles;
                 if (direction.equals("left")) {
                     removableTiles = getRemovableTilesSwitchingLeft(row, col);
@@ -128,14 +124,11 @@ public class BejeweledMove extends Move { // need to import Move
                     removableTiles = getRemovableTilesSwitchingDown(row, col);
                 }
 
-//                System.out.println("Size: " + removableTiles.size());
                 if (removableTiles.size() >= 3) {
                     //board should remove all these Tuple pairs and generate new tiles onto the board
                     score += removableTiles.size();
                     this.board.setBoard(this.newBoard);
-//                    System.out.println(removableTiles);
                     this.board.updateBoard(removableTiles);
-//                    this.board.print();
 
                     //after update, should check if there is anymore matches formed
                     while (true) {
@@ -168,10 +161,8 @@ public class BejeweledMove extends Move { // need to import Move
             if (!hasMovesToMake()) {
                 if (turnManager.getPlayerTurn() == 0) //player one
                 {
-                    //new function in ScoreManager: addToCurrentP1Score() and getCurrentP1Score()
                     scoreManager.addToCurrentP1Score(score);
                 } else {
-                    //new function in ScoreManager: addToCurrentP2Score() and getCurrentP2Score()
                     scoreManager.addToCurrentP2Score(score);
                 }
 
@@ -183,21 +174,9 @@ public class BejeweledMove extends Move { // need to import Move
         }
 
         //prepare board for player 2
-//        this.board.print();
         System.out.println("GAME OVER: No more available moves to make. Failed to achieve target score.");
-
+        BejeweledTimer.getInstance().stopTimer();
         return;
-
-//        this.board.populateBoard();
-//        list = findAllMatchesAfterUpdate();
-//        while (list.size() >= 3 || !hasMovesToMake()) {
-//            this.board.updateBoard(list);
-//            list = findAllMatchesAfterUpdate();
-//            while (!hasMovesToMake()) {
-//                this.board.populateBoard();
-//            }
-//        }
-
     }
 
     public boolean hasMovesToMake() {
@@ -275,7 +254,6 @@ public class BejeweledMove extends Move { // need to import Move
                 this.newBoard = boardCopy;
             }
         }
-//        System.out.println(removableTiles.size());
         return removableTiles;
     }
 
@@ -333,7 +311,6 @@ public class BejeweledMove extends Move { // need to import Move
                 this.newBoard = boardCopy;
             }
         }
-//        System.out.println(removableTiles);
         return removableTiles;
     }
 
@@ -392,7 +369,6 @@ public class BejeweledMove extends Move { // need to import Move
                 this.newBoard = boardCopy;
             }
         }
-//        System.out.println(removableTiles);
         return removableTiles;
     }
 
@@ -450,11 +426,10 @@ public class BejeweledMove extends Move { // need to import Move
                 this.newBoard = boardCopy;
             }
         }
-//        System.out.println(removableTiles);
         return removableTiles;
     }
 
-    private ArrayList<Tuple> checkUp(Tuple tile, String[][] boardCopy) {
+    protected ArrayList<Tuple> checkUp(Tuple tile, String[][] boardCopy) {
         ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 
         int comparingRow = tile.row - 1;
@@ -482,7 +457,7 @@ public class BejeweledMove extends Move { // need to import Move
         return removableTiles;
     }
 
-    private ArrayList<Tuple> checkLeft(Tuple tile, String[][] boardCopy) {
+    protected ArrayList<Tuple> checkLeft(Tuple tile, String[][] boardCopy) {
         ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 
         int comparingCol = tile.col - 1;

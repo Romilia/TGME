@@ -1,6 +1,7 @@
 package BejeweledMain;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,14 +9,13 @@ public class BejeweledTimer {
     public static BejeweledTimer bTimer;
     private Timer timer;
     private int runTime;
-
-
-    //public BejeweledTimer() {}
+    private HashMap<String, Integer> extraTime = new HashMap<>();
 
     public static BejeweledTimer getInstance()
     {
         if (bTimer == null)
             bTimer = new BejeweledTimer();
+
 
         return bTimer;
     }
@@ -30,14 +30,13 @@ public class BejeweledTimer {
 
     public void startTimer() {
         timer = new Timer();
-        runTime = 10;
 
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 runTime--;
                 if (runTime < 0) {
                     timer.cancel();
-                    System.out.println("\nYou're Out of Time, Press <ENTER> to Continue.");
+                    System.out.print("\nYou're Out of Time, Press <ENTER> to Continue.");
                 }
 
             }
@@ -51,9 +50,41 @@ public class BejeweledTimer {
     }
 
     public void stopTimer() {
-        if (runTime > 0) {
+        if (runTime >= 0) {
             timer.cancel();
         }
+    }
+
+    public void initExtraTime(String name, int time){
+        extraTime.put(name,time);
+    }
+
+    public int getPlayerExtraTime(String name){
+
+        for(var player : extraTime.keySet()){
+            if(player.equals(name)){
+                return extraTime.get(player);
+            }
+        }
+        return 0;
+    }
+
+    public void addPlayerExtraTime(String name, int time){
+
+        for(var player : extraTime.keySet()){
+            if(player.equals(name)){
+                if(time == 0){
+                    extraTime.put(player, 0);
+                }
+                else {
+                    extraTime.put(player, extraTime.get(player) + time);
+                }
+            }
+        }
+    }
+
+    public int getExtraTimeSize(){
+        return extraTime.size();
     }
 
 
