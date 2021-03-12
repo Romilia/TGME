@@ -3,6 +3,7 @@ package Manager;
 import Player.Player;
 
 public class ScoreManager {
+    private String gameName;
     private Player player1;
     private Player player2;
     private int curScoreP1;
@@ -40,9 +41,15 @@ public class ScoreManager {
 
     @Override
     public String toString() {
-        return "Player 1:" + player1.getName() + "\n" +
+        return "Game:" + this.gameName + "\n" +
+               "Player 1:" + player1.getName() + "\n" +
                "Player 2:" + player2.getName() + "\n" +
                "Player 1 Score:" + curScoreP1 + "\n" +
                "Player 2 Score:" + curScoreP2;
+    }
+
+    public void setGameName(String gameName)
+    {
+        this.gameName = gameName;
     }
 }
