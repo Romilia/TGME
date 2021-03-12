@@ -69,8 +69,6 @@ public class BejeweledLevel extends Level {
                 timer.addPlayerExtraTime(currentPlayer,0);
             }
         }
-        System.out.println("Player 1 score:"+bejeweledMove.scoreManager.getCurrentP1Score());
-        System.out.println("Player 2 score:"+ bejeweledMove.scoreManager.getCurrentP2Score());
     }
 
     public float getTimeLimit() {

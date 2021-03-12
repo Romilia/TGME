@@ -35,10 +35,11 @@ public class Bejeweled extends Game {
         }
         Player player1 = scoreManager.getPlayer1();
         Player player2 = scoreManager.getPlayer2();
+        scoreManager.setGameName("Bejeweled");
         player1.addToGameHistory(scoreManager);
         player2.addToGameHistory(scoreManager);
-        System.out.println(scoreManager.getCurrentP1Score());
-        System.out.println(scoreManager.getCurrentP2Score());
+        System.out.println("Player 1 final score:"+scoreManager.getCurrentP1Score());
+        System.out.println("Player 2 final score:"+scoreManager.getCurrentP2Score());
     }
 
     public int getTargetScore() {
