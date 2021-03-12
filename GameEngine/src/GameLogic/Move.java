@@ -9,6 +9,7 @@ public class Move {
 
     public Move() {
     }
+
     protected int promptRow()
     {
         Scanner input = new Scanner(System.in);

@@ -2,7 +2,6 @@ package CandyCrushMain;
 
 import Main.Board;
 import GameLogic.Move;
-import Main.Board;
 import Manager.ScoreManager;
 import Manager.TurnManager;
 import GameLogic.Tuple;

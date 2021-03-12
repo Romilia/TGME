@@ -1,7 +1,5 @@
 package Manager;
 
-import Player.Player;
-
 public class TurnManager {
     private int playerTurn;
 

@@ -30,7 +30,7 @@ public class CandyCrush extends Game {
         minBoardSize = 4;
         maxBoardSize = 6;
 
-        for (int i = 0; i < 5 && !gameEnded(); i++) {
+        for (int i = 0; i < 5; i++) {
             int row = generateNewBoardDimension();
             int col = generateNewBoardDimension();
             levels[i] = new CandyCrushLevel(row, col, turnManager, scoreManager);

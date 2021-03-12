@@ -1,6 +1,5 @@
 package BejeweledMain;
 
-import GameLogic.Move;
 import Main.Level;
 import Manager.ScoreManager;
 import Manager.TurnManager;

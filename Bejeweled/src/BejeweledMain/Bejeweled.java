@@ -28,7 +28,7 @@ public class Bejeweled extends Game {
         levels = new BejeweledLevel[5];
         curLevel = 0;
 
-        for (int i = 0; i < 5 && !gameEnded(); i++) {
+        for (int i = 0; i < 5; i++) {
             levels[i] = new BejeweledLevel(5, 5, turnManager, scoreManager);
             levels[i].startLevel(i + 1);
             curLevel++;

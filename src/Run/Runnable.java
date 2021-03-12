@@ -1,12 +1,9 @@
 package Run;
 
 import Main.Main;
-import Main.Game;
 import CandyCrushMain.CandyCrush;
 import BejeweledMain.Bejeweled;
-import Player.Player;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Runnable {
@@ -27,6 +24,7 @@ public class Runnable {
             System.out.println("1. Bejeweled");
             System.out.println("2. Candy Crush");
             System.out.println("3. View Player Stats");
+            System.out.println("4. Exit");
             choice = scan.nextInt();
             scan.nextLine();
 
@@ -49,6 +47,9 @@ public class Runnable {
                         String name = scan.nextLine();
                         mn.viewPlayer(name);
                     }
+                    break;
+                case 4:
+                    cont = false;
                     break;
             }
         } while (cont);

@@ -3,7 +3,6 @@ package Main;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import GameLogic.Move;
 import Manager.ScoreManager;
 import Manager.TurnManager;
 import Player.Player;
@@ -73,11 +72,6 @@ public class Game extends Main {
         }
 
         return ret;
-    }
-
-    //TODO: Implement function
-    protected boolean gameEnded() {
-        return false;
     }
 
 }

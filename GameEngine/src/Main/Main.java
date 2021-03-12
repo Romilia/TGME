@@ -1,9 +1,7 @@
 package Main;
 
 import Player.Player;
-
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Main {
     public static ArrayList<Player> existingPlayers = new ArrayList<Player>();
@@ -21,8 +19,8 @@ public class Main {
         for (Player player : existingPlayers) {
             if (player.getName().equals(playerName)) {
                 found = true;
+
                 System.out.println(player.gameHistory);
-//                System.out.println("High Score: " + player.calculateHighScore());
             }
         }
 
