@@ -15,7 +15,7 @@ public class CandyCrushLevel extends Level {
 
     private void setMove(TurnManager turnManager, ScoreManager scoreManager)
     {
-        candyCrushMove = new CandyCrushMove(super.board,scoreManager,turnManager);
+        candyCrushMove = new CandyCrushMove(super.board,scoreManager,turnManager,this.candyCrushTiles);
     }
     public CandyCrushLevel(int row, int col, TurnManager turnManager, ScoreManager scoreManager) {
         super((row + col) / 2); //TODO what to do with stars and how do they work? Do we just want to ignore?

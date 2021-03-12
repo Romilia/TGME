@@ -7,6 +7,7 @@ import Manager.ScoreManager;
 import Manager.TurnManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class BejeweledMove extends Move { // need to import Move
@@ -124,9 +125,10 @@ public class BejeweledMove extends Move { // need to import Move
                     removableTiles = getRemovableTilesSwitchingDown(row, col);
                 }
 
-                if (removableTiles.size() >= 3) {
+                HashSet<Tuple> removeDuplicates = new HashSet<Tuple>(removableTiles);
+                if (removeDuplicates.size() >= 3) {
                     //board should remove all these Tuple pairs and generate new tiles onto the board
-                    score += removableTiles.size();
+                    score += removeDuplicates.size();
                     this.board.setBoard(this.newBoard);
                     this.board.updateBoard(removableTiles);
 
@@ -134,12 +136,13 @@ public class BejeweledMove extends Move { // need to import Move
                     while (true) {
                         //start checking from bottom
                         removableTiles = findAllMatchesAfterUpdate();
-                        score += removableTiles.size();
+                        removeDuplicates = new HashSet<Tuple>(removableTiles);
                         //if no more matches, break
-                        if (removableTiles.size() < 3) {
+                        if (removeDuplicates.size() < 3) {
                             break;
                         }
 
+                        score += removeDuplicates.size();
                         //else update the board
                         this.board.setBoard(this.newBoard);
                         this.board.updateBoard(removableTiles);
@@ -172,7 +175,14 @@ public class BejeweledMove extends Move { // need to import Move
 //            break;
             //if not, break out the while loop
         }
-
+        if (turnManager.getPlayerTurn() == 0) //player one
+        {
+            System.out.println("add to player score:" + score);
+            scoreManager.addToCurrentP1Score(score);
+        } else {
+            System.out.println("add to player score:" + score);
+            scoreManager.addToCurrentP2Score(score);
+        }
         //prepare board for player 2
         System.out.println("GAME OVER: No more available moves to make. Failed to achieve target score.");
         BejeweledTimer.getInstance().stopTimer();

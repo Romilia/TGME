@@ -1,17 +1,21 @@
 package Player;
 
+import Main.Game;
+import Manager.ScoreManager;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Player {
     private String name;
     private int lives;
-    ArrayList<Integer> scoreHistory;
+    public ArrayList<ScoreManager> gameHistory;
 
     public Player(String givenName) {
         name = givenName;
         lives = -1;
-        scoreHistory = new ArrayList<>();
+//        scoreHistory = new ArrayList<>();
+        gameHistory = new ArrayList<>();
     }
 
 
@@ -19,12 +23,12 @@ public class Player {
         lives = givenLives;
     }
 
-    public int calculateHighScore() {
-        if (scoreHistory.size() != 0) {
-            return Collections.max(scoreHistory);
-        }
-        return 0;
-    }
+//    public int calculateHighScore() {
+//        if (scoreHistory.size() != 0) {
+//            return Collections.max(scoreHistory);
+//        }
+//        return 0;
+//    }
 
     // Getters Below
     public String getName() {
@@ -33,5 +37,10 @@ public class Player {
 
     public int getLives() {
         return lives;
+    }
+
+    public void addToGameHistory(ScoreManager scoreManager)
+    {
+        gameHistory.add(scoreManager);
     }
 }

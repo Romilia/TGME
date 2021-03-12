@@ -21,7 +21,8 @@ public class Main {
         for (Player player : existingPlayers) {
             if (player.getName().equals(playerName)) {
                 found = true;
-                System.out.println("High Score: " + player.calculateHighScore());
+                System.out.println(player.gameHistory);
+//                System.out.println("High Score: " + player.calculateHighScore());
             }
         }
 

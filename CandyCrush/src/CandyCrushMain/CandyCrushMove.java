@@ -13,15 +13,22 @@ public class CandyCrushMove extends Move{
     private Board board;
     public ScoreManager scoreManager;
     public TurnManager turnManager;
-    private int score = 0;
+    //    private int score = 0;
     private String[][] newBoard;
     private Tuple hint;
+    private ArrayList<String> tiles;
+    private ArrayList<String> symbols = new ArrayList<String>(Arrays.asList("!","#","*"));
+    private ArrayList<String> directions = new ArrayList<String>(Arrays.asList("up",  "left"));
+    //! is bomb, removes the neighbor tiles.
+    //# is rocket, removes the whole column or row depending on the direction, if two rockets are switched, removes both the row and column with the switched tile.
+    //* is chocolatesprinkle in the original candy crush game, which removes all the chosen tile, meaning if * switch with G, then all G tiles are removed.
 
-    public CandyCrushMove(Board board, ScoreManager scoreManager, TurnManager turnManager) {
-        super(); //so i can use functions like check up,down,left,right
+    public CandyCrushMove(Board board, ScoreManager scoreManager, TurnManager turnManager, ArrayList<String> tiles) {
+        super(); //to access functions like check up,down,left,right
         this.board = board;
         this.scoreManager = scoreManager;
         this.turnManager = turnManager;
+        this.tiles = tiles;
     }
 
     public boolean hasMovesToMake() {
@@ -29,7 +36,7 @@ public class CandyCrushMove extends Move{
         for (int row = this.board.getRow() - 1; row >= 0; row--) {
             for (int col = 0; col < this.board.getCol(); col++) {
                 //if the current tile is a special candy, then it has a move
-                if(this.board.getBoard()[row][col].equals("!") || this.board.getBoard()[row][col].equals("*") || this.board.getBoard()[row][col].equals("#"))
+                if(this.symbols.contains(this.board.getBoard()[row][col]))
                 {
                     this.hint = new Tuple(row,col);
                     return true;
@@ -37,28 +44,28 @@ public class CandyCrushMove extends Move{
 
                 //if the tile that the current tile is switching with is a special candy, then it has a move
                 //check left
-                if(0 <= col-1 && (this.board.getBoard()[row][col-1].equals("!") || this.board.getBoard()[row][col-1].equals("*") || this.board.getBoard()[row][col-1].equals("#")))
+                if(0 <= col-1 && this.symbols.contains(this.board.getBoard()[row][col-1]))
                 {
                     this.hint = new Tuple(row,col);
                     return true;
                 }
 
                 //check right
-                if(col+1 < this.board.getCol() && (this.board.getBoard()[row][col+1].equals("!") || this.board.getBoard()[row][col+1].equals("*") || this.board.getBoard()[row][col+1].equals("#")))
+                if(col+1 < this.board.getCol() && this.symbols.contains(this.board.getBoard()[row][col+1]))
                 {
                     this.hint = new Tuple(row,col);
                     return true;
                 }
 
                 //check up
-                if(0 <= row-1 && (this.board.getBoard()[row-1][col].equals("!") || this.board.getBoard()[row-1][col].equals("*") || this.board.getBoard()[row-1][col].equals("#")))
+                if(0 <= row-1 && this.symbols.contains(this.board.getBoard()[row-1][col]))
                 {
                     this.hint = new Tuple(row,col);
                     return true;
                 }
 
                 //check down
-                if(row+1 < this.board.getRow() && (this.board.getBoard()[row+1][col].equals("!") || this.board.getBoard()[row+1][col].equals("*") || this.board.getBoard()[row+1][col].equals("#")))
+                if(row+1 < this.board.getRow() && this.symbols.contains(this.board.getBoard()[row+1][col]))
                 {
                     this.hint = new Tuple(row,col);
                     return true;
@@ -85,19 +92,19 @@ public class CandyCrushMove extends Move{
 
     public void makeMove(int hintLeft, int numOfMoves, int targetScore) {
         //set score back to 0 for player 2
-        this.score = 0;
+        int score = 0;
         hintLeft = 3;
         //ensures that all the updates are made and still has moves to make
-        ArrayList<Tuple> list = findAllMatchesAfterUpdate();
+        ArrayList<Tuple> list = this.findAllMatchesAfterUpdate();
         while (list.size() >= 3 || !hasMovesToMake()) {
             this.board.updateBoard(list);
             while (!hasMovesToMake()) {
                 this.board.populateBoard();
             }
-            list = findAllMatchesAfterUpdate();
+            list = this.findAllMatchesAfterUpdate();
         }
 
-        while (numOfMoves > 0 && this.score < targetScore) // if no moves left or score reached, game ends
+        while (numOfMoves > 0 && score < targetScore) // if no moves left or score reached, game ends
         {
             System.out.println("\nMoves left: " + numOfMoves);
             System.out.println("Current Score: " + score);
@@ -131,28 +138,32 @@ public class CandyCrushMove extends Move{
 
                 } else if (direction.equals("right")) {
                     removableTiles = this.getRemovableTilesSwitchingRight(row, col);
+
                 } else if (direction.equals("up")) {
                     removableTiles = this.getRemovableTilesSwitchingUp(row, col);
                 } else { //down
                     removableTiles = this.getRemovableTilesSwitchingDown(row, col);
                 }
 
+                HashSet<Tuple> removeDuplicates = new HashSet<Tuple>(removableTiles);
+                removeDuplicates = new HashSet<Tuple>(removableTiles);
                 if (removableTiles.size() >= 3) {
                     //board should remove all these Tuple pairs and generate new tiles onto the board
-                    this.score += removableTiles.size();
+                    score += removeDuplicates.size();
                     this.board.setBoard(this.newBoard);
                     this.board.updateBoard(removableTiles);
 
                     //after update, should check if there is anymore matches formed
                     while (true) {
                         //start checking from bottom
-                        removableTiles = findAllMatchesAfterUpdate();
-                        score += removableTiles.size();
+                        removableTiles = this.findAllMatchesAfterUpdate();
+                        removeDuplicates = new HashSet<>(removableTiles);
+//                        score += removeDuplicates.size();
                         //if no more matches, break
-                        if (removableTiles.size() < 3) {
+                        if (removeDuplicates.size() < 3) {
                             break;
                         }
-
+                        score += removeDuplicates.size();
                         //else update the board
                         this.board.setBoard(this.newBoard);
                         this.board.updateBoard(removableTiles);
@@ -170,13 +181,13 @@ public class CandyCrushMove extends Move{
             //if no more moves to make and there is # of moves left, generate new board
             if (!hasMovesToMake() && numOfMoves > 0) {
                 this.board.populateBoard();
-                list = findAllMatchesAfterUpdate();
+                list = this.findAllMatchesAfterUpdate();
                 while (list.size() >= 3 || !hasMovesToMake()) {
                     this.board.updateBoard(list);
                     while (!hasMovesToMake()) {
                         this.board.populateBoard();
                     }
-                    list = findAllMatchesAfterUpdate();
+                    list = this.findAllMatchesAfterUpdate();
                 }
             }
 
@@ -206,8 +217,8 @@ public class CandyCrushMove extends Move{
     {
         ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
 
-        Tuple leftTile = new Tuple(row,col-1);
-        Tuple rightTile = new Tuple(row, col);
+        Tuple leftTile = new Tuple(row,col-1);//switch with tile
+        Tuple rightTile = new Tuple(row, col);//selected tile
 
         if(leftTile.col >= 0)//left tile not out of bound
         {
@@ -218,24 +229,43 @@ public class CandyCrushMove extends Move{
             boardCopy[row][col-1] = val;
 
             //if it is switching with a special tile
-            if(this.board.getBoard()[leftTile.row][leftTile.col].equals("*")
-                    ||this.board.getBoard()[rightTile.row][rightTile.col].equals("*"))
+            String leftTileColor = this.board.getBoard()[leftTile.row][leftTile.col];
+            String rightTileColor = this.board.getBoard()[rightTile.row][rightTile.col];
+
+            ArrayList<Tuple> parentTiles = new ArrayList<Tuple>(Arrays.asList(leftTile,rightTile));
+            boolean isSymbol = false;
+            if(this.symbols.contains(leftTileColor) || this.symbols.contains(rightTileColor))
             {
-                removableTiles.addAll(chocolateSprinkleEffect(leftTile,rightTile));
+                isSymbol = true;
             }
-            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("!")
-                    ||this.board.getBoard()[rightTile.row][rightTile.col].equals("!"))
+            if(leftTileColor.equals("*")||rightTileColor.equals("*"))
+            {
+                removableTiles.addAll(chocolateSprinkleEffect(leftTile,rightTile,null));
+                if(removableTiles.size() == this.board.getRow()*this.board.getCol())
+                {
+                    return removableTiles;
+                }
+            }
+            else if(leftTileColor.equals("!")||rightTileColor.equals("!"))
             {
                 //bomb
                 removableTiles.addAll(bombEffect(leftTile,rightTile,boardCopy));
             }
-            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("#")
-                    || this.board.getBoard()[rightTile.row][rightTile.col].equals("#"))
+            else if(leftTileColor.equals("#")|| rightTileColor.equals("#"))
             {
                 //rocket
-                removableTiles.addAll(rocketEffect(leftTile,"left"));
+                if(leftTileColor.equals(rightTileColor))
+                {
+                    //get the tiles in the same row and column
+                    removableTiles.addAll(rocketEffect(leftTile,"both"));
+
+                }
+                else {
+                    removableTiles.addAll(rocketEffect(leftTile,"left"));
+                }
             }
             else {
+                //regular matches
                 ArrayList<Tuple> leftUp = super.checkUp(leftTile, boardCopy);
                 ArrayList<Tuple> leftDown = super.checkDown(leftTile, boardCopy, this.board.getRow());
                 ArrayList<Tuple> leftLeft = super.checkLeft(leftTile, boardCopy);
@@ -253,54 +283,97 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
-                if(removableTiles.size() != this.board.getCol() * this.board.getRow())
-                {
-                    findSpecialCandies(removableTiles);
-                }
+            }
+            //don't want the selectedTiles and switchWithTiles to get added in the list
+            if(isSymbol) {
+                removableTiles.remove(leftTile);
+                removableTiles.remove(rightTile);
+                //symbol >= 3, regular == 3 tiles
+                findSpecialCandies(removableTiles, parentTiles);
+                removableTiles.addAll(parentTiles);
             }
         }
 
         return removableTiles;
     }
 
-    private ArrayList<Tuple> chocolateSprinkleEffect(Tuple selectedTile, Tuple switchWithTile)
+    private ArrayList<Tuple> chocolateSprinkleEffect(Tuple selectedTile, Tuple switchWithTile, String color)
     {
         ArrayList<Tuple> removableTiles = new ArrayList<Tuple>();
-        boolean twoChocolate = false;
-        // if both tiles are chocolate sprinkles (*), remove everything on board
-        if(this.board.getBoard()[switchWithTile.row][switchWithTile.col].equals("*"))
+        if(color != null)
         {
-            if(this.board.getBoard()[selectedTile.row][selectedTile.col].equals("*"))
+            for(int row = 0; row < this.board.getRow();row++)
             {
-                twoChocolate = true;
-            }
-            removableTiles.add(selectedTile);
-
-            //if only switchWithTile is *, then need to remove all the tiles same as selectedTile
-        }
-        else
-        {
-            //if only selectedTile is *, then need to remove all the tiles same as switchWithTile
-            selectedTile = switchWithTile;
-            removableTiles.add(switchWithTile);
-        }
-
-        for(int row = 0 ; row < this.board.getRow(); row++)
-        {
-            for(int col = 0; col < this.board.getCol();col++)
-            {
-                if(twoChocolate)
+                for(int col = 0; col < this.board.getCol();col++)
                 {
-                    removableTiles.add(new Tuple(row, col));
-                }
-                else {
-                    if (this.board.getBoard()[row][col].equals(this.board.getBoard()[selectedTile.row][selectedTile.col])) {
-                        removableTiles.add(new Tuple(row, col));
+                    String currentTileColor = this.board.getBoard()[row][col];
+                    if(currentTileColor.equals(color))
+                    {
+                        removableTiles.add(new Tuple(row,col));
                     }
                 }
             }
         }
+        else {
+            boolean twoChocolate = false;
+            // if both tiles are chocolate sprinkles (*), remove everything on board
+            String selectedTileColor = this.board.getBoard()[selectedTile.row][selectedTile.col];
+            String switchWithTileColor = this.board.getBoard()[switchWithTile.row][switchWithTile.col];
+            if(switchWithTileColor.equals("*"))
+            {
+                if(selectedTileColor.equals("*"))
+                {
+                    twoChocolate = true;
+                }
+                //if only switchWithTile is *, then need to remove all the tiles same as selectedTile
+            }
+            else
+            {
+                //if only selectedTile is *, then need to remove all the tiles same as switchWithTile
+                selectedTileColor = switchWithTileColor;
+            }
 
+            ArrayList<Tuple> effect = new ArrayList<Tuple>();
+            Random rand = new Random();
+            int upperbound = this.directions.size();
+
+            if(selectedTileColor.equals("!"))
+            {
+                effect = bombEffect(selectedTile,selectedTile,this.board.getBoard());
+            }
+            else if(selectedTileColor.equals("#"))
+            {
+                effect = rocketEffect(selectedTile,this.directions.get(rand.nextInt(upperbound)));
+            }
+            else if(switchWithTileColor.equals("!"))
+            {
+                effect = bombEffect(switchWithTile,switchWithTile,this.board.getBoard());
+            }
+            else if(switchWithTileColor.equals("#"))
+            {
+
+                effect = rocketEffect(switchWithTile,this.directions.get(rand.nextInt(upperbound)));
+            }
+            removableTiles.addAll(effect);
+
+            for(int row = 0 ; row < this.board.getRow(); row++)
+            {
+                for(int col = 0; col < this.board.getCol();col++)
+                {
+                    if(twoChocolate)
+                    {
+                        removableTiles.add(new Tuple(row, col));
+                    }
+                    else {
+                        String tile = this.board.getBoard()[row][col];
+                        Tuple tuple = new Tuple(row, col);
+                        if (tile.equals(selectedTileColor) && !removableTiles.contains(tuple)) {
+                            removableTiles.add(tuple);
+                        }
+                    }
+                }
+            }
+        }
         return removableTiles;
     }
 
@@ -367,7 +440,8 @@ public class CandyCrushMove extends Move{
             addTiles(selectedTile,removableTiles);
         }
 
-        if(boardCopy[switchWithTile.row][switchWithTile.col].equals("!"))
+        //if is the same tile, dont want to add again
+        if(!(selectedTile == switchWithTile) && boardCopy[switchWithTile.row][switchWithTile.col].equals("!"))
         {
             addTiles(switchWithTile,removableTiles);
         }
@@ -394,11 +468,28 @@ public class CandyCrushMove extends Move{
                 removableTiles.add(t);
             }
         }
+        else if(direction.equals("both"))
+        {
+            for(int row = 0; row < this.board.getRow();row++)
+            {
+                Tuple t = new Tuple(row,tile.col);
+                removableTiles.add(t);
+            }
+
+            for(int col = 0; col < this.board.getCol();col++)
+            {
+                Tuple t = new Tuple(tile.row,col);
+                if(!removableTiles.contains(t))
+                {
+                    removableTiles.add(t);
+                }
+            }
+        }
 
         return removableTiles;
     }
 
-    private void findSpecialCandies(ArrayList<Tuple> removableTiles)
+    private void findSpecialCandies(ArrayList<Tuple> removableTiles,ArrayList<Tuple> parentTiles)
     {
         int num = 0;
         ArrayList<Tuple> arr = new ArrayList<Tuple>(removableTiles);
@@ -407,73 +498,39 @@ public class CandyCrushMove extends Move{
 
             //if this is a special candy, let it take effect
             String current_tile = this.board.getBoard()[arr.get(num).row][arr.get(num).col];
-            if(current_tile.equals("!") ||
-                    current_tile.equals("*") ||
-                    current_tile.equals("#"))
+            if(this.symbols.contains(current_tile))
             {
                 if (current_tile.equals("!")) {
                     newTiles = this.bombEffect(arr.get(num), arr.get(num), this.newBoard);
                 } else if (current_tile.equals("*")) {
                     Random rand = new Random();
-                    ArrayList<Tuple> directions = getDirections(arr.get(num));
-                    int upperbound = directions.size();
+                    int upperbound = this.tiles.size();
                     int int_rand = rand.nextInt(upperbound);
-                    newTiles = this.chocolateSprinkleEffect(arr.get(num), directions.get(int_rand));
+                    newTiles = this.chocolateSprinkleEffect(arr.get(num), arr.get(num),this.tiles.get(int_rand));
 
                 } else if (current_tile.equals("#")) {
-                    ArrayList<String> directions = new ArrayList<String>(Arrays.asList("up", "down", "left", "right"));
                     Random rand = new Random();
-                    int upperbound = 4;
-                    int int_rand = rand.nextInt(upperbound);
-                    newTiles = this.rocketEffect(arr.get(num), directions.get(int_rand));
+                    int upperbound = this.directions.size();
+                    newTiles = this.rocketEffect(arr.get(num), this.directions.get(rand.nextInt(upperbound)));
                 }
-            }
-
-            //if the newtiles contains all the tiles, add everything to removable and break
-            if(newTiles.size() == this.board.getCol()*this.board.getRow())
-            {
-                arr = new ArrayList<Tuple>(newTiles);
-                break;
             }
 
             //loop over the newTiles to see if it is contained in removableTiles
             for(Tuple nt: newTiles)
             {
-                //if not contained, add to arr
-                if(!arr.contains(nt))
+                //if not contained in arr and parentTiles, add to arr
+                if(!arr.contains(nt) && !parentTiles.contains(nt))
                 {
                     arr.add(nt);
                 }
             }
             num +=1;
         }
-        removableTiles = new ArrayList<Tuple>(arr);
-    }
 
-    private ArrayList<Tuple> getDirections(Tuple t)
-    {
-        ArrayList<Tuple> directions = new ArrayList<Tuple>();
-        if(0 <= t.row-1)
+        for(Tuple t: arr)
         {
-            Tuple newT = new Tuple(t.row-1,t.col);
-            directions.add(newT);
+            removableTiles.add(t);
         }
-        if(t.row+1 < this.board.getRow())
-        {
-            Tuple newT = new Tuple(t.row+1,t.col);
-            directions.add(newT);
-        }
-        if(0<=t.col-1)
-        {
-            Tuple newT = new Tuple(t.row,t.col-1);
-            directions.add(newT);
-        }
-        if(t.col+1 < this.board.getCol())
-        {
-            Tuple newT = new Tuple(t.row,t.col+1);
-            directions.add(newT);
-        }
-        return directions;
     }
 
     private ArrayList<Tuple> getRemovableTilesSwitchingRight(int row, int col)
@@ -491,22 +548,40 @@ public class CandyCrushMove extends Move{
             boardCopy[row][col] = boardCopy[row][col+1];
             boardCopy[row][col+1] = val;
 
-            if(this.board.getBoard()[leftTile.row][leftTile.col].equals("*")
-                    ||this.board.getBoard()[rightTile.row][rightTile.col].equals("*"))
+            String leftTileColor = this.board.getBoard()[leftTile.row][leftTile.col];
+            String rightTileColor = this.board.getBoard()[rightTile.row][rightTile.col];
+
+            ArrayList<Tuple> parentTiles = new ArrayList<Tuple>(Arrays.asList(leftTile,rightTile));
+            boolean isSymbol = false;
+            if(this.symbols.contains(leftTileColor) || this.symbols.contains(rightTileColor))
             {
-                removableTiles.addAll(chocolateSprinkleEffect(leftTile,rightTile));
+                isSymbol = true;
             }
-            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("!")
-                    ||this.board.getBoard()[rightTile.row][rightTile.col].equals("!"))
+
+            if(leftTileColor.equals("*")||rightTileColor.equals("*"))
+            {
+                removableTiles.addAll(chocolateSprinkleEffect(leftTile,rightTile,null));
+                if(removableTiles.size() == this.board.getRow()*this.board.getCol())
+                {
+                    return removableTiles;
+                }
+            }
+            else if(leftTileColor.equals("!")||rightTileColor.equals("!"))
             {
                 //bomb
                 removableTiles.addAll(bombEffect(leftTile,rightTile,boardCopy));
             }
-            else if(this.board.getBoard()[leftTile.row][leftTile.col].equals("#")
-                    || this.board.getBoard()[rightTile.row][rightTile.col].equals("#"))
+            else if(leftTileColor.equals("#") || rightTileColor.equals("#"))
             {
                 //rocket
-                removableTiles.addAll(rocketEffect(rightTile,"right"));
+                if(leftTileColor.equals(rightTileColor))
+                {
+                    removableTiles.addAll(rocketEffect(rightTile,"both"));
+                }
+                else
+                {
+                    removableTiles.addAll(rocketEffect(rightTile,"right"));
+                }
             }
             else {
                 //right tile
@@ -527,13 +602,14 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
-                if(removableTiles.size() != this.board.getCol() * this.board.getRow())
-                {
-                    findSpecialCandies(removableTiles);
-                }
+            }
+            if(isSymbol) {
+                removableTiles.remove(leftTile);
+                removableTiles.remove(rightTile);
+                findSpecialCandies(removableTiles,parentTiles);
+                removableTiles.addAll(parentTiles);
             }
         }
-
         return removableTiles;
     }
 
@@ -552,31 +628,45 @@ public class CandyCrushMove extends Move{
             boardCopy[row][col] = boardCopy[row-1][col];
             boardCopy[row-1][col] = val;
 
-            if(this.board.getBoard()[topTile.row][topTile.col].equals("*")
-                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("*"))
+            String topTileColor = this.board.getBoard()[topTile.row][topTile.col];
+            String bottomTileColor = this.board.getBoard()[bottomTile.row][bottomTile.col];
+            ArrayList<Tuple> parentTiles = new ArrayList<Tuple>(Arrays.asList(topTile,bottomTile));
+            boolean isSymbol = false;
+            if(this.symbols.contains(topTileColor) || this.symbols.contains(bottomTileColor))
             {
-                removableTiles.addAll(chocolateSprinkleEffect(topTile,bottomTile));
+                isSymbol = true;
             }
-            else if(this.board.getBoard()[topTile.row][topTile.col].equals("!")
-                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("!"))
+            if(topTileColor.equals("*") ||bottomTileColor.equals("*"))
+            {
+                removableTiles.addAll(chocolateSprinkleEffect(topTile,bottomTile,null));
+                if(removableTiles.size() == this.board.getRow()*this.board.getCol())
+                {
+                    return removableTiles;
+                }
+            }
+            else if(topTileColor.equals("!") ||bottomTileColor.equals("!"))
             {
                 //bomb
                 removableTiles.addAll(bombEffect(topTile,bottomTile,boardCopy));
             }
-            else if(this.board.getBoard()[topTile.row][topTile.col].equals("#")
-                    || this.board.getBoard()[bottomTile.row][bottomTile.col].equals("#"))
+            else if(topTileColor.equals("#") || bottomTileColor.equals("#"))
             {
                 //rocket
-                removableTiles.addAll(rocketEffect(topTile,"up"));
+                if(topTileColor.equals(bottomTileColor))
+                {
+                    removableTiles.addAll(rocketEffect(topTile,"both"));
+                }
+                else
+                {
+                    removableTiles.addAll(rocketEffect(topTile,"up"));
+                }
             }
             else {
                 //up tile
                 ArrayList<Tuple> topLeft = super.checkLeft(topTile, boardCopy);
                 ArrayList<Tuple> topRight = super.checkRight(topTile, boardCopy, this.board.getCol());
                 ArrayList<Tuple> topUp = super.checkUp(topTile, boardCopy);
-
                 removableTiles.addAll(this.getRemovableTiles(topTile, boardCopy, topLeft, topRight, topUp));
-
                 //down tile
                 //check in here because if up tile does not exist, cannot switch
 
@@ -589,13 +679,14 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
-                if(removableTiles.size() != this.board.getCol() * this.board.getRow())
-                {
-                    findSpecialCandies(removableTiles);
-                }
+            }
+            if(isSymbol) {
+                removableTiles.remove(topTile);
+                removableTiles.remove(bottomTile);
+                findSpecialCandies(removableTiles, parentTiles);
+                removableTiles.addAll(parentTiles);
             }
         }
-
         return removableTiles;
     }
 
@@ -614,22 +705,37 @@ public class CandyCrushMove extends Move{
             boardCopy[row][col] = boardCopy[row+1][col];
             boardCopy[row+1][col] = val;
 
-            if(this.board.getBoard()[topTile.row][topTile.col].equals("*")
-                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("*"))
+            String topTileColor = this.board.getBoard()[topTile.row][topTile.col];
+            String bottomTileColor = this.board.getBoard()[bottomTile.row][bottomTile.col];
+            ArrayList<Tuple> parentTiles = new ArrayList<Tuple>(Arrays.asList(topTile,bottomTile));
+            boolean isSymbol = false;
+            if(this.symbols.contains(topTileColor) || this.symbols.contains(bottomTileColor))
             {
-                removableTiles.addAll(chocolateSprinkleEffect(topTile,bottomTile));
+                isSymbol = true;
             }
-            else if(this.board.getBoard()[topTile.row][topTile.col].equals("!")
-                    ||this.board.getBoard()[bottomTile.row][bottomTile.col].equals("!"))
+            if(topTileColor.equals("*")||bottomTileColor.equals("*"))
+            {
+                removableTiles.addAll(chocolateSprinkleEffect(topTile,bottomTile,null));
+                if(removableTiles.size() == this.board.getRow()*this.board.getCol())
+                {
+                    return removableTiles;
+                }
+            }
+            else if(topTileColor.equals("!") ||bottomTileColor.equals("!"))
             {
                 //bomb
                 removableTiles.addAll(bombEffect(topTile,bottomTile,boardCopy));
             }
-            else if(this.board.getBoard()[topTile.row][topTile.col].equals("#")
-                    || this.board.getBoard()[bottomTile.row][bottomTile.col].equals("#"))
+            else if(topTileColor.equals("#")|| bottomTileColor.equals("#"))
             {
                 //rocket
-                removableTiles.addAll(rocketEffect(topTile,"down"));
+                if(topTileColor.equals(bottomTileColor))
+                {
+                    removableTiles.addAll(rocketEffect(topTile,"both"));
+                }
+                else {
+                    removableTiles.addAll(rocketEffect(topTile,"down"));
+                }
             }
             else {
                 //down tile
@@ -649,13 +755,15 @@ public class CandyCrushMove extends Move{
             if(removableTiles.size() >= 3)
             {
                 this.newBoard = boardCopy;
-                if(removableTiles.size() != this.board.getCol() * this.board.getRow())
-                {
-                    findSpecialCandies(removableTiles);
-                }
+            }
+            if(isSymbol)
+            {
+                removableTiles.remove(topTile);
+                removableTiles.remove(bottomTile);
+                findSpecialCandies(removableTiles,parentTiles);
+                removableTiles.addAll(parentTiles);
             }
         }
-
         return removableTiles;
     }
 
@@ -698,14 +806,14 @@ public class CandyCrushMove extends Move{
             removableTiles.addAll(list2);
             boardCopy[tile.row][tile.col] = "#";
         }
-        else if(list3.size() <= 1 && list1.size() + list2.size() + 1 == 3)
+        else if(list3.size() <= 0 && list1.size() + list2.size() + 1 == 3)
         {
             //regular
             removableTiles.addAll(list1);
             removableTiles.addAll(list2);
             removableTiles.add(tile);
         }
-        else if(list1.size()==0 && list2.size()==0 && list3.size() == 2)
+        else if(((list1.size()== 1 && list2.size()==0)||(list1.size() == 0 && list2.size() == 1) || (list1.size() == 0 && list2.size() == 0)) && list3.size()+1 == 3)
         {
             //regular
             removableTiles.addAll(list3);
@@ -730,62 +838,68 @@ public class CandyCrushMove extends Move{
                 //if this tile has not been visited
                 if(visited[row][col] == null)
                 {
-                    ArrayList<Tuple> up = super.checkUp(tile,this.board.getBoard());
-                    ArrayList<Tuple> down = super.checkDown(tile,this.board.getBoard(),this.board.getRow());
-                    ArrayList<Tuple> left = super.checkLeft(tile,this.board.getBoard());
-                    ArrayList<Tuple> right = super.checkRight(tile,this.board.getBoard(),this.board.getCol());
-
-                    if(7 <= up.size() + down.size() + left.size() + right.size() + 1)
+                    String currentTile = this.board.getBoard()[row][col];
+                    ArrayList<String> symbols = new ArrayList<String>(Arrays.asList("!","*","#"));
+                    if(!symbols.contains(currentTile))
                     {
-                        //chocolate sprinkle candy
-                        if(up.size()>= 2)
+                        ArrayList<Tuple> up = super.checkUp(tile,this.board.getBoard());
+                        ArrayList<Tuple> down = super.checkDown(tile,this.board.getBoard(),this.board.getRow());
+                        ArrayList<Tuple> left = super.checkLeft(tile,this.board.getBoard());
+                        ArrayList<Tuple> right = super.checkRight(tile,this.board.getBoard(),this.board.getCol());
+
+                        if(7 <= up.size() + down.size() + left.size() + right.size() + 1)
                         {
-                            tilesFound.addAll(up);
+                            //chocolate sprinkle candy
+                            if(up.size()>= 2)
+                            {
+                                tilesFound.addAll(up);
+                            }
+                            if(down.size() >= 2)
+                            {
+                                tilesFound.addAll(down);
+                            }
+                            if(left.size() >= 2)
+                            {
+                                tilesFound.addAll(left);
+                            }
+                            if(right.size() >= 2)
+                            {
+                                tilesFound.addAll(right);
+                            }
+                            boardCopy[row][col] = "*";
                         }
-                        if(down.size() >= 2)
+                        else if(3 <= up.size() + down.size() + left.size() + right.size() + 1 )
                         {
-                            tilesFound.addAll(down);
-                        }
-                        if(left.size() >= 2)
-                        {
-                            tilesFound.addAll(left);
-                        }
-                        if(right.size() >= 2)
-                        {
-                            tilesFound.addAll(right);
-                        }
-                        boardCopy[row][col] = "*";
-                    }
-                    else if(3 <= up.size() + down.size() + left.size() + right.size() + 1 )
-                    {
-                        //bomb, rock , regular matches handles in getRemovableTiles
-                        if(up.size() == 0)
-                        {
-                            tilesFound = getRemovableTiles(tile,boardCopy,left,right,down);
-                        }
-                        else if(down.size() == 0)
-                        {
-                            tilesFound = getRemovableTiles(tile,boardCopy,left,right,up);
-                        }
-                        else if(left.size() == 0)
-                        {
-                            tilesFound = getRemovableTiles(tile,boardCopy,up,down,right);
-                        }
-                        else if(right.size() == 0)
-                        {
-                            tilesFound = getRemovableTiles(tile,boardCopy,up,down,left);
+                            //bomb, rock , regular matches handles in getRemovableTiles
+                            if(up.size() == 0)
+                            {
+                                tilesFound = getRemovableTiles(tile,boardCopy,left,right,down);
+                            }
+                            else if(down.size() == 0)
+                            {
+                                tilesFound = getRemovableTiles(tile,boardCopy,left,right,up);
+                            }
+                            else if(left.size() == 0)
+                            {
+                                tilesFound = getRemovableTiles(tile,boardCopy,up,down,right);
+                            }
+                            else if(right.size() == 0)
+                            {
+                                tilesFound = getRemovableTiles(tile,boardCopy,up,down,left);
+                            }
+
+                            //special candy set in board copy done in getRemovableTiles
                         }
 
-                        //special candy set in board copy done in getRemovableTiles
+                        visited[row][col] = "visited";
+                        for(Tuple t: tilesFound)
+                        {
+                            visited[t.row][t.col] = "visited";
+                        }
+                        this.newBoard = boardCopy;
+                        removableTiles.addAll(tilesFound);
                     }
-
                     visited[row][col] = "visited";
-                    for(Tuple t: tilesFound)
-                    {
-                        visited[t.row][t.col] = "visited";
-                    }
-                    this.newBoard = boardCopy;
-                    removableTiles.addAll(tilesFound);
                 }
             }
         }

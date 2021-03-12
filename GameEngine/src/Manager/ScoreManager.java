@@ -38,5 +38,11 @@ public class ScoreManager {
         curScoreP2 += score;
     }
 
-
+    @Override
+    public String toString() {
+        return "Player 1:" + player1.getName() + "\n" +
+               "Player 2:" + player2.getName() + "\n" +
+               "Player 1 Score:" + curScoreP1 + "\n" +
+               "Player 2 Score:" + curScoreP2;
+    }
 }

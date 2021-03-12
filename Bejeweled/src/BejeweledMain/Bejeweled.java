@@ -2,6 +2,7 @@ package BejeweledMain;
 
 import GameLogic.Tuple;
 import Main.Game;
+import Player.Player;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,12 @@ public class Bejeweled extends Game {
             levels[i].startLevel(i + 1);
             curLevel++;
         }
-
+        Player player1 = scoreManager.getPlayer1();
+        Player player2 = scoreManager.getPlayer2();
+        player1.addToGameHistory(scoreManager);
+        player2.addToGameHistory(scoreManager);
+        System.out.println(scoreManager.getCurrentP1Score());
+        System.out.println(scoreManager.getCurrentP2Score());
     }
 
     public int getTargetScore() {
