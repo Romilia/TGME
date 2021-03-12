@@ -5,19 +5,26 @@
 # There will be three options which the user can select thorugh inputting numbers and pressing enter.
 # The three main menu options are Candy Crush, Bejeweled, and Player stats.
 
-## If you click Candy Crush you will be taken to a screen where two players shall sequentially play Candy Crush.
-# Player one will finish level one, then player two will finish level one, and so on until level 5 in complete.
-# The objective of each level is to meet the target score before your number of turns run out.
+## If you enter the corresponding number for Candy Crush, you will be taken to a screen where two players shall sequentially play Candy Crush.
+# Player one will finish level one, then player two will finish level one, and so on until level 5 is complete.
+# The objective of each level is to meet the target score before your number of moves to make run out.
 # Here are the special tiles in Candy Crush:
-# Rocket (Tile: #): Removes all instances of the specific piece in the direction it is being swapped with from the board.
-# Bomb (Tile: !): Removes all surrounding tiles within one tile of the piece it is swapped with.
-# Chocolate Sprinkle (Tile: *): Removes all column or row pieces depending on the direction it is swapped in. For example, if it is swapped upright, it will remove all tiles in the column.
-#if two rocket tiles are swapping with each other, all tiles in the same column and row of the swapped tile will be removed.
-#if two chocolate sprinkle tiles are swapping with each other, all tiles on the board will get removed.
+# 4 of the same tiles in a row or column form a rocket.
+# Rocket (Tile: #): Removes all tiles in the direction of the tile the selected tile is swapping with. For example, if swapping with the top tile, either the selected tile or the swapped tile is a #, all the tiles in that column will get removed.
+# if two rocket tiles are swapping with each other, all tiles in the same column and row of the swapped tile will be removed.
 
-## If you click Bejeweled you will be taken to a screen where two players shall play Bejeweled one after the other.
+# 5-6 of the same tiles form a bomb. Must be a L , 7, + or T shape.
+# Bomb (Tile: !): Removes all surrounding tiles within one tile of the piece it is swapped with.
+
+# 7 or more of the same tiles form a chocolate sprinkle.
+# Chocolate Sprinkle (Tile: *): If the selected tile is * and swaps with another tile, all the swapped with tile will get removed.
+# if two chocolate sprinkle tiles are swapping with each other, all tiles on the board will get removed.
+# if the swapped with tile is bomb(!) or rocket(#), the special tiles will take in effect.
+
+## If you enter the corresponding number for Bejeweled, you will be taken to a screen where two players will take turn to play each level. 
 # The objective of each level is to meet the target score before your timer runs out.
-# After player 1 finishes 5 levels, it will be turn for player 2 to play 5 levels.
+# Player 1 will start playing level 1 and when time is up, Player 2 will play level 2, and so on until level 5 is complete.
+# Each level has a default time of 45 seconds.
 # The player shall be given additional time for their next level if they meet their target score before their time runs out for the current level.
 
 
