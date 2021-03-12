@@ -1,6 +1,7 @@
 package CandyCrushMain;
 
 import Main.Game;
+import Player.Player;
 
 import java.util.Scanner;
 
@@ -35,6 +36,11 @@ public class CandyCrush extends Game {
             levels[i] = new CandyCrushLevel(row, col, turnManager, scoreManager);
             levels[i].startLevel(i + 1);
         }
+
+        Player player1 = scoreManager.getPlayer1();
+        Player player2 = scoreManager.getPlayer2();
+        player1.addToGameHistory(scoreManager);
+        player2.addToGameHistory(scoreManager);
 
     }
 
