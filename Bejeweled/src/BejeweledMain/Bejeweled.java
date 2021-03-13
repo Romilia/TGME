@@ -33,50 +33,8 @@ public class Bejeweled extends Game {
             levels[i].startLevel(i + 1);
             curLevel++;
         }
-        Player player1 = scoreManager.getPlayer1();
-        Player player2 = scoreManager.getPlayer2();
+
         scoreManager.setGameName("Bejeweled");
-        player1.addToGameHistory(scoreManager);
-        player2.addToGameHistory(scoreManager);
-        System.out.println("Player 1 final score:"+scoreManager.getCurrentP1Score());
-        System.out.println("Player 2 final score:"+scoreManager.getCurrentP2Score());
+        gameHistory.add(scoreManager);
     }
-
-    public int getTargetScore() {
-        return targetScore;
-    }
-
-    public void setTargetScore(int targetScore) {
-        this.targetScore = targetScore;
-    }
-
-    public BejeweledLevel[] getLevel() {
-        return levels;
-    }
-
-    public void setLevel(BejeweledLevel[] level) {
-        this.levels = level;
-    }
-
-    public int getCurLevel() {
-        return curLevel;
-    }
-
-    public void setCurLevel(int curLevel) {
-        this.curLevel = curLevel;
-    }
-
-    public ArrayList<Tuple> getLevelTargetScoreList() {
-        return levelTargetScoreList;
-    }
-
-    public void setLevelTargetScoreList(ArrayList<Tuple> levelTargetScoreList) {
-        this.levelTargetScoreList = levelTargetScoreList;
-    }
-
-    public void increaseTime() {
-        levels[curLevel].getTimer().addTime(30);
-    }
-
-
 }

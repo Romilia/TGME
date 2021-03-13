@@ -43,9 +43,7 @@ public class Runnable {
                     if (mn.existingPlayers.isEmpty()) {
                         System.out.println("There are no players");
                     } else {
-                        System.out.println("Enter the player's name:");
-                        String name = scan.nextLine();
-                        mn.viewPlayer(name);
+                        mn.viewPlayerStats();
                     }
                     break;
                 case 4:

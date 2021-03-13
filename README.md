@@ -81,14 +81,14 @@ Enter the row of the position:
 ```
 
 #### Player Stats
-- If you select player stats you will be taken to a screen that requires the user to input the player they are interested in. It then displays the previous game history of the given player.
+- . This displays the previous game history of all the players in the TMGE.
 ```
-Enter the player's name:
-Player 1
-[Game:CandyCrush
-Player 1:Player 1
-Player 2:Player 2
-Player 1 Score:40
-Player 2 Score:42
-]
+Number of games played: 2
+Game:Bejeweled
+Player Andres's Score:3
+Player Itzel's Score:3
+
+Game:Bejeweled
+Player Andres's Score:11
+Player Itzel's Score:3
 ```

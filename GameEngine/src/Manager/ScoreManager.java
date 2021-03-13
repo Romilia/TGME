@@ -23,16 +23,8 @@ public class ScoreManager {
         return player2;
     }
 
-    public int getCurrentP1Score() {
-        return curScoreP1;
-    }
-
     public void addToCurrentP1Score(int score) {
         curScoreP1 += score;
-    }
-
-    public int getCurrentP2Score() {
-        return curScoreP2;
     }
 
     public void addToCurrentP2Score(int score) {
@@ -41,11 +33,9 @@ public class ScoreManager {
 
     @Override
     public String toString() {
-        return "Game:" + this.gameName + "\n" +
-               "Player 1:" + player1.getName() + "\n" +
-               "Player 2:" + player2.getName() + "\n" +
-               "Player 1 Score:" + curScoreP1 + "\n" +
-               "Player 2 Score:" + curScoreP2+ "\n" ;
+        return "\nGame:" + this.gameName + "\n" +
+               "Player " + player1.getName() + "'s Score:" + curScoreP1 + "\n" +
+                "Player " + player2.getName() + "'s Score:" + curScoreP2;
     }
 
     public void setGameName(String gameName)

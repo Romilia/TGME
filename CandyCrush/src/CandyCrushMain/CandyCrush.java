@@ -37,11 +37,8 @@ public class CandyCrush extends Game {
             levels[i].startLevel(i + 1);
         }
 
-        Player player1 = scoreManager.getPlayer1();
-        Player player2 = scoreManager.getPlayer2();
         scoreManager.setGameName("CandyCrush");
-        player1.addToGameHistory(scoreManager);
-        player2.addToGameHistory(scoreManager);
+        gameHistory.add(scoreManager);
 
     }
 
