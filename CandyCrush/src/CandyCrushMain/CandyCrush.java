@@ -1,17 +1,11 @@
 package CandyCrushMain;
 
 import Main.Game;
-import Player.Player;
-
-import java.util.Scanner;
 
 public class CandyCrush extends Game {
-    private final int lives = 3;
     private CandyCrushLevel[] levels;
     private int minBoardSize;
     private int maxBoardSize;
-    private CandyCrushLevel curLevel;
-    private Scanner scan = new Scanner(System.in);
 
     public CandyCrush() {
         super("CANDY_CRUSH");
@@ -26,7 +20,6 @@ public class CandyCrush extends Game {
 
     public void initializeGame() {
         levels = new CandyCrushLevel[5];
-        curLevel = null;
         minBoardSize = 4;
         maxBoardSize = 6;
 

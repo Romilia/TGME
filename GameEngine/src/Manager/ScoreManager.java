@@ -23,6 +23,13 @@ public class ScoreManager {
         return player2;
     }
 
+    public int getCurScoreP1(){
+        return curScoreP1;
+    }
+
+    public int getCurScoreP2(){
+        return  curScoreP2;
+    }
     public void addToCurrentP1Score(int score) {
         curScoreP1 += score;
     }

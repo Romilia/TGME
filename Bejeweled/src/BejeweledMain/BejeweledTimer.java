@@ -42,12 +42,6 @@ public class BejeweledTimer {
         }, 0, 1000); //period is in milliseconds
     }
 
-    public void addTime(int timeToAdd) {
-        if (runTime == 0) {
-            runTime += timeToAdd;
-        }
-    }
-
     public void stopTimer() {
         if (runTime >= 0) {
             timer.cancel();

@@ -72,10 +72,8 @@ public class BejeweledMove extends Move { // need to import Move
                 System.out.println("CONGRATS: you successfully achieved the target score!!!. Your final score is " + score);
                 if (turnManager.getPlayerTurn() == 0) //player one
                 {
-                    System.out.println("add to player score:" + score);
                     scoreManager.addToCurrentP1Score(score);
                 } else {
-                    System.out.println("add to player score:" + score);
                     scoreManager.addToCurrentP2Score(score);
                 }
                 return; //return so that the Game Over message at the bottom doesn't get printed;
@@ -185,10 +183,8 @@ public class BejeweledMove extends Move { // need to import Move
         }
         if (turnManager.getPlayerTurn() == 0) //player one
         {
-            System.out.println("add to player score:" + score);
             scoreManager.addToCurrentP1Score(score);
         } else {
-            System.out.println("add to player score:" + score);
             scoreManager.addToCurrentP2Score(score);
         }
         //prepare board for player 2

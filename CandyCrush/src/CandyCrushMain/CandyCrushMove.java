@@ -12,7 +12,6 @@ public class CandyCrushMove extends Move{
     private Board board;
     public ScoreManager scoreManager;
     public TurnManager turnManager;
-    //    private int score = 0;
     private String[][] newBoard;
     private Tuple hint;
     private ArrayList<String> tiles;
@@ -157,7 +156,6 @@ public class CandyCrushMove extends Move{
                         //start checking from bottom
                         removableTiles = this.findAllMatchesAfterUpdate();
                         removeDuplicates = new HashSet<>(removableTiles);
-//                        score += removeDuplicates.size();
                         //if no more matches, break
                         if (removeDuplicates.size() < 3) {
                             break;
@@ -194,10 +192,8 @@ public class CandyCrushMove extends Move{
 
         if (turnManager.getPlayerTurn() == 0) //player one
         {
-            //new function in ScoreManager: addToCurrentP1Score() and getCurrentP1Score()
             scoreManager.addToCurrentP1Score(score);
         } else {
-            //new function in ScoreManager: addToCurrentP2Score() and getCurrentP2Score()
             scoreManager.addToCurrentP2Score(score);
         }
 

@@ -31,12 +31,10 @@ public class Runnable {
             switch (choice) {
                 case 1:
                     Bejeweled bej = new Bejeweled();
-                    mn.setGame(bej);
                     cont = bej.startGame();
                     break;
                 case 2:
                     CandyCrush crush = new CandyCrush();
-                    mn.setGame(crush);
                     cont = crush.startGame();
                     break;
                 case 3:

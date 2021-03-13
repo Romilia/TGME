@@ -1,14 +1,9 @@
 package BejeweledMain;
 
-import GameLogic.Tuple;
 import Main.Game;
-import Player.Player;
 
-import java.util.ArrayList;
 
 public class Bejeweled extends Game {
-    private int targetScore;
-    private ArrayList<Tuple> levelTargetScoreList;
     private BejeweledLevel[] levels;
     private int curLevel;
 

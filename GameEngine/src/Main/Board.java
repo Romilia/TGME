@@ -88,15 +88,6 @@ public class Board {
         }
     }
 
-    private int countSpaces(int r, int c) {
-        int reCount = 1;
-        for (int i = r - 1; i >= 0; i--) {
-            if (board[i][c].equals(" ")) {
-                reCount += 1;
-            }
-        }
-        return reCount;
-    }
 
     private void addRandomTiles() {
         for (int i = 0; i < row; i++) {
@@ -149,6 +140,4 @@ public class Board {
         }
         System.out.println();
     }
-
-
 }

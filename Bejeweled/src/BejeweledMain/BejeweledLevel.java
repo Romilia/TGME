@@ -9,8 +9,6 @@ import java.util.Arrays;
 
 
 public class BejeweledLevel extends Level {
-
-    private float timeLimit;
     private BejeweledTimer timer;
     private ArrayList<String> bejeweledTiles = new ArrayList<String>(Arrays.asList("R", "G", "B", "Y"));
     private BejeweledMove bejeweledMove;
@@ -25,13 +23,11 @@ public class BejeweledLevel extends Level {
         super(5);
         timer = BejeweledTimer.getInstance();
         setTiles(bejeweledTiles);
-        setBoard(5,5);
+        setBoard(row,column);
         this.setMove(turnManager, scoreManager);
 
     }
-    public BejeweledMove getBejeweledMove(){
-        return bejeweledMove;
-    }
+
 
     public void startLevel(int lvl) {
         System.out.println("\n>>>BEJEWELED LEVEL " + lvl + "<<<");
@@ -58,7 +54,6 @@ public class BejeweledLevel extends Level {
 
             timer.startTimer();
             bejeweledMove.makeMove(getTargetScore(), timer);
-            System.out.println("ScoreManager:"+bejeweledMove.scoreManager);
             bejeweledMove.turnManager.toggleTurn();
             timer.stopTimer();
             if(timer.getRunTime() > 0){
