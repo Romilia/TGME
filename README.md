@@ -8,7 +8,7 @@ When the Jar file is run, the application should run on terminal.
 
 ## Instructions
 #### Main Menu
-- There will be three options which the user can select through inputting numbers and pressing enter.
+- There will be four options which the user can select through inputting numbers and pressing enter.
 The four main menu options are Candy Crush, Bejeweled, Player stats, and Exit.
     ```
     Make a Selection
