@@ -6,6 +6,13 @@ adopt-openjdk-14.0.2
 ## Usage
 When the Jar file is run, the application should run on terminal.
 
+The Jar file can be accessed within the following folder: /out/artifacts/TGME_jar
+The file can be ran with the following command:
+
+```
+java -jar TMGE.jar
+```
+
 ## Instructions
 #### Main Menu
 - There will be three options which the user can select through inputting numbers and pressing enter.
