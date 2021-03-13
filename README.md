@@ -20,18 +20,25 @@ The four main menu options are Candy Crush, Bejeweled, Player stats, and Exit.
   
 #### Candy Crush
 
-- If you select Candy Crush you will be taken to a screen where two players shall sequentially play Candy Crush. 
-  Player one will finish level one, then player two will finish level one, and so on until level 5 in complete.
-  The objective of each level is to meet the target score before your number of turns run out.
+- If you enter the corresponding number for Candy Crush, you will be taken to a screen where two players shall sequentially play Candy Crush.
+- Player one will finish level one, then player two will finish level one, and so on until level 5 in complete.
+- The objective of each level is to meet the target score before your number of turns run out.
+- Each level, each player will be given 3 hints.
   
 
 - Here are the special tiles in Candy Crush:
   
   - **Rocket (Tile: #)**: Removes all instances of the specific piece in the direction it is being swapped with from the board.
+      - For example, if the selected tile is # and the direction it is swapping with is left, all the tiles in the same row will get removed.
       - If two rocket tiles are swapping with each other, all tiles in the same column and row of the swapped tile will be removed.
+      - 4 of the same tiles form a rocket(#) tile.
   - **Bomb (Tile: !)**: Removes all surrounding tiles within one tile of the piece it is swapped with.
-  - **Chocolate Sprinkle (Tile: \* )**: Removes all column or row pieces depending on the direction it is swapped in. For example, if it is swapped upright, it will remove all tiles in the column.
+    -  5-6 of the same tiles form a bomb, must have 3 of the same tiles in row or column.
+    -  In T shape, 7 shaped, L shape, + shape. One exception is five of the same tiles in row or column.
+  - **Chocolate Sprinkle (Tile: \* )**: If the selected tile is * and the swapped with tile is G, then all the G tiles will get removed.
     - If two chocolate sprinkle tiles are swapping with each other, all tiles on the board will get removed.
+    - If swapping with a special tile, all the special tiles will take in to effect.
+    - 7 or more of the same tiles will form a * tile.
 
 ######Preview: First Board
 ```
@@ -55,10 +62,9 @@ Do you want to use the hint?(Yes/No):
 
 ```
 #### Bejeweled
-- If you click Bejeweled you will be taken to a screen where two players shall play Bejeweled one after the other. 
-  The objective of each level is to meet the target score before your timer runs out.
-  After player 1 finishes 5 levels, it will be turn for player 2 to play 5 levels.
-  The player shall be given additional time for their next level if they meet their target score before their time runs out for the current level.
+- If you enter the corresponding number for Bejeweled, you will be taken to a screen where two players shall sequentially play.
+- The objective of each level is to meet the target score before your timer runs out.
+- The player shall be given additional time for their next level if they meet their target score before their time runs out for the current level.
 
 ######Preview: First Board
 ```
