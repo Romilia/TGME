@@ -51,7 +51,7 @@ public class BejeweledLevel extends Level {
                 currentPlayer =  bejeweledMove.scoreManager.getPlayer2().getName();
             }
 
-            int newRunTime = timer.getPlayerExtraTime(currentPlayer) + 10;
+            int newRunTime = timer.getPlayerExtraTime(currentPlayer) + 45;
             timer.setRunTime(newRunTime);
             System.out.println("TIMER STARTED AT: " + timer.getRunTime()); //need to update if we change the runTime in BejeweledTimer
             System.out.println("\nPLAYER TURN: " + currentPlayer);
