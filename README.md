@@ -12,7 +12,7 @@ The file can be ran with the following command:
 ```
 java -jar TMGE.jar
 ```
-
+There is user input validation, but please enter only the information the program asks for.
 ## Instructions
 #### Main Menu
 - There will be three options which the user can select through inputting numbers and pressing enter.
