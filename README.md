@@ -6,6 +6,13 @@ adopt-openjdk-14.0.2
 ## Usage
 When the Jar file is run, the application should run on terminal.
 
+The Jar file can be accessed within the following folder: /out/artifacts/TGME_jar
+The file can be ran with the following command:
+
+```
+java -jar TMGE.jar
+```
+
 ## Instructions
 #### Main Menu
 - There will be three options which the user can select through inputting numbers and pressing enter.
@@ -40,7 +47,7 @@ The four main menu options are Candy Crush, Bejeweled, Player stats, and Exit.
     - If swapping with a special tile, all the special tiles will take in to effect.
     - 7 or more of the same tiles will form a * tile.
 
-######Preview: First Board
+###### Preview: First Board
 ```
 >>>CANDY CRUSH LEVEL 1<<<
 NUMBER OF MOVES AVAILABLE: 10
@@ -66,7 +73,7 @@ Do you want to use the hint?(Yes/No):
 - The objective of each level is to meet the target score before your timer runs out.
 - The player shall be given additional time for their next level if they meet their target score before their time runs out for the current level.
 
-######Preview: First Board
+###### Preview: First Board
 ```
 >>>BEJEWELED LEVEL 1<<<
 TARGET SCORE: 5
@@ -87,7 +94,7 @@ Enter the row of the position:
 ```
 
 #### Player Stats
-- . This displays the previous game history of all the players in the TMGE.
+- This displays the previous game history of all the players in the TMGE.
 ```
 Number of games played: 2
 Game:Bejeweled
